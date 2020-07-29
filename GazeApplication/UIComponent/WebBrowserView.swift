@@ -20,6 +20,7 @@ class WebBrowserView: UIView, WKUIDelegate, WKNavigationDelegate {
     let urlBar: UIView!
     let urlBarForm: UIView!
     let urlTextField: UITextField!
+    let reloadButton: UIButton!
     
     
     override init(frame: CGRect) {
@@ -39,7 +40,7 @@ class WebBrowserView: UIView, WKUIDelegate, WKNavigationDelegate {
         urlBarBorder.backgroundColor = urlBarBorderColor
         self.urlBar?.layer.addSublayer(urlBarBorder)
         
-        urlBarForm = UIView(frame: CGRect(x: 10, y: 10, width: frame.width - 20, height: 40))
+        urlBarForm = UIView(frame: CGRect(x: 10, y: 10, width: frame.width - 20 - 30 - 5, height: 40))
         self.urlBarForm?.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0)
         self.urlBarForm?.layer.cornerRadius = 6
         self.urlBarForm?.clipsToBounds = true
@@ -47,6 +48,11 @@ class WebBrowserView: UIView, WKUIDelegate, WKNavigationDelegate {
         urlTextField = UITextField(frame: CGRect(x:8, y: 1, width: self.urlBarForm!.frame.width - 24, height: self.urlBarForm!.frame.height))
         self.urlTextField?.font = UIFont.systemFont(ofSize: 20)
         self.urlTextField?.keyboardType = .URL
+        
+        reloadButton = UIButton(frame: CGRect(x: urlBarForm!.frame.width + 20, y: 10 + 5, width: 30, height: 30))
+        let reloadImage: UIImage? = UIImage(named: "reload")
+        reloadButton.setImage(reloadImage, for: .normal)
+        
         
         super.init(frame: frame)
         
@@ -64,11 +70,14 @@ class WebBrowserView: UIView, WKUIDelegate, WKNavigationDelegate {
         nextButton.target = self
         nextButton.action = #selector(nextButtonAction(_:))
         
+        reloadButton.addTarget(self, action: #selector(reloadButtonAction(_:)), for: .touchUpInside)
+        
         self.addSubview(webView)
         self.addSubview(toolBar)
         self.addSubview(urlBar!)
         self.urlBar?.addSubview(urlBarForm!)
         self.urlBarForm?.addSubview(urlTextField!)
+        self.urlBar?.addSubview(reloadButton!)
         
         webView.topAnchor.constraint(equalToSystemSpacingBelow: self.topAnchor, multiplier: 0.0).isActive = true
     }
@@ -87,6 +96,11 @@ class WebBrowserView: UIView, WKUIDelegate, WKNavigationDelegate {
     
     @objc func nextButtonAction(_ sender: UIBarButtonItem){
         print("nextButtonAction")
+    }
+    
+    @objc func reloadButtonAction(_ sender: UIButton){
+        sender.imageView?.alpha = 0.01
+        self.webView?.reload()
     }
     
     func loadUrl(url: String){
