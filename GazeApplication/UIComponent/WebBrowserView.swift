@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class WebBrowserView: UIView, WKUIDelegate {
+class WebBrowserView: UIView, WKUIDelegate, WKNavigationDelegate {
     var webView: WKWebView!
     let webConfiguration: WKWebViewConfiguration!
     
@@ -17,10 +17,14 @@ class WebBrowserView: UIView, WKUIDelegate {
     let backButton: UIBarButtonItem!
     let nextButton: UIBarButtonItem!
     
+    let urlBar: UIView!
+    let urlBarForm: UIView!
+    let urlTextField: UITextField!
+    
     
     override init(frame: CGRect) {
         webConfiguration = WKWebViewConfiguration()
-        webView = WKWebView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height), configuration: webConfiguration)
+        webView = WKWebView(frame: CGRect(x: 0, y: 100, width: frame.width, height: frame.height - 100), configuration: webConfiguration)
         
         let toolbarRegion = CGSize(width: frame.size.width, height: 50)
         let toolbarOrigin = CGPoint(x: 0, y: frame.size.height - 70)
@@ -28,9 +32,26 @@ class WebBrowserView: UIView, WKUIDelegate {
         backButton = UIBarButtonItem()
         nextButton = UIBarButtonItem()
         
+        urlBar = UIView(frame: CGRect(x: 0, y: 30, width: frame.width, height: 60))
+        let urlBarBorderColor : CGColor = CGColor(srgbRed: 0.6, green: 0.6, blue: 0.6, alpha: 1.0)
+        let urlBarBorder : CALayer = CALayer()
+        urlBarBorder.frame = CGRect(origin: CGPoint(x: 0, y:60), size: CGSize(width: frame.size.width, height: 0.5))
+        urlBarBorder.backgroundColor = urlBarBorderColor
+        self.urlBar?.layer.addSublayer(urlBarBorder)
+        
+        urlBarForm = UIView(frame: CGRect(x: 10, y: 10, width: frame.width - 20, height: 40))
+        self.urlBarForm?.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0)
+        self.urlBarForm?.layer.cornerRadius = 6
+        self.urlBarForm?.clipsToBounds = true
+        
+        urlTextField = UITextField(frame: CGRect(x:8, y: 1, width: self.urlBarForm!.frame.width - 24, height: self.urlBarForm!.frame.height))
+        self.urlTextField?.font = UIFont.systemFont(ofSize: 20)
+        self.urlTextField?.keyboardType = .URL
+        
         super.init(frame: frame)
         
         webView.uiDelegate = self
+        webView?.navigationDelegate = self
         
         let toolBarItems = [backButton!, nextButton!]
         toolBar.setItems(toolBarItems, animated: true)
@@ -45,6 +66,9 @@ class WebBrowserView: UIView, WKUIDelegate {
         
         self.addSubview(webView)
         self.addSubview(toolBar)
+        self.addSubview(urlBar!)
+        self.urlBar?.addSubview(urlBarForm!)
+        self.urlBarForm?.addSubview(urlTextField!)
         
         webView.topAnchor.constraint(equalToSystemSpacingBelow: self.topAnchor, multiplier: 0.0).isActive = true
     }
@@ -70,4 +94,11 @@ class WebBrowserView: UIView, WKUIDelegate {
         let request = URLRequest(url: url_)
         webView.load(request)
     }
+    
+    //  ページの読み込みが完了した時の処理
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!)
+    {
+        self.urlTextField?.text = self.webView?.url?.absoluteString
+    }
+
 }
