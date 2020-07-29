@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class WebBrowserView: UIView, WKUIDelegate, WKNavigationDelegate {
+class WebBrowserView: UIView, WKUIDelegate, WKNavigationDelegate, UITextFieldDelegate {
     var webView: WKWebView!
     let webConfiguration: WKWebViewConfiguration!
     
@@ -49,6 +49,8 @@ class WebBrowserView: UIView, WKUIDelegate, WKNavigationDelegate {
         self.urlTextField?.font = UIFont.systemFont(ofSize: 20)
         self.urlTextField?.keyboardType = .URL
         self.urlTextField.clearButtonMode = .whileEditing
+        self.urlTextField.keyboardType = .URL
+        self.urlTextField.returnKeyType = .google
         
         reloadButton = UIButton(frame: CGRect(x: urlBarForm!.frame.width + 20, y: 10 + 5, width: 30, height: 30))
         let reloadImage: UIImage? = UIImage(named: "reload")
@@ -59,6 +61,7 @@ class WebBrowserView: UIView, WKUIDelegate, WKNavigationDelegate {
         
         webView.uiDelegate = self
         webView?.navigationDelegate = self
+        urlTextField.delegate = self
         
         let toolBarItems = [backButton!, nextButton!]
         toolBar.setItems(toolBarItems, animated: true)
@@ -108,6 +111,12 @@ class WebBrowserView: UIView, WKUIDelegate, WKNavigationDelegate {
         guard let url_ = URL(string: url) else { fatalError() }
         let request = URLRequest(url: url_)
         webView.load(request)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        
+        return true
     }
     
     //  ページの読み込みが完了した時の処理
