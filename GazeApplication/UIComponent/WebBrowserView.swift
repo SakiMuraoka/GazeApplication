@@ -104,18 +104,22 @@ class WebBrowserView: UIView, WKUIDelegate, WKNavigationDelegate, UITextFieldDel
     
     @objc func reloadButtonAction(_ sender: UIButton){
         sender.imageView?.alpha = 0.01
-        self.webView?.reload()
+        loadUrl(url: urlTextField.text!)
+        //self.webView?.reload()
     }
     
     func loadUrl(url: String){
-        guard let url_ = URL(string: url) else { fatalError() }
-        let request = URLRequest(url: url_)
-        webView.load(request)
+        if let url_ = URL(string: url){
+            let request = URLRequest(url: url_)
+            webView.load(request)
+        }else {
+            urlTextField.text = "正しいurlを入力してください"
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        
+        loadUrl(url: urlTextField.text!)
         return true
     }
     
