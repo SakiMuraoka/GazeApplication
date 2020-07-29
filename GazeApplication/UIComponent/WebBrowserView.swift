@@ -15,7 +15,8 @@ class WebBrowserView: UIView, WKUIDelegate {
     
     let toolBar: UIToolbar!
     let backButton: UIBarButtonItem!
-    //let forwardButton: UIButton!
+    let nextButton: UIBarButtonItem!
+    
     
     override init(frame: CGRect) {
         webConfiguration = WKWebViewConfiguration()
@@ -24,16 +25,25 @@ class WebBrowserView: UIView, WKUIDelegate {
         let toolbarRegion = CGSize(width: frame.size.width, height: 50)
         let toolbarOrigin = CGPoint(x: 0, y: frame.size.height - 70)
         toolBar = UIToolbar(frame:CGRect(origin: toolbarOrigin, size: toolbarRegion))
-        backButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.rewind, target: nil, action: nil)
-        //forwardButton = UIButton()
+        backButton = UIBarButtonItem()
+        nextButton = UIBarButtonItem()
+        
         super.init(frame: frame)
         
         webView.uiDelegate = self
-        self.addSubview(webView)
-        let toolBarItems = [backButton!]
+        
+        let toolBarItems = [backButton!, nextButton!]
         toolBar.setItems(toolBarItems, animated: true)
+        
+        backButton.title = "戻る"
         backButton.target = self
         backButton.action = #selector(backButtonAction(_:))
+        
+        nextButton.title = "進む"
+        nextButton.target = self
+        nextButton.action = #selector(nextButtonAction(_:))
+        
+        self.addSubview(webView)
         self.addSubview(toolBar)
         
         webView.topAnchor.constraint(equalToSystemSpacingBelow: self.topAnchor, multiplier: 0.0).isActive = true
@@ -49,6 +59,10 @@ class WebBrowserView: UIView, WKUIDelegate {
     
     @objc func backButtonAction(_ sender: UIBarButtonItem){
         print("backButtonAction")
+    }
+    
+    @objc func nextButtonAction(_ sender: UIBarButtonItem){
+        print("nextButtonAction")
     }
     
     func loadUrl(url: String){
