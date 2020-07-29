@@ -48,6 +48,7 @@ class WebBrowserView: UIView, WKUIDelegate, WKNavigationDelegate {
         urlTextField = UITextField(frame: CGRect(x:8, y: 1, width: self.urlBarForm!.frame.width - 24, height: self.urlBarForm!.frame.height))
         self.urlTextField?.font = UIFont.systemFont(ofSize: 20)
         self.urlTextField?.keyboardType = .URL
+        self.urlTextField.clearButtonMode = .whileEditing
         
         reloadButton = UIButton(frame: CGRect(x: urlBarForm!.frame.width + 20, y: 10 + 5, width: 30, height: 30))
         let reloadImage: UIImage? = UIImage(named: "reload")
