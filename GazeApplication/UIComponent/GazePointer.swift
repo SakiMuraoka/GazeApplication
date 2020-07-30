@@ -15,9 +15,7 @@ class GazePointer: UIView {
     var radius: CGFloat!
     var circle: UIBezierPath!
     var circleColor: UIColor!
-    
-    var posx: CGFloat!
-    var posy: CGFloat!
+
     var windowWidth: CGFloat!
     var windowHeight: CGFloat!
     var length: CGFloat!
@@ -32,12 +30,7 @@ class GazePointer: UIView {
         self.circleColor = UIColor.gray
         self.backgroundColor = UIColor.clear
         
-        self.windowWidth = frame.width
-        self.windowHeight = frame.height
-        self.posx = frame.width/2
-        self.posy = frame.height/2
-        
-        //self.frame = CGRect(origin: CGPoint(x: self.posx - (self.radius + self.locationOffset), y: self.posy - (self.radius - self.locationOffset)), size: CGSize(width: self.radius*2+locationOffset*2, height: self.radius*2+locationOffset*2))
+        self.frame = CGRect(origin: CGPoint(x: self.x - (self.radius + self.locationOffset), y: self.y - (self.radius - self.locationOffset)), size: CGSize(width: self.radius*2+locationOffset*2, height: self.radius*2+locationOffset*2))
     }
     
     required init?(coder: NSCoder) {
@@ -46,8 +39,8 @@ class GazePointer: UIView {
     
     override func draw(_ rect: CGRect) {
         // 円
-        //circle = UIBezierPath(arcCenter: CGPoint(x: self.radius + self.locationOffset, y: self.radius + self.locationOffset), radius: self.radius, startAngle: 0, endAngle: CGFloat(Double.pi)*2, clockwise: true)
-        circle = UIBezierPath(ovalIn: CGRect(x: self.posx - self.length/2, y: self.posy - self.length/2, width: self.length, height: self.length))
+        circle = UIBezierPath(arcCenter: CGPoint(x: self.radius + self.locationOffset, y: self.radius + self.locationOffset), radius: self.radius, startAngle: 0, endAngle: CGFloat(Double.pi)*2, clockwise: true)
+
         // 内側の色
         circleColor.withAlphaComponent(0.4).setFill()
         // 内側を塗りつぶす
@@ -60,13 +53,13 @@ class GazePointer: UIView {
         circle.stroke()
     }
     
-    func cordinationConvertor(lookAt: [CGFloat]){
-        //スクリーン座標へ変換
-        self.posx = CGFloat(lookAt[0]) + self.windowWidth/2
-        self.posy = -CGFloat(lookAt[1]) + self.windowHeight/2
-        //self.length = self.defaultLength - CGFloat(lookAt[2])
-        //print("x: \(String(describing: self.posx)), y: \(String(describing: self.posy)), z: \(String(describing: self.length))")
-        print(posx.description + "," + posy.description)
-        //self.setNeedsDisplay()
-    }
+//    func cordinationConvertor(lookAt: [CGFloat]){
+//        //スクリーン座標へ変換
+//        self.x = CGFloat(lookAt[0]) + self.windowWidth/2
+//        self.y = -CGFloat(lookAt[1]) + self.windowHeight/2
+//        self.length = self.defaultLength - CGFloat(lookAt[2])
+//        print("x: \(String(describing: self.posx)), y: \(String(describing: self.posy)), z: \(String(describing: self.length))")
+//        print(x.description + "," + posy.description)
+//        self.setNeedsDisplay()
+//    }
 }
