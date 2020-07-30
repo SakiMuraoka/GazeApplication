@@ -96,14 +96,14 @@ class SampleMapView:UIViewController, CLLocationManagerDelegate, ARSessionDelega
             let cameraTransform = frame.camera.transform    //カメラの位置と向きの情報
         
             //world cordinationにおけるカメラの座標（絶対(0,0,0))
-            let cameraPosition = SCNVector3Make(cameraTransform.columns.3.x, cameraTransform.columns.3.y - 0.0718, cameraTransform.columns.3.z)
+            let cameraPosition = SCNVector3Make(cameraTransform.columns.3.x, cameraTransform.columns.3.y, cameraTransform.columns.3.z)
             
             
             //face cordinate spaceにおけるカメラの座標（のはず）
             let cameraOnFaceNode = faceNode.convertPosition(cameraPosition, from: nil)
             
             //カメラの向き
-            let cameraAngle = SCNVector3Make(cameraTransform.columns.3.x, cameraTransform.columns.3.y - 0.0718, cameraTransform.columns.3.z)
+            let cameraAngle = SCNVector3Make(cameraTransform.columns.3.x, cameraTransform.columns.3.y, cameraTransform.columns.3.z)
             let cameraAngleFaceNode = faceNode.convertPosition(cameraAngle, to: nil)
             
             let leftEye = faceAnchor.leftEyeTransform
