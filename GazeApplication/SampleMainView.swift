@@ -56,5 +56,15 @@ class SampleMainView: UIViewController, UITableViewDelegate,UITableViewDataSourc
        //cellが選択された時の処理
        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
            print("\(indexPath.row)番セルが押されたよ！")
+        switch indexPath.row {
+        case 0:
+            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "homeView")
+            self.present(nextView, animated: true, completion: nil)
+            break
+        case 1:
+            break
+        default:
+            break
+        }
        }
 }
