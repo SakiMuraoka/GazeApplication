@@ -59,7 +59,7 @@ class SampleMainView: UIViewController, UITableViewDelegate,UITableViewDataSourc
         switch indexPath.row {
         case 0:
             let nextView = self.storyboard!.instantiateViewController(withIdentifier: "homeView")
-            self.present(nextView, animated: true, completion: nil)
+            self.navigationController?.pushViewController(nextView, animated: true)
             break
         case 1:
             break
