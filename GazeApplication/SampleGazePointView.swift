@@ -107,7 +107,7 @@ class SampleGazePointView: UIViewController, ARSessionDelegate {
                 milliIntersection[0] = milliIntersection[0] * widthRate
                 milliIntersection[1] = milliIntersection[1] * heightRate
                 //print("x: \(String(describing: milliIntersection[0])), y: \(String(describing: milliIntersection[1]))")
-                gazePointer.cordinationConvertor(lookAt: milliIntersection)
+                //gazePointer.cordinationConvertor(lookAt: milliIntersection)
             }
         }
     }

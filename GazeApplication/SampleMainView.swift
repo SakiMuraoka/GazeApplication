@@ -9,10 +9,14 @@
 import UIKit
 
 class SampleMainView: UIViewController {
-    
+
     override func viewDidLoad() {
-        self.viewDidLoad()
         
+        super.viewDidLoad()
         
+        // タイトルを付けておきましょう
+        self.title = "メイン"
+
     }
+
 }
