@@ -24,6 +24,7 @@
 		CFCD669824C56F270066E1B2 /* FaceDirectionArrowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFCD669724C56F270066E1B2 /* FaceDirectionArrowView.swift */; };
 		CFCD669A24C574B50066E1B2 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFCD669924C574B50066E1B2 /* MapView.swift */; };
 		CFCD669C24C578FF0066E1B2 /* SampleMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFCD669B24C578FF0066E1B2 /* SampleMapView.swift */; };
+		CFEBA69F24D4EE3500BFF21E /* SampleMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEBA69E24D4EE3500BFF21E /* SampleMainView.swift */; };
 		CFF8F39724CBE6B500BDD546 /* SampleGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF8F39624CBE6B500BDD546 /* SampleGalleryView.swift */; };
 		CFF8F39924CBE7ED00BDD546 /* GridFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF8F39824CBE7ED00BDD546 /* GridFlowLayout.swift */; };
 		CFF8F39B24CBE8FB00BDD546 /* ListFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF8F39A24CBE8FB00BDD546 /* ListFlowLayout.swift */; };
@@ -54,6 +55,7 @@
 		CFCD669724C56F270066E1B2 /* FaceDirectionArrowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceDirectionArrowView.swift; sourceTree = "<group>"; };
 		CFCD669924C574B50066E1B2 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		CFCD669B24C578FF0066E1B2 /* SampleMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleMapView.swift; sourceTree = "<group>"; };
+		CFEBA69E24D4EE3500BFF21E /* SampleMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleMainView.swift; sourceTree = "<group>"; };
 		CFF8F39624CBE6B500BDD546 /* SampleGalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleGalleryView.swift; sourceTree = "<group>"; };
 		CFF8F39824CBE7ED00BDD546 /* GridFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridFlowLayout.swift; sourceTree = "<group>"; };
 		CFF8F39A24CBE8FB00BDD546 /* ListFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListFlowLayout.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 				CFCD667C24C55D000066E1B2 /* SceneDelegate.swift */,
 				CFCD667E24C55D000066E1B2 /* SampleView.swift */,
 				CFCD669B24C578FF0066E1B2 /* SampleMapView.swift */,
+				CFEBA69E24D4EE3500BFF21E /* SampleMainView.swift */,
 				CFF8F39624CBE6B500BDD546 /* SampleGalleryView.swift */,
 				CFA6E27B24CDAAAB00D73177 /* SampleBrowserView.swift */,
 				CF594DD224CEEBA000ECE614 /* SampleGazePointView.swift */,
@@ -222,6 +225,7 @@
 				CFF8F3A324CBFA9600BDD546 /* CollectionViewHeader..swift in Sources */,
 				CFF8F39924CBE7ED00BDD546 /* GridFlowLayout.swift in Sources */,
 				CFF8F3A724CC07AE00BDD546 /* CollectionViewData.swift in Sources */,
+				CFEBA69F24D4EE3500BFF21E /* SampleMainView.swift in Sources */,
 				CFCD667D24C55D000066E1B2 /* SceneDelegate.swift in Sources */,
 				CFCD669C24C578FF0066E1B2 /* SampleMapView.swift in Sources */,
 				CFF8F39F24CBEA0C00BDD546 /* ImageGalleryView.swift in Sources */,
