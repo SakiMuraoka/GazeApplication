@@ -74,7 +74,7 @@ class TestMenuView: UIViewController, UITableViewDelegate,UITableViewDataSource 
             self.navigationController?.pushViewController(nextView, animated: true)
             break
         case 4:
-        let nextView = self.storyboard!.instantiateViewController(withIdentifier: "brouwserView")
+        let nextView = self.storyboard!.instantiateViewController(withIdentifier: "browserView")
         self.navigationController?.pushViewController(nextView, animated: true)
         break
         default:
