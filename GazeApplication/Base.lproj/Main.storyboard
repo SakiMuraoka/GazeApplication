@@ -38,6 +38,21 @@
             </objects>
             <point key="canvasLocation" x="1165" y="114"/>
         </scene>
+        <!--Demo Menu View-->
+        <scene sceneID="xwu-7u-RLy">
+            <objects>
+                <viewController storyboardIdentifier="demoMenuView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Jjh-4L-b5k" customClass="DemoMenuView" customModule="GazeApplication" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="yzB-zM-OPT">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="OSX-bU-Tx7"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UbF-Qd-xQf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1936" y="114"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="s2h-UB-aLG">
             <objects>
