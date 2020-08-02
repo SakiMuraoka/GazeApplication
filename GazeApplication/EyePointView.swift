@@ -22,6 +22,7 @@ class EyePointView: UIViewController, ARSessionDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "視線追跡"
         gridView = GridView(frame: self.view.bounds)
         gazePointer = GazePointer(frame: self.gridView.bounds)
         session = ARSession()
