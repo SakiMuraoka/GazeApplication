@@ -30,7 +30,7 @@ class SampleMapView:UIViewController, CLLocationManagerDelegate, ARSessionDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "マップ"
         session = ARSession()
         
         //MapViewの表示（今回はマップのみ）
