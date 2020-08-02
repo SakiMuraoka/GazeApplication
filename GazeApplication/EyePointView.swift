@@ -46,33 +46,31 @@ class EyePointView: UIViewController, ARSessionDelegate {
         self.windowWidth = self.view.frame.width
         self.windowHeight = self.view.frame.height
         
-        moveAround(fig: eyePointTarget, figSize: self.view.bounds.width/10*2)
+        moveTarget(fig: eyePointTarget)
     }
     
-        func moveAround(fig: UIView, figSize: CGFloat) {
-        let screenWidth = self.view.bounds.width
-        let screenHeight = self.view.bounds.height - 80
-        //一辺を動く時間
-        let widthDuration: Double = 1.5
-        let heightDuration: Double = widthDuration * Double(screenHeight/screenWidth)
-
+        func moveTarget(fig: UIView) {
+            let screenWidth = self.view.bounds.width
+            let screenHeight = self.view.bounds.height
+            
         //初期位置を左上にセット
-        fig.frame = CGRect(x: 0, y: 85, width: figSize, height: figSize)
-
+        fig.center = CGPoint(x: 3*screenWidth/6, y: screenHeight/4)
+        
         //アニメーション
-        UIView.animate(withDuration: widthDuration, delay: 0, options:[.curveLinear], animations: {
-                fig.center.x += (screenWidth-figSize)
+        UIView.animate(withDuration: 0, delay: 3, options:[.curveLinear], animations: {
+                //fig.center.x += (screenWidth-figSize)
+            fig.center = CGPoint(x: 5*screenWidth/6, y: screenHeight/2)
             }, completion: { finished in
-                UIView.animate(withDuration: heightDuration, delay: 0, options: [.curveLinear], animations: {
-                        fig.center.y += (screenHeight-figSize)
+                UIView.animate(withDuration: 0, delay: 3, options: [.curveLinear], animations: {
+                        fig.center = CGPoint(x: 3*screenWidth/6, y: 3*screenHeight/4)
                     }, completion: { finished in
-                        UIView.animate(withDuration: widthDuration, delay: 0, options:[.curveLinear], animations: {
-                                fig.center.x -= (screenWidth-figSize)
+                        UIView.animate(withDuration: 0, delay: 3, options:[.curveLinear], animations: {
+                                fig.center = CGPoint(x: screenWidth/6, y: 2*screenHeight/4)
                             }, completion: { finished in
-                                UIView.animate(withDuration: heightDuration, delay: 0, options: [.curveLinear], animations: {
-                                        fig.center.y -= (screenHeight-figSize)
+                                UIView.animate(withDuration: 0, delay: 3, options: [.curveLinear], animations: {
+                                        fig.center = CGPoint(x: 3*screenWidth/6, y: screenHeight/4)
                                     }, completion: { finished in
-                                        self.moveAround(fig: fig, figSize: figSize)
+                                        self.moveTarget(fig: fig)
                                     })
                             })
                     })
