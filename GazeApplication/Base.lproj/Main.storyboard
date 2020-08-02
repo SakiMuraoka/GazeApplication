@@ -17,7 +17,11 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="SampleMainView" customModule="GazeApplication" customModuleProvider="target" sceneMemberID="viewController">
+<<<<<<< HEAD
 >>>>>>> feature/map
+=======
+>>>>>>> feature/testMenuView
+>>>>>>> e8e0c49224453830f277e4019821e6f951e3764f
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
