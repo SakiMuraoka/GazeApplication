@@ -29,7 +29,7 @@ class TestEyePointTarget: UIView {
          self.circleColor = UIColor.red
          self.backgroundColor = UIColor.clear
          
-         self.frame = CGRect(origin: CGPoint(x: self.x - (self.radius + self.locationOffset), y: self.y - (self.radius - self.locationOffset)), size: CGSize(width: self.radius*2+locationOffset*2, height: self.radius*2+locationOffset*2))
+         self.frame = CGRect(origin: CGPoint(x: self.x - (self.radius + self.locationOffset), y: self.y - (self.radius - self.locationOffset + 300)), size: CGSize(width: self.radius*2+locationOffset*2, height: self.radius*2+locationOffset*2))
      }
      
      required init?(coder: NSCoder) {

@@ -44,10 +44,38 @@ class EyePointView: UIViewController, ARSessionDelegate {
         
         self.windowWidth = self.view.frame.width
         self.windowHeight = self.view.frame.height
+        
+        moveAround(fig: eyePointTarget, figSize: self.view.bounds.width/10*2)
     }
     
-    func gazeInit(){
-        
+        func moveAround(fig: UIView, figSize: CGFloat) {
+        let screenWidth = self.view.bounds.width
+        let screenHeight = self.view.bounds.height - 80
+        //一辺を動く時間
+        let widthDuration: Double = 1.5
+        let heightDuration: Double = widthDuration * Double(screenHeight/screenWidth)
+
+        //初期位置を左上にセット
+        fig.frame = CGRect(x: 0, y: 85, width: figSize, height: figSize)
+
+        //アニメーション
+        UIView.animate(withDuration: widthDuration, delay: 0, options:[.curveLinear], animations: {
+                fig.center.x += (screenWidth-figSize)
+            }, completion: { finished in
+                UIView.animate(withDuration: heightDuration, delay: 0, options: [.curveLinear], animations: {
+                        fig.center.y += (screenHeight-figSize)
+                    }, completion: { finished in
+                        UIView.animate(withDuration: widthDuration, delay: 0, options:[.curveLinear], animations: {
+                                fig.center.x -= (screenWidth-figSize)
+                            }, completion: { finished in
+                                UIView.animate(withDuration: heightDuration, delay: 0, options: [.curveLinear], animations: {
+                                        fig.center.y -= (screenHeight-figSize)
+                                    }, completion: { finished in
+                                        self.moveAround(fig: fig, figSize: figSize)
+                                    })
+                            })
+                    })
+            })
     }
     
     override func viewDidAppear(_ animated: Bool) {
