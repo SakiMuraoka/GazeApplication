@@ -13,6 +13,7 @@ class SampleGalleryView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "画像ギャラリ"
         imageGalleryView = ImageGalleryView(frame: self.view.bounds)
         self.view.addSubview(imageGalleryView)
     }
