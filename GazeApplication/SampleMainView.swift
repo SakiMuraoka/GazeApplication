@@ -18,7 +18,7 @@ class SampleMainView: UIViewController, UITableViewDelegate,UITableViewDataSourc
     var sampleTableView: UITableView  =   UITableView()
 
     //テーブルに表示するセル配列
-    var exampleArray: [String] = ["ホーム", "視線確認"]
+    var exampleArray: [String] = ["デモ", "テスト"]
     
     override func viewDidLoad() {
         
@@ -58,10 +58,12 @@ class SampleMainView: UIViewController, UITableViewDelegate,UITableViewDataSourc
            print("\(indexPath.row)番セルが押されたよ！")
         switch indexPath.row {
         case 0:
-            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "homeView")
+            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "demoMenuView")
             self.navigationController?.pushViewController(nextView, animated: true)
             break
         case 1:
+            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "testMenuView")
+            self.navigationController?.pushViewController(nextView, animated: true)
             break
         default:
             break
