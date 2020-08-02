@@ -25,7 +25,7 @@ class WebBrowserView: UIView, WKUIDelegate, WKNavigationDelegate, UITextFieldDel
     
     override init(frame: CGRect) {
         webConfiguration = WKWebViewConfiguration()
-        webView = WKWebView(frame: CGRect(x: 0, y: 100, width: frame.width, height: frame.height - 100), configuration: webConfiguration)
+        webView = WKWebView(frame: CGRect(x: 0, y: 160, width: frame.width, height: frame.height - 160), configuration: webConfiguration)
         
         let toolbarRegion = CGSize(width: frame.size.width, height: 50)
         let toolbarOrigin = CGPoint(x: 0, y: frame.size.height - 70)
@@ -33,14 +33,14 @@ class WebBrowserView: UIView, WKUIDelegate, WKNavigationDelegate, UITextFieldDel
         backButton = UIBarButtonItem()
         nextButton = UIBarButtonItem()
         
-        urlBar = UIView(frame: CGRect(x: 0, y: 30, width: frame.width, height: 60))
+        urlBar = UIView(frame: CGRect(x: 0, y: 100, width: frame.width, height: 50))
         let urlBarBorderColor : CGColor = CGColor(srgbRed: 0.6, green: 0.6, blue: 0.6, alpha: 1.0)
         let urlBarBorder : CALayer = CALayer()
-        urlBarBorder.frame = CGRect(origin: CGPoint(x: 0, y:60), size: CGSize(width: frame.size.width, height: 0.5))
+        urlBarBorder.frame = CGRect(origin: CGPoint(x: 0, y:50), size: CGSize(width: frame.size.width, height: 0.5))
         urlBarBorder.backgroundColor = urlBarBorderColor
         self.urlBar?.layer.addSublayer(urlBarBorder)
         
-        urlBarForm = UIView(frame: CGRect(x: 10, y: 10, width: frame.width - 20 - 30 - 5, height: 40))
+        urlBarForm = UIView(frame: CGRect(x: 10, y: 0, width: frame.width - 20 - 30 - 5, height: 40))
         self.urlBarForm?.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0)
         self.urlBarForm?.layer.cornerRadius = 6
         self.urlBarForm?.clipsToBounds = true
@@ -52,7 +52,7 @@ class WebBrowserView: UIView, WKUIDelegate, WKNavigationDelegate, UITextFieldDel
         self.urlTextField.keyboardType = .URL
         self.urlTextField.returnKeyType = .google
         
-        reloadButton = UIButton(frame: CGRect(x: urlBarForm!.frame.width + 20, y: 10 + 5, width: 30, height: 30))
+        reloadButton = UIButton(frame: CGRect(x: urlBarForm!.frame.width + 20, y: 10, width: 30, height: 30))
         let reloadImage: UIImage? = UIImage(named: "reload")
         reloadButton.setImage(reloadImage, for: .normal)
         

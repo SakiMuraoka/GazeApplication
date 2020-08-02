@@ -13,6 +13,7 @@ class SampleBrowserView: UIViewController {
     var webBrowserView: WebBrowserView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "ブラウザ"
         webBrowserView = WebBrowserView(frame: self.view.bounds)
         webBrowserView.loadUrl(url: "https://www.google.co.jp/")
         self.view.addSubview(webBrowserView)
