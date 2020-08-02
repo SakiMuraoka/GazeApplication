@@ -11,7 +11,8 @@
 		CF558CFE24D66C8000396A55 /* DemoMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF558CFD24D66C8000396A55 /* DemoMenuView.swift */; };
 		CF558D0224D66EA500396A55 /* TestMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF558D0124D66EA500396A55 /* TestMenuView.swift */; };
 		CF558D0424D67D2300396A55 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF558D0324D67D2300396A55 /* Main.storyboard */; };
-		CF594DD324CEEBA000ECE614 /* SampleGazePointView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF594DD224CEEBA000ECE614 /* SampleGazePointView.swift */; };
+		CF558D0624D6812000396A55 /* EyePointView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF558D0524D6812000396A55 /* EyePointView.swift */; };
+		CF558D0824D685A900396A55 /* TestEyePointTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF558D0724D685A900396A55 /* TestEyePointTarget.swift */; };
 		CF5B0CFD24C84AC2003943EF /* GazePointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5B0CFC24C84AC2003943EF /* GazePointer.swift */; };
 		CFA6E27C24CDAAAB00D73177 /* SampleBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA6E27B24CDAAAB00D73177 /* SampleBrowserView.swift */; };
 		CFA6E27E24CDAAF900D73177 /* WebBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA6E27D24CDAAF900D73177 /* WebBrowserView.swift */; };
@@ -44,7 +45,8 @@
 		CF558CFD24D66C8000396A55 /* DemoMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoMenuView.swift; sourceTree = "<group>"; };
 		CF558D0124D66EA500396A55 /* TestMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMenuView.swift; sourceTree = "<group>"; };
 		CF558D0324D67D2300396A55 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		CF594DD224CEEBA000ECE614 /* SampleGazePointView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleGazePointView.swift; sourceTree = "<group>"; };
+		CF558D0524D6812000396A55 /* EyePointView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyePointView.swift; sourceTree = "<group>"; };
+		CF558D0724D685A900396A55 /* TestEyePointTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestEyePointTarget.swift; sourceTree = "<group>"; };
 		CF5B0CFC24C84AC2003943EF /* GazePointer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GazePointer.swift; sourceTree = "<group>"; };
 		CFA6E27B24CDAAAB00D73177 /* SampleBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleBrowserView.swift; sourceTree = "<group>"; };
 		CFA6E27D24CDAAF900D73177 /* WebBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebBrowserView.swift; sourceTree = "<group>"; };
@@ -115,7 +117,7 @@
 				CF558D0124D66EA500396A55 /* TestMenuView.swift */,
 				CFF8F39624CBE6B500BDD546 /* SampleGalleryView.swift */,
 				CFA6E27B24CDAAAB00D73177 /* SampleBrowserView.swift */,
-				CF594DD224CEEBA000ECE614 /* SampleGazePointView.swift */,
+				CF558D0524D6812000396A55 /* EyePointView.swift */,
 				CF558D0324D67D2300396A55 /* Main.storyboard */,
 				CFCD668324C55D050066E1B2 /* Assets.xcassets */,
 				CFCD668524C55D050066E1B2 /* LaunchScreen.storyboard */,
@@ -141,6 +143,7 @@
 				CFF8F3A224CBFA9600BDD546 /* CollectionViewHeader..swift */,
 				CFF8F3A424CBFAB700BDD546 /* CollectionViewCell.swift */,
 				CFF8F39E24CBEA0C00BDD546 /* ImageGalleryView.swift */,
+				CF558D0724D685A900396A55 /* TestEyePointTarget.swift */,
 				CFA6E27D24CDAAF900D73177 /* WebBrowserView.swift */,
 				CFEBA6A424D4FBD100BFF21E /* IconView.swift */,
 			);
@@ -223,6 +226,7 @@
 				CFF8F3A524CBFAB700BDD546 /* CollectionViewCell.swift in Sources */,
 				CF3D94F624D586DD003D48D5 /* HomeView.swift in Sources */,
 				CFCD667B24C55D000066E1B2 /* AppDelegate.swift in Sources */,
+				CF558D0624D6812000396A55 /* EyePointView.swift in Sources */,
 				CFF8F39B24CBE8FB00BDD546 /* ListFlowLayout.swift in Sources */,
 				CFA6E27E24CDAAF900D73177 /* WebBrowserView.swift in Sources */,
 				CF558D0224D66EA500396A55 /* TestMenuView.swift in Sources */,
@@ -236,11 +240,11 @@
 				CF558CFE24D66C8000396A55 /* DemoMenuView.swift in Sources */,
 				CFEBA6A524D4FBD100BFF21E /* IconView.swift in Sources */,
 				CF5B0CFD24C84AC2003943EF /* GazePointer.swift in Sources */,
-				CF594DD324CEEBA000ECE614 /* SampleGazePointView.swift in Sources */,
 				CFCD669A24C574B50066E1B2 /* MapView.swift in Sources */,
 				CFF8F3A324CBFA9600BDD546 /* CollectionViewHeader..swift in Sources */,
 				CFF8F39924CBE7ED00BDD546 /* GridFlowLayout.swift in Sources */,
 				CFF8F3A724CC07AE00BDD546 /* CollectionViewData.swift in Sources */,
+				CF558D0824D685A900396A55 /* TestEyePointTarget.swift in Sources */,
 				CFEBA69F24D4EE3500BFF21E /* SampleMainView.swift in Sources */,
 				CFCD667D24C55D000066E1B2 /* SceneDelegate.swift in Sources */,
 				CFCD669C24C578FF0066E1B2 /* SampleMapView.swift in Sources */,

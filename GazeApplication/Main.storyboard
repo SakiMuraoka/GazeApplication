@@ -83,10 +83,10 @@
             </objects>
             <point key="canvasLocation" x="3012" y="751"/>
         </scene>
-        <!--View Controller-->
+        <!--Eye Point View-->
         <scene sceneID="brL-jd-hTe">
             <objects>
-                <viewController storyboardIdentifier="eyePointView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="w7v-du-epY" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="eyePointView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="w7v-du-epY" customClass="EyePointView" customModule="GazeApplication" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PAE-Ea-E5Q">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
