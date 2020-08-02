@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		CF3D94F624D586DD003D48D5 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3D94F524D586DD003D48D5 /* HomeView.swift */; };
 		CF558CFE24D66C8000396A55 /* DemoMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF558CFD24D66C8000396A55 /* DemoMenuView.swift */; };
+		CF558D0224D66EA500396A55 /* TestMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF558D0124D66EA500396A55 /* TestMenuView.swift */; };
 		CF594DD324CEEBA000ECE614 /* SampleGazePointView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF594DD224CEEBA000ECE614 /* SampleGazePointView.swift */; };
 		CF5B0CFD24C84AC2003943EF /* GazePointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5B0CFC24C84AC2003943EF /* GazePointer.swift */; };
 		CFA6E27C24CDAAAB00D73177 /* SampleBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA6E27B24CDAAAB00D73177 /* SampleBrowserView.swift */; };
@@ -41,6 +42,7 @@
 /* Begin PBXFileReference section */
 		CF3D94F524D586DD003D48D5 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		CF558CFD24D66C8000396A55 /* DemoMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoMenuView.swift; sourceTree = "<group>"; };
+		CF558D0124D66EA500396A55 /* TestMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMenuView.swift; sourceTree = "<group>"; };
 		CF594DD224CEEBA000ECE614 /* SampleGazePointView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleGazePointView.swift; sourceTree = "<group>"; };
 		CF5B0CFC24C84AC2003943EF /* GazePointer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GazePointer.swift; sourceTree = "<group>"; };
 		CFA6E27B24CDAAAB00D73177 /* SampleBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleBrowserView.swift; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 				CFCD669B24C578FF0066E1B2 /* SampleMapView.swift */,
 				CFEBA69E24D4EE3500BFF21E /* SampleMainView.swift */,
 				CF558CFD24D66C8000396A55 /* DemoMenuView.swift */,
+				CF558D0124D66EA500396A55 /* TestMenuView.swift */,
 				CFF8F39624CBE6B500BDD546 /* SampleGalleryView.swift */,
 				CFA6E27B24CDAAAB00D73177 /* SampleBrowserView.swift */,
 				CF594DD224CEEBA000ECE614 /* SampleGazePointView.swift */,
@@ -222,6 +225,7 @@
 				CFCD667B24C55D000066E1B2 /* AppDelegate.swift in Sources */,
 				CFF8F39B24CBE8FB00BDD546 /* ListFlowLayout.swift in Sources */,
 				CFA6E27E24CDAAF900D73177 /* WebBrowserView.swift in Sources */,
+				CF558D0224D66EA500396A55 /* TestMenuView.swift in Sources */,
 				CFF8F39724CBE6B500BDD546 /* SampleGalleryView.swift in Sources */,
 				CFCD669424C5611F0066E1B2 /* LookAtPositionLabel.swift in Sources */,
 				CFF8F3A124CBFA3C00BDD546 /* CollectionView.swift in Sources */,
