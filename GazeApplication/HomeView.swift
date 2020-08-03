@@ -106,7 +106,7 @@ class HomeView: UIViewController, ARSessionDelegate {
                 //gazePointer.cordinationConvertor(lookAt: milliIntersection)
                 let gazex = CGFloat(milliIntersection[0]) + self.windowWidth/2
                 let gazey = -CGFloat(milliIntersection[1]) + self.windowHeight/2
-                //self.iconView.movePointer(to: CGPoint(x: gazex, y: gazey))
+                self.iconView.movePointer(to: CGPoint(x: gazex, y: gazey))
             }
         }
     }
