@@ -25,7 +25,7 @@ class DemoMenuView: UIViewController, UITableViewDelegate,UITableViewDataSource 
         super.viewDidLoad()
         
         // タイトルを付けておきましょう
-        self.title = "メイン"
+        self.title = "デモ"
         
         //テーブルビューの設置場所を指定
         sampleTableView.frame = CGRect(x:screenWidth * 0/100, y:screenHeight * 10/100, width:screenWidth * 100/100, height:screenHeight * 80/100)
