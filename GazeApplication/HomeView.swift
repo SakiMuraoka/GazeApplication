@@ -25,10 +25,33 @@ class HomeView: UIViewController, ARSessionDelegate {
         iconView = IconView(frame: self.view.bounds)
         self.view.addSubview(iconView)
         
+        iconView.mapIcon.addTarget(self,action: #selector(self.tapButton(_ :)),for: .touchUpInside)
+        iconView.galleryIcon.addTarget(self,action: #selector(self.tapButton(_ :)),for: .touchUpInside)
+        iconView.browserIcon.addTarget(self,action: #selector(self.tapButton(_ :)),for: .touchUpInside)
+        
         self.title = "ホーム"
         self.session.delegate = self
         self.windowWidth = self.view.frame.width
         self.windowHeight = self.view.frame.height
+    }
+    
+    @objc func tapButton(_ sender: UIButton){
+        switch sender.accessibilityIdentifier{
+        case "map":
+            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "mapView")
+            self.navigationController?.pushViewController(nextView, animated: true)
+            break
+        case "gallery":
+            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "galleryView")
+            self.navigationController?.pushViewController(nextView, animated: true)
+            break
+        case "browser":
+            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "browserView")
+            self.navigationController?.pushViewController(nextView, animated: true)
+            break
+        default:
+            break
+        }
     }
     
     //視線の処理---------
