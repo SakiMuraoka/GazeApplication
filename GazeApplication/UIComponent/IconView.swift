@@ -154,4 +154,12 @@ class IconView: UIView {
     func movePointer(to: CGPoint){
         self.gazePointer.center = to
     }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first, let view = touch.view else { return }
+
+        if view == self.gazePointer {
+            view.center = touch.location(in: self)
+        }
+    }
 }
