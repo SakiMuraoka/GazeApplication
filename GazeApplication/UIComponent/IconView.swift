@@ -20,8 +20,6 @@ class IconView: UIView {
     let iconImage5: UIImage!
     let iconImage6: UIImage!
     
-    
-    
     let mapIcon: UIButton!
     let galleryIcon: UIButton!
     let browserIcon: UIButton!
@@ -31,6 +29,8 @@ class IconView: UIView {
     let icon4: UIButton!
     let icon5: UIButton!
     let icon6: UIButton!
+    
+    let gazePointer: GazePointer!
     
     override init(frame: CGRect) {
         
@@ -68,7 +68,7 @@ class IconView: UIView {
         icon6 = UIButton(type: .custom)
         icon6.setImage(iconImage6, for: .normal)
         
-        
+        gazePointer = GazePointer(frame: frame)
         
         super.init(frame: frame)
         
@@ -86,6 +86,8 @@ class IconView: UIView {
         self.addSubview(icon4)
         self.addSubview(icon5)
         self.addSubview(icon6)
+        
+        self.addSubview(gazePointer)
         
     }
     
@@ -146,6 +148,18 @@ class IconView: UIView {
             break
         default:
             break
+        }
+    }
+    
+    func movePointer(to: CGPoint){
+        self.gazePointer.center = to
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first, let view = touch.view else { return }
+
+        if view == self.gazePointer {
+            view.center = touch.location(in: self)
         }
     }
 }

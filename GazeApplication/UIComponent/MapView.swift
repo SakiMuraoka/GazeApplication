@@ -243,12 +243,18 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate {
         exsistPin = true
     }
     
+    //GazePointerをドラッグで移動
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first, let view = touch.view else { return }
 
         if view == self.gazePointer {
-            view.center = touch.location(in: self)
+            movePointer(to: touch.location(in: self))
         }
+    }
+    
+    //GazePointerを移動させる
+    func movePointer(to: CGPoint){
+        self.gazePointer.center = to
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {

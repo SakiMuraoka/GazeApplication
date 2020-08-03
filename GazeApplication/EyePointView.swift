@@ -1,15 +1,15 @@
 //
-//  SampleGazePointView.swift
+//  EyePointView.swift
 //  GazeApplication
 //
-//  Created by 村岡沙紀 on 2020/07/27.
+//  Created by 村岡沙紀 on 2020/08/02.
 //  Copyright © 2020 村岡沙紀. All rights reserved.
 //
 
 import UIKit
 import ARKit
 
-class SampleGazePointView: UIViewController, ARSessionDelegate {
+class EyePointView: UIViewController, ARSessionDelegate {
     var gridView: GridView!
     var gazePointer: GazePointer!
     var session: ARSession!
@@ -17,23 +17,64 @@ class SampleGazePointView: UIViewController, ARSessionDelegate {
     var windowWidth: CGFloat!
     var windowHeight: CGFloat!
     
+    var label: UILabel!
+    var eyePointTarget: TestEyePointTarget!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "視線追跡"
         gridView = GridView(frame: self.view.bounds)
         gazePointer = GazePointer(frame: self.gridView.bounds)
         session = ARSession()
         
+        label = UILabel()
+        label.frame = CGRect(x: 0, y: 100, width: UIScreen.main.bounds.size.width, height: 44) // 位置とサイズの指定
+        label.textAlignment = NSTextAlignment.center // 横揃えの設定
+        label.textColor = UIColor.black // テキストカラーの設定
+        label.font = UIFont(name: "HiraKakuProN-W6", size: 17) // フォントの設定
+        label.text = "赤い円を見てください"
+        
+        eyePointTarget = TestEyePointTarget(frame: self.view.bounds)
+        
         self.view.addSubview(gridView)
         self.view.addSubview(gazePointer)
+        self.view.addSubview(label)
+        self.view.addSubview(eyePointTarget)
         
         self.session.delegate = self
         
         self.windowWidth = self.view.frame.width
         self.windowHeight = self.view.frame.height
+        
+        moveTarget(fig: eyePointTarget)
     }
     
-    func gazeInit(){
+        func moveTarget(fig: UIView) {
+            let screenWidth = self.view.bounds.width
+            let screenHeight = self.view.bounds.height
+            
+        //初期位置を左上にセット
+        fig.center = CGPoint(x: 3*screenWidth/6, y: screenHeight/4)
         
+        //アニメーション
+        UIView.animate(withDuration: 0, delay: 3, options:[.curveLinear], animations: {
+                //fig.center.x += (screenWidth-figSize)
+            fig.center = CGPoint(x: 5*screenWidth/6, y: screenHeight/2)
+            }, completion: { finished in
+                UIView.animate(withDuration: 0, delay: 3, options: [.curveLinear], animations: {
+                        fig.center = CGPoint(x: 3*screenWidth/6, y: 3*screenHeight/4)
+                    }, completion: { finished in
+                        UIView.animate(withDuration: 0, delay: 3, options:[.curveLinear], animations: {
+                                fig.center = CGPoint(x: screenWidth/6, y: 2*screenHeight/4)
+                            }, completion: { finished in
+                                UIView.animate(withDuration: 0, delay: 3, options: [.curveLinear], animations: {
+                                        fig.center = CGPoint(x: 3*screenWidth/6, y: screenHeight/4)
+                                    }, completion: { finished in
+                                        self.moveTarget(fig: fig)
+                                    })
+                            })
+                    })
+            })
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -44,6 +85,10 @@ class SampleGazePointView: UIViewController, ARSessionDelegate {
     func resetTracking() {
         let configration = ARFaceTrackingConfiguration()    //front-facingカメラを使ったAR
         self.session.run(configration, options: [.resetTracking, .removeExistingAnchors])   //ARSessionの開始
+    }
+    
+    func movePointer(to: CGPoint){
+        self.gazePointer.center = to
     }
     
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
@@ -58,14 +103,14 @@ class SampleGazePointView: UIViewController, ARSessionDelegate {
             let cameraTransform = frame.camera.transform    //カメラの位置と向きの情報
         
             //world cordinationにおけるカメラの座標（絶対(0,0,0))
-            let cameraPosition = SCNVector3Make(cameraTransform.columns.3.x, cameraTransform.columns.3.y - 0.0718, cameraTransform.columns.3.z)
+            let cameraPosition = SCNVector3Make(cameraTransform.columns.3.x, cameraTransform.columns.3.y, cameraTransform.columns.3.z)
             
             
             //face cordinate spaceにおけるカメラの座標（のはず）
             let cameraOnFaceNode = faceNode.convertPosition(cameraPosition, from: nil)
             
             //カメラの向き
-            let cameraAngle = SCNVector3Make(cameraTransform.columns.3.x, cameraTransform.columns.3.y - 0.0718, cameraTransform.columns.3.z)
+            let cameraAngle = SCNVector3Make(cameraTransform.columns.3.x, cameraTransform.columns.3.y, cameraTransform.columns.3.z)
             let cameraAngleFaceNode = faceNode.convertPosition(cameraAngle, to: nil)
             
             let leftEye = faceAnchor.leftEyeTransform
@@ -95,6 +140,7 @@ class SampleGazePointView: UIViewController, ARSessionDelegate {
                         eyesCenter.z + k * point[2] - cameraOnFaceNode.z
                     ]
                 
+                
                 let hardWidth = 70.9
                 let hardHeight = 143.6
                 var milliIntersection = Array<CGFloat>(repeating: 0, count: 3)
@@ -108,6 +154,9 @@ class SampleGazePointView: UIViewController, ARSessionDelegate {
                 milliIntersection[1] = milliIntersection[1] * heightRate
                 //print("x: \(String(describing: milliIntersection[0])), y: \(String(describing: milliIntersection[1]))")
                 //gazePointer.cordinationConvertor(lookAt: milliIntersection)
+                let gazex = CGFloat(milliIntersection[0]) + self.windowWidth/2
+                let gazey = -CGFloat(milliIntersection[1]) + self.windowHeight/2
+                self.movePointer(to: CGPoint(x: gazex, y: gazey))
             }
         }
     }
