@@ -11,11 +11,14 @@ import UIKit
 class SampleBrowserView: UIViewController {
     var toolBar: UIToolbar!
     var webBrowserView: WebBrowserView!
+    
+    var mode = ""
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "ブラウザ"
         webBrowserView = WebBrowserView(frame: self.view.bounds)
         webBrowserView.loadUrl(url: "https://www.google.co.jp/")
         self.view.addSubview(webBrowserView)
+        print(mode)
     }
 }
