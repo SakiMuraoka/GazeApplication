@@ -25,7 +25,7 @@ class DemoMenuView: UIViewController, UITableViewDelegate,UITableViewDataSource 
         super.viewDidLoad()
         
         // タイトルを付けておきましょう
-        self.title = "メイン"
+        self.title = "デモ"
         
         //テーブルビューの設置場所を指定
         sampleTableView.frame = CGRect(x:screenWidth * 0/100, y:screenHeight * 10/100, width:screenWidth * 100/100, height:screenHeight * 80/100)
@@ -58,11 +58,13 @@ class DemoMenuView: UIViewController, UITableViewDelegate,UITableViewDataSource 
            print("\(indexPath.row)番セルが押されたよ！")
         switch indexPath.row {
         case 0:
-            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "eyePointView")
+            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "eyePointView") as! EyePointView
+            nextView.mode = "demo"
             self.navigationController?.pushViewController(nextView, animated: true)
             break
         case 1:
-            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "homeView")
+            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "homeView") as! HomeView
+            nextView.mode = "demo"
             self.navigationController?.pushViewController(nextView, animated: true)
             break
         default:
