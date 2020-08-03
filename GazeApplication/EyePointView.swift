@@ -20,6 +20,8 @@ class EyePointView: UIViewController, ARSessionDelegate {
     var label: UILabel!
     var eyePointTarget: TestEyePointTarget!
     
+    var mode = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "視線追跡"
@@ -46,7 +48,9 @@ class EyePointView: UIViewController, ARSessionDelegate {
         self.windowWidth = self.view.frame.width
         self.windowHeight = self.view.frame.height
         
-        moveTarget(fig: eyePointTarget)
+        if mode == "demo"{
+            moveTarget(fig: eyePointTarget)
+        }
     }
     
         func moveTarget(fig: UIView) {
