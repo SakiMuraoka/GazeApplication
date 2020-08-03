@@ -16,6 +16,8 @@ class HomeView: UIViewController, ARSessionDelegate {
     
     var iconView: IconView!
     
+    var mode = ""
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,24 +35,27 @@ class HomeView: UIViewController, ARSessionDelegate {
         self.session.delegate = self
         self.windowWidth = self.view.frame.width
         self.windowHeight = self.view.frame.height
+        self.mode  = "デモ"
     }
     
     @objc func tapButton(_ sender: UIButton){
-        switch sender.accessibilityIdentifier{
-        case "map":
-            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "mapView")
-            self.navigationController?.pushViewController(nextView, animated: true)
-            break
-        case "gallery":
-            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "galleryView")
-            self.navigationController?.pushViewController(nextView, animated: true)
-            break
-        case "browser":
-            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "browserView")
-            self.navigationController?.pushViewController(nextView, animated: true)
-            break
-        default:
-            break
+        if mode == "デモ"{
+            switch sender.accessibilityIdentifier{
+            case "map":
+                let nextView = self.storyboard!.instantiateViewController(withIdentifier: "mapView")
+                self.navigationController?.pushViewController(nextView, animated: true)
+                break
+            case "gallery":
+                let nextView = self.storyboard!.instantiateViewController(withIdentifier: "galleryView")
+                self.navigationController?.pushViewController(nextView, animated: true)
+                break
+            case "browser":
+                let nextView = self.storyboard!.instantiateViewController(withIdentifier: "browserView")
+                self.navigationController?.pushViewController(nextView, animated: true)
+                break
+            default:
+                break
+            }
         }
     }
     
