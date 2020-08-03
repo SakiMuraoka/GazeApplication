@@ -58,25 +58,31 @@ class TestMenuView: UIViewController, UITableViewDelegate,UITableViewDataSource 
            print("\(indexPath.row)番セルが押されたよ！")
         switch indexPath.row {
         case 0:
-            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "eyePointView")
+            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "eyePointView") as! EyePointView
+            nextView.mode = "test"
             self.navigationController?.pushViewController(nextView, animated: true)
             break
         case 1:
-            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "homeView")
+            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "homeView") as! HomeView
+            nextView.mode = "test"
             self.navigationController?.pushViewController(nextView, animated: true)
             break
         case 2:
-            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "mapView")
+            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "mapView") as! SampleMapView
+            nextView.mode = "test"
             self.navigationController?.pushViewController(nextView, animated: true)
             break
         case 3:
-            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "galleryView")
+            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "galleryView") as!
+            SampleGalleryView
+            nextView.mode = "test"
             self.navigationController?.pushViewController(nextView, animated: true)
             break
         case 4:
-        let nextView = self.storyboard!.instantiateViewController(withIdentifier: "browserView")
-        self.navigationController?.pushViewController(nextView, animated: true)
-        break
+            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "browserView") as! SampleBrowserView
+            nextView.mode = "test"
+            self.navigationController?.pushViewController(nextView, animated: true)
+            break
         default:
             break
         }
