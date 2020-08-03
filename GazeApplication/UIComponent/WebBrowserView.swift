@@ -22,6 +22,7 @@ class WebBrowserView: UIView, WKUIDelegate, WKNavigationDelegate, UITextFieldDel
     let urlTextField: UITextField!
     let reloadButton: UIButton!
     
+    let gazePointer: GazePointer!
     
     override init(frame: CGRect) {
         webConfiguration = WKWebViewConfiguration()
@@ -56,6 +57,7 @@ class WebBrowserView: UIView, WKUIDelegate, WKNavigationDelegate, UITextFieldDel
         let reloadImage: UIImage? = UIImage(named: "reload")
         reloadButton.setImage(reloadImage, for: .normal)
         
+        gazePointer = GazePointer(frame: frame)
         
         super.init(frame: frame)
         
@@ -82,6 +84,8 @@ class WebBrowserView: UIView, WKUIDelegate, WKNavigationDelegate, UITextFieldDel
         self.urlBar?.addSubview(urlBarForm!)
         self.urlBarForm?.addSubview(urlTextField!)
         self.urlBar?.addSubview(reloadButton!)
+        
+        self.addSubview(gazePointer)
         
         webView.topAnchor.constraint(equalToSystemSpacingBelow: self.topAnchor, multiplier: 0.0).isActive = true
     }
@@ -129,4 +133,15 @@ class WebBrowserView: UIView, WKUIDelegate, WKNavigationDelegate, UITextFieldDel
         self.urlTextField?.text = self.webView?.url?.absoluteString
     }
 
+    func movePointer(to: CGPoint){
+        self.gazePointer.center = to
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first, let view = touch.view else { return }
+
+        if view == self.gazePointer {
+            view.center = touch.location(in: self)
+        }
+    }
 }
