@@ -158,9 +158,18 @@ class EyePointView: UIViewController, ARSessionDelegate {
                 milliIntersection[1] = milliIntersection[1] * heightRate
                 //print("x: \(String(describing: milliIntersection[0])), y: \(String(describing: milliIntersection[1]))")
                 //gazePointer.cordinationConvertor(lookAt: milliIntersection)
-                let gazex = CGFloat(milliIntersection[0]) + self.windowWidth/2
-                let gazey = -CGFloat(milliIntersection[1]) + self.windowHeight/2
-                self.movePointer(to: CGPoint(x: gazex, y: gazey))
+                let leftEyeBlinkValue = faceAnchor.blendShapes[.eyeBlinkLeft]?.floatValue ?? 0.0
+                let rightEyeBlinkValue = faceAnchor.blendShapes[.eyeBlinkRight]?.floatValue ?? 0.0
+                let IS_BLINK_THRESHOLD: Float = 0.4
+                
+                if leftEyeBlinkValue > IS_BLINK_THRESHOLD {
+                    //瞬きの検出
+                    print("Close")
+                } else {
+                    let gazex = CGFloat(milliIntersection[0]) + self.windowWidth/2
+                    let gazey = -CGFloat(milliIntersection[1]) + self.windowHeight/2
+                    self.movePointer(to: CGPoint(x: gazex, y: gazey))
+                }
             }
         }
     }
