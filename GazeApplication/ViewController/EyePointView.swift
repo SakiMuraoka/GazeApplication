@@ -20,9 +20,14 @@ class EyePointView: UIViewController, ARSessionDelegate {
     var label: UILabel!
     var eyePointTarget: TestEyePointTarget!
     
+    var fileButton: UIButton!
+    
     var mode = ""
     
     override func viewDidLoad() {
+        self.windowWidth = self.view.frame.width
+        self.windowHeight = self.view.frame.height
+        
         super.viewDidLoad()
         self.title = "視線追跡"
         gridView = GridView(frame: self.view.bounds)
@@ -38,18 +43,24 @@ class EyePointView: UIViewController, ARSessionDelegate {
         
         eyePointTarget = TestEyePointTarget(frame: self.view.bounds)
         
+        fileButton = UIButton(type: .system)
+        fileButton.setTitle("ファイル作成", for: .normal)
+        fileButton.sizeToFit()
+        fileButton.center = CGPoint(x: self.view.center.x, y: self.windowHeight - 100)
+        fileButton.addTarget(self, action: #selector(testMode(_:)), for: UIControl.Event.touchUpInside)
+        
         self.view.addSubview(gridView)
         self.view.addSubview(gazePointer)
         self.view.addSubview(label)
-        self.view.addSubview(eyePointTarget)
         
         self.session.delegate = self
         
-        self.windowWidth = self.view.frame.width
-        self.windowHeight = self.view.frame.height
         
         if mode == "demo"{
+            self.view.addSubview(eyePointTarget)
             moveTarget(fig: eyePointTarget)
+        }else{
+            self.view.addSubview(fileButton)
         }
     }
     
@@ -79,6 +90,32 @@ class EyePointView: UIViewController, ARSessionDelegate {
                             })
                     })
             })
+    }
+    
+    @objc func testMode(_ sender: UIButton){
+        let dir = FileManager.default.urls(
+          for: .documentDirectory,
+          in: .userDomainMask
+        ).first!
+
+        let fileUrl = dir.appendingPathComponent("test.txt")
+
+        if FileManager.default.createFile(
+                        atPath: fileUrl.path,
+                        contents: nil,//text.data(using: .utf8)
+                        attributes: nil
+                        ) {
+            print("ファイルを新規作成しました。")
+        } else {
+            print("ファイルの新規作成に失敗しました。")
+        }
+        
+        do {
+            let text = ""
+            try text.write(to: fileUrl, atomically: false, encoding: .utf8)
+        } catch {
+            print("Error: \(error)")
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
