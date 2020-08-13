@@ -42,7 +42,6 @@ class EyePointView: UIViewController, ARSessionDelegate {
         label.text = "赤い円を見てください"
         
         eyePointTarget = TestEyePointTarget(frame: self.view.bounds)
-        eyePointTarget.mode = self.mode
         
         fileButton = UIButton(type: .system)
         fileButton.setTitle("ファイル作成", for: .normal)
@@ -53,16 +52,17 @@ class EyePointView: UIViewController, ARSessionDelegate {
         self.view.addSubview(gridView)
         self.view.addSubview(gazePointer)
         self.view.addSubview(label)
+        self.view.addSubview(eyePointTarget)
         
         self.session.delegate = self
         
         
         if mode == "demo"{
-            self.view.addSubview(eyePointTarget)
             moveTarget(fig: eyePointTarget)
         }else{
-            self.view.addSubview(eyePointTarget)
+            eyePointTarget.Resize(radius: self.view.bounds.width/30)
             self.view.addSubview(fileButton)
+            moveTarget(fig: eyePointTarget)
         }
     }
     
@@ -70,28 +70,54 @@ class EyePointView: UIViewController, ARSessionDelegate {
             let screenWidth = self.view.bounds.width
             let screenHeight = self.view.bounds.height
             
-        //初期位置を左上にセット
-        fig.center = CGPoint(x: 3*screenWidth/6, y: screenHeight/4)
-        
-        //アニメーション
-        UIView.animate(withDuration: 0, delay: 3, options:[.curveLinear], animations: {
-                //fig.center.x += (screenWidth-figSize)
-            fig.center = CGPoint(x: 5*screenWidth/6, y: screenHeight/2)
-            }, completion: { finished in
-                UIView.animate(withDuration: 0, delay: 3, options: [.curveLinear], animations: {
-                        fig.center = CGPoint(x: 3*screenWidth/6, y: 3*screenHeight/4)
+            if(mode == "demo"){
+                //初期位置をセット
+                fig.center = CGPoint(x: 3*screenWidth/6, y: screenHeight/4)
+                
+                //アニメーション
+                UIView.animate(withDuration: 0, delay: 3, options:[.curveLinear], animations: {
+                        //fig.center.x += (screenWidth-figSize)
+                    fig.center = CGPoint(x: 5*screenWidth/6, y: screenHeight/2)
                     }, completion: { finished in
-                        UIView.animate(withDuration: 0, delay: 3, options:[.curveLinear], animations: {
-                                fig.center = CGPoint(x: screenWidth/6, y: 2*screenHeight/4)
+                        UIView.animate(withDuration: 0, delay: 3, options: [.curveLinear], animations: {
+                                fig.center = CGPoint(x: 3*screenWidth/6, y: 3*screenHeight/4)
                             }, completion: { finished in
-                                UIView.animate(withDuration: 0, delay: 3, options: [.curveLinear], animations: {
-                                        fig.center = CGPoint(x: 3*screenWidth/6, y: screenHeight/4)
+                                UIView.animate(withDuration: 0, delay: 3, options:[.curveLinear], animations: {
+                                        fig.center = CGPoint(x: screenWidth/6, y: 2*screenHeight/4)
                                     }, completion: { finished in
-                                        self.moveTarget(fig: fig)
+                                        UIView.animate(withDuration: 0, delay: 3, options: [.curveLinear], animations: {
+                                                fig.center = CGPoint(x: 3*screenWidth/6, y: screenHeight/4)
+                                            }, completion: { finished in
+                                                self.moveTarget(fig: fig)
+                                            })
                                     })
                             })
                     })
-            })
+            }else{
+                let interval = gridView.interval
+                let offsetX = 7
+                let offsetY = 2
+                //初期位置をセット
+                //fig.center = CGPoint(x: Int(interval)+offsetX, y: Int(interval)*3-offsetY)
+                var i = 1
+                var j = Int(100/interval + 1)
+                UIView.animate(withDuration: 0, delay: 3, options:[.curveLinear], animations: {
+                fig.center = CGPoint(x: Int(interval)*i+offsetX, y: Int(interval)*j-offsetY)
+                    if( i < Int(screenWidth/interval - 1)){
+                        i += 1
+                    }else{
+                        i = 1
+                    }
+                    if( j < Int(screenHeight/interval - 1)){
+                        j += 1
+                    }else{
+                        j = Int(100/interval + 1)
+                    }
+                }, completion: { finished in
+                    self.moveTarget(fig: fig)
+                })
+                
+            }
     }
     
     @objc func testMode(_ sender: UIButton){

@@ -24,11 +24,7 @@ class TestEyePointTarget: UIView {
         self.x = frame.width/2
         self.y = frame.height/2
         self.locationOffset = 1
-        if(mode == "demo"){
-            self.radius = frame.width/10
-        }else{
-            self.radius = frame.width/30
-        }
+        self.radius = frame.width/10
         self.circleColor = UIColor.red
         self.backgroundColor = UIColor.clear
          
@@ -53,6 +49,11 @@ class TestEyePointTarget: UIView {
         circle.lineWidth = 1.0
         // 線を塗りつぶす
         circle.stroke()
+    }
+    
+    func Resize(radius: CGFloat){
+        self.radius = radius
+        self.setNeedsDisplay()
     }
 }
      
