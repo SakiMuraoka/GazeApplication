@@ -42,6 +42,7 @@ class EyePointView: UIViewController, ARSessionDelegate {
         label.text = "赤い円を見てください"
         
         eyePointTarget = TestEyePointTarget(frame: self.view.bounds)
+        eyePointTarget.mode = self.mode
         
         fileButton = UIButton(type: .system)
         fileButton.setTitle("ファイル作成", for: .normal)
@@ -60,6 +61,7 @@ class EyePointView: UIViewController, ARSessionDelegate {
             self.view.addSubview(eyePointTarget)
             moveTarget(fig: eyePointTarget)
         }else{
+            self.view.addSubview(eyePointTarget)
             self.view.addSubview(fileButton)
         }
     }
@@ -93,29 +95,7 @@ class EyePointView: UIViewController, ARSessionDelegate {
     }
     
     @objc func testMode(_ sender: UIButton){
-        let dir = FileManager.default.urls(
-          for: .documentDirectory,
-          in: .userDomainMask
-        ).first!
-
-        let fileUrl = dir.appendingPathComponent("test.txt")
-
-        if FileManager.default.createFile(
-                        atPath: fileUrl.path,
-                        contents: nil,//text.data(using: .utf8)
-                        attributes: nil
-                        ) {
-            print("ファイルを新規作成しました。")
-        } else {
-            print("ファイルの新規作成に失敗しました。")
-        }
         
-        do {
-            let text = ""
-            try text.write(to: fileUrl, atomically: false, encoding: .utf8)
-        } catch {
-            print("Error: \(error)")
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
