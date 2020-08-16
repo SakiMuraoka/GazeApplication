@@ -47,7 +47,7 @@ class EyePointView: UIViewController, ARSessionDelegate {
         fileButton.setTitle("ファイル作成", for: .normal)
         fileButton.sizeToFit()
         fileButton.center = CGPoint(x: self.view.center.x, y: self.windowHeight - 100)
-        fileButton.addTarget(self, action: #selector(testMode(_:)), for: UIControl.Event.touchUpInside)
+        fileButton.addTarget(self, action: #selector(fileButtonClick(_:)), for: UIControl.Event.touchUpInside)
         
         self.view.addSubview(gridView)
         self.view.addSubview(gazePointer)
@@ -120,7 +120,7 @@ class EyePointView: UIViewController, ARSessionDelegate {
             }
     }
     
-    @objc func testMode(_ sender: UIButton){
+    @objc func fileButtonClick(_ sender: UIButton){
         
     }
     
