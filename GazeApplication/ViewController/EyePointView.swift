@@ -24,6 +24,11 @@ class EyePointView: UIViewController, ARSessionDelegate {
     
     var mode = ""
     
+    //testモードのアニメーションの定数
+    let interval = 50
+    let offsetX = 16
+    let offsetY = 25
+    
     override func viewDidLoad() {
         self.windowWidth = self.view.frame.width
         self.windowHeight = self.view.frame.height
@@ -47,20 +52,22 @@ class EyePointView: UIViewController, ARSessionDelegate {
         fileButton.setTitle("ファイル作成", for: .normal)
         fileButton.sizeToFit()
         fileButton.center = CGPoint(x: self.view.center.x, y: self.windowHeight - 100)
-        fileButton.addTarget(self, action: #selector(testMode(_:)), for: UIControl.Event.touchUpInside)
+        fileButton.addTarget(self, action: #selector(fileButtonClick(_:)), for: UIControl.Event.touchUpInside)
         
         self.view.addSubview(gridView)
         self.view.addSubview(gazePointer)
         self.view.addSubview(label)
+        self.view.addSubview(eyePointTarget)
         
         self.session.delegate = self
         
         
         if mode == "demo"{
-            self.view.addSubview(eyePointTarget)
             moveTarget(fig: eyePointTarget)
         }else{
+            eyePointTarget.Resize(radius: self.view.bounds.width/30)
             self.view.addSubview(fileButton)
+            moveTarget(fig: eyePointTarget)
         }
     }
     
@@ -68,54 +75,62 @@ class EyePointView: UIViewController, ARSessionDelegate {
             let screenWidth = self.view.bounds.width
             let screenHeight = self.view.bounds.height
             
-        //初期位置を左上にセット
-        fig.center = CGPoint(x: 3*screenWidth/6, y: screenHeight/4)
-        
-        //アニメーション
-        UIView.animate(withDuration: 0, delay: 3, options:[.curveLinear], animations: {
-                //fig.center.x += (screenWidth-figSize)
-            fig.center = CGPoint(x: 5*screenWidth/6, y: screenHeight/2)
-            }, completion: { finished in
-                UIView.animate(withDuration: 0, delay: 3, options: [.curveLinear], animations: {
-                        fig.center = CGPoint(x: 3*screenWidth/6, y: 3*screenHeight/4)
+            if(mode == "demo"){
+                //初期位置をセット
+                fig.center = CGPoint(x: 3*screenWidth/6, y: screenHeight/4)
+                
+                //アニメーション
+                UIView.animate(withDuration: 0, delay: 3, options:[.curveLinear], animations: {
+                        //fig.center.x += (screenWidth-figSize)
+                    fig.center = CGPoint(x: 5*screenWidth/6, y: screenHeight/2)
                     }, completion: { finished in
-                        UIView.animate(withDuration: 0, delay: 3, options:[.curveLinear], animations: {
-                                fig.center = CGPoint(x: screenWidth/6, y: 2*screenHeight/4)
+                        UIView.animate(withDuration: 0, delay: 3, options: [.curveLinear], animations: {
+                                fig.center = CGPoint(x: 3*screenWidth/6, y: 3*screenHeight/4)
                             }, completion: { finished in
-                                UIView.animate(withDuration: 0, delay: 3, options: [.curveLinear], animations: {
-                                        fig.center = CGPoint(x: 3*screenWidth/6, y: screenHeight/4)
+                                UIView.animate(withDuration: 0, delay: 3, options:[.curveLinear], animations: {
+                                        fig.center = CGPoint(x: screenWidth/6, y: 2*screenHeight/4)
                                     }, completion: { finished in
-                                        self.moveTarget(fig: fig)
+                                        UIView.animate(withDuration: 0, delay: 3, options: [.curveLinear], animations: {
+                                                fig.center = CGPoint(x: 3*screenWidth/6, y: screenHeight/4)
+                                            }, completion: { finished in
+                                                self.moveTarget(fig: fig)
+                                            })
                                     })
                             })
                     })
-            })
+            }else{
+                //初期位置をセット
+                fig.center = CGPoint(x: 2*Int(interval) - offsetX, y:Int(interval)*5-offsetY)
+                let i = 2 + 1
+                let j = 5
+                testTargetAnimation(fig: fig, x: i, y: j)
+            }
     }
     
-    @objc func testMode(_ sender: UIButton){
-        let dir = FileManager.default.urls(
-          for: .documentDirectory,
-          in: .userDomainMask
-        ).first!
-
-        let fileUrl = dir.appendingPathComponent("test.txt")
-
-        if FileManager.default.createFile(
-                        atPath: fileUrl.path,
-                        contents: nil,//text.data(using: .utf8)
-                        attributes: nil
-                        ) {
-            print("ファイルを新規作成しました。")
-        } else {
-            print("ファイルの新規作成に失敗しました。")
-        }
+    func testTargetAnimation(fig: UIView, x: Int, y: Int){
+        var i = x
+        var j = y
+        let maxi = 8
+        let maxj = 16
+        UIView.animate(withDuration: 0, delay: 3, options:[.curveLinear], animations: {
+            fig.center = CGPoint(x: Int(self.interval)*i - self.offsetX, y: Int(self.interval)*j - self.offsetY)
+            if( i < maxi){
+                i += 1
+            }else{
+                i = 2
+                if(j < maxj){
+                    j += 1
+                }else{
+                    j = 5
+                }
+            }
+        }, completion: { finished in
+            self.testTargetAnimation(fig: fig, x: i, y: j)
+        })
+    }
+    
+    @objc func fileButtonClick(_ sender: UIButton){
         
-        do {
-            let text = ""
-            try text.write(to: fileUrl, atomically: false, encoding: .utf8)
-        } catch {
-            print("Error: \(error)")
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
