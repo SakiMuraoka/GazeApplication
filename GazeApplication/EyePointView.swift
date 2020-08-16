@@ -95,10 +95,10 @@ class EyePointView: UIViewController, ARSessionDelegate {
                     })
             }else{
                 let interval = gridView.interval
-                let offsetX = 7
-                let offsetY = 2
+                let offsetX = 16
+                let offsetY = 25
                 //初期位置をセット
-                //fig.center = CGPoint(x: Int(interval)+offsetX, y: Int(interval)*3-offsetY)
+                fig.center = CGPoint(x: 2*Int(interval) - offsetX, y:Int(interval)*5-offsetY)
                 var i = 1
                 var j = Int(100/interval + 1)
                 UIView.animate(withDuration: 0, delay: 3, options:[.curveLinear], animations: {
@@ -118,6 +118,10 @@ class EyePointView: UIViewController, ARSessionDelegate {
                 })
                 
             }
+    }
+    
+    func testTargetAnimation(i: Int, j: Int){
+        
     }
     
     @objc func fileButtonClick(_ sender: UIButton){
