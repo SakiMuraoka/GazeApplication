@@ -24,6 +24,11 @@ class EyePointView: UIViewController, ARSessionDelegate {
     
     var mode = ""
     
+    //testモードのアニメーションの定数
+    let interval = 50
+    let offsetX = 16
+    let offsetY = 25
+    
     override func viewDidLoad() {
         self.windowWidth = self.view.frame.width
         self.windowHeight = self.view.frame.height
@@ -94,34 +99,34 @@ class EyePointView: UIViewController, ARSessionDelegate {
                             })
                     })
             }else{
-                let interval = gridView.interval
-                let offsetX = 16
-                let offsetY = 25
                 //初期位置をセット
                 fig.center = CGPoint(x: 2*Int(interval) - offsetX, y:Int(interval)*5-offsetY)
-                var i = 1
-                var j = Int(100/interval + 1)
-                UIView.animate(withDuration: 0, delay: 3, options:[.curveLinear], animations: {
-                fig.center = CGPoint(x: Int(interval)*i+offsetX, y: Int(interval)*j-offsetY)
-                    if( i < Int(screenWidth/interval - 1)){
-                        i += 1
-                    }else{
-                        i = 1
-                    }
-                    if( j < Int(screenHeight/interval - 1)){
-                        j += 1
-                    }else{
-                        j = Int(100/interval + 1)
-                    }
-                }, completion: { finished in
-                    self.moveTarget(fig: fig)
-                })
-                
+                let i = 2 + 1
+                let j = 5
+                testTargetAnimation(fig: fig, x: i, y: j)
             }
     }
     
-    func testTargetAnimation(i: Int, j: Int){
-        
+    func testTargetAnimation(fig: UIView, x: Int, y: Int){
+        var i = x
+        var j = y
+        let maxi = 8
+        let maxj = 16
+        UIView.animate(withDuration: 0, delay: 3, options:[.curveLinear], animations: {
+            fig.center = CGPoint(x: Int(self.interval)*i - self.offsetX, y: Int(self.interval)*j - self.offsetY)
+            if( i < maxi){
+                i += 1
+            }else{
+                i = 2
+                if(j < maxj){
+                    j += 1
+                }else{
+                    j = 5
+                }
+            }
+        }, completion: { finished in
+            self.testTargetAnimation(fig: fig, x: i, y: j)
+        })
     }
     
     @objc func fileButtonClick(_ sender: UIButton){
