@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,6 +15,11 @@
 		CF558D0624D6812000396A55 /* EyePointView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF558D0524D6812000396A55 /* EyePointView.swift */; };
 		CF558D0824D685A900396A55 /* TestEyePointTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF558D0724D685A900396A55 /* TestEyePointTarget.swift */; };
 		CF5B0CFD24C84AC2003943EF /* GazePointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5B0CFC24C84AC2003943EF /* GazePointer.swift */; };
+		CF9BD2E024EB5F2A00D0BC21 /* ViewController_y.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9BD2DF24EB5F2A00D0BC21 /* ViewController_y.swift */; };
+		CF9BD2E224EB5F6900D0BC21 /* EyeTrack_y.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9BD2E124EB5F6900D0BC21 /* EyeTrack_y.swift */; };
+		CF9BD2E424EB5FC800D0BC21 /* Extension_y.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9BD2E324EB5FC800D0BC21 /* Extension_y.swift */; };
+		CF9BD2E724EB603900D0BC21 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF9BD2E624EB603900D0BC21 /* WebKit.framework */; };
+		CF9BD2EA24EB622F00D0BC21 /* ARVideoKit in Frameworks */ = {isa = PBXBuildFile; productRef = CF9BD2E924EB622F00D0BC21 /* ARVideoKit */; };
 		CFA6E27C24CDAAAB00D73177 /* SampleBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA6E27B24CDAAAB00D73177 /* SampleBrowserView.swift */; };
 		CFA6E27E24CDAAF900D73177 /* WebBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA6E27D24CDAAF900D73177 /* WebBrowserView.swift */; };
 		CFCD667B24C55D000066E1B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFCD667A24C55D000066E1B2 /* AppDelegate.swift */; };
@@ -50,6 +55,10 @@
 		CF558D0524D6812000396A55 /* EyePointView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyePointView.swift; sourceTree = "<group>"; };
 		CF558D0724D685A900396A55 /* TestEyePointTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestEyePointTarget.swift; sourceTree = "<group>"; };
 		CF5B0CFC24C84AC2003943EF /* GazePointer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GazePointer.swift; sourceTree = "<group>"; };
+		CF9BD2DF24EB5F2A00D0BC21 /* ViewController_y.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController_y.swift; sourceTree = "<group>"; };
+		CF9BD2E124EB5F6900D0BC21 /* EyeTrack_y.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeTrack_y.swift; sourceTree = "<group>"; };
+		CF9BD2E324EB5FC800D0BC21 /* Extension_y.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension_y.swift; sourceTree = "<group>"; };
+		CF9BD2E624EB603900D0BC21 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		CFA6E27B24CDAAAB00D73177 /* SampleBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleBrowserView.swift; sourceTree = "<group>"; };
 		CFA6E27D24CDAAF900D73177 /* WebBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebBrowserView.swift; sourceTree = "<group>"; };
 		CFCD667724C55D000066E1B2 /* GazeApplication.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GazeApplication.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -83,6 +92,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF9BD2EA24EB622F00D0BC21 /* ARVideoKit in Frameworks */,
+				CF9BD2E724EB603900D0BC21 /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,8 +112,17 @@
 				CFF8F39624CBE6B500BDD546 /* SampleGalleryView.swift */,
 				CFA6E27B24CDAAAB00D73177 /* SampleBrowserView.swift */,
 				CF558D0524D6812000396A55 /* EyePointView.swift */,
+				CF9BD2DF24EB5F2A00D0BC21 /* ViewController_y.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		CF9BD2E524EB603800D0BC21 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CF9BD2E624EB603900D0BC21 /* WebKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		CFCD666E24C55D000066E1B2 = {
@@ -110,6 +130,7 @@
 			children = (
 				CFCD667924C55D000066E1B2 /* GazeApplication */,
 				CFCD667824C55D000066E1B2 /* Products */,
+				CF9BD2E524EB603800D0BC21 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -140,6 +161,8 @@
 		CFCD668E24C55D7F0066E1B2 /* UIComponent */ = {
 			isa = PBXGroup;
 			children = (
+				CF9BD2E124EB5F6900D0BC21 /* EyeTrack_y.swift */,
+				CF9BD2E324EB5FC800D0BC21 /* Extension_y.swift */,
 				CFCD668F24C55DCC0066E1B2 /* GridView.swift */,
 				CFCD669124C55FB10066E1B2 /* LookAtPosition.swift */,
 				CFCD669324C5611F0066E1B2 /* LookAtPositionLabel.swift */,
@@ -177,6 +200,9 @@
 			dependencies = (
 			);
 			name = GazeApplication;
+			packageProductDependencies = (
+				CF9BD2E924EB622F00D0BC21 /* ARVideoKit */,
+			);
 			productName = GazeApplication;
 			productReference = CFCD667724C55D000066E1B2 /* GazeApplication.app */;
 			productType = "com.apple.product-type.application";
@@ -205,6 +231,9 @@
 				Base,
 			);
 			mainGroup = CFCD666E24C55D000066E1B2;
+			packageReferences = (
+				CF9BD2E824EB622F00D0BC21 /* XCRemoteSwiftPackageReference "ARVideoKit" */,
+			);
 			productRefGroup = CFCD667824C55D000066E1B2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -234,6 +263,7 @@
 			files = (
 				CFCD667F24C55D000066E1B2 /* SampleView.swift in Sources */,
 				CFCD669224C55FB10066E1B2 /* LookAtPosition.swift in Sources */,
+				CF9BD2E424EB5FC800D0BC21 /* Extension_y.swift in Sources */,
 				CFF8F3A524CBFAB700BDD546 /* CollectionViewCell.swift in Sources */,
 				CF3D94F624D586DD003D48D5 /* HomeView.swift in Sources */,
 				CFCD667B24C55D000066E1B2 /* AppDelegate.swift in Sources */,
@@ -251,9 +281,11 @@
 				CFA6E27C24CDAAAB00D73177 /* SampleBrowserView.swift in Sources */,
 				CF558CFE24D66C8000396A55 /* DemoMenuView.swift in Sources */,
 				CFEBA6A524D4FBD100BFF21E /* IconView.swift in Sources */,
+				CF9BD2E224EB5F6900D0BC21 /* EyeTrack_y.swift in Sources */,
 				CF5B0CFD24C84AC2003943EF /* GazePointer.swift in Sources */,
 				CFCD669A24C574B50066E1B2 /* MapView.swift in Sources */,
 				CFF8F3A324CBFA9600BDD546 /* CollectionViewHeader..swift in Sources */,
+				CF9BD2E024EB5F2A00D0BC21 /* ViewController_y.swift in Sources */,
 				CFF8F39924CBE7ED00BDD546 /* GridFlowLayout.swift in Sources */,
 				CFF8F3A724CC07AE00BDD546 /* CollectionViewData.swift in Sources */,
 				CF558D0824D685A900396A55 /* TestEyePointTarget.swift in Sources */,
@@ -452,6 +484,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CF9BD2E824EB622F00D0BC21 /* XCRemoteSwiftPackageReference "ARVideoKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AFathi/ARVideoKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CF9BD2E924EB622F00D0BC21 /* ARVideoKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CF9BD2E824EB622F00D0BC21 /* XCRemoteSwiftPackageReference "ARVideoKit" */;
+			productName = ARVideoKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CFCD666F24C55D000066E1B2 /* Project object */;
 }
