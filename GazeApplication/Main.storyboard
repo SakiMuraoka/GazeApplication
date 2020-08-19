@@ -295,7 +295,6 @@
                         <outlet property="eyeTrackingPositionView" destination="qdS-8N-tp9" id="c0U-97-GUf"/>
                         <outlet property="leftEyeView" destination="HAT-wT-vs4" id="oLx-u9-pgr"/>
                         <outlet property="rightEyeView" destination="anx-SQ-ZE6" id="LJe-9U-E8P"/>
-                        <outlet property="sceneView" destination="dzP-Am-Zdk" id="Vy6-at-huR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Khq-gK-qPq" sceneMemberID="firstResponder"/>
