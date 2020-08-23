@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ptQ-ed-mcF">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fbD-dM-1o2">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -96,7 +96,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ma5-aF-lnJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-39" y="747"/>
+            <point key="canvasLocation" x="-39" y="751"/>
         </scene>
         <!--Home View-->
         <scene sceneID="mbl-sH-d0I">
@@ -300,6 +300,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Khq-gK-qPq" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-800" y="763"/>
+        </scene>
+        <!--Eye Point View y-->
+        <scene sceneID="jKj-oJ-32t">
+            <objects>
+                <viewController storyboardIdentifier="eyePointView_y" useStoryboardIdentifierAsRestorationIdentifier="YES" id="7Vf-h7-ogU" customClass="EyePointView_y" customModule="GazeApplication" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1Db-d3-GkH">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="DLD-eb-PsE"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tnZ-pd-Pgi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-39" y="1405"/>
         </scene>
     </scenes>
 </document>
