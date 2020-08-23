@@ -46,6 +46,16 @@ class ViewController_y: EyeTrackViewController_y {
 
     override func updateViewWithUpdateAnchor() {
         // update indicator position
+         if eyeTrack.lookAtPosition.x < -view.bounds.width/2 + eyePositionIndicatorView.frame.width {
+             eyeTrack.lookAtPosition.x = -view.bounds.width/2 + eyePositionIndicatorView.frame.width
+         }else if eyeTrack.lookAtPosition.x > view.bounds.width/2 {
+             eyeTrack.lookAtPosition.x = view.bounds.width/2
+         }
+        if eyeTrack.lookAtPosition.y < -view.bounds.height/2 + eyePositionIndicatorView.frame.height{
+            eyeTrack.lookAtPosition.y = -view.bounds.height/2 + eyePositionIndicatorView.frame.height
+        }else if eyeTrack.lookAtPosition.y > view.bounds.height/2{
+            eyeTrack.lookAtPosition.y = view.bounds.height/2
+        }
         self.eyePositionIndicatorView.transform = CGAffineTransform(translationX: eyeTrack.lookAtPosition.x, y: eyeTrack.lookAtPosition.y)
 
         if eyeTrack.lookAtPoint.x < 0 {
@@ -67,8 +77,7 @@ class ViewController_y: EyeTrackViewController_y {
 
 
 extension ViewController_y {
-
-
+    
 }
 
 
