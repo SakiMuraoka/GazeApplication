@@ -24,6 +24,8 @@ class EyePointView_y: EyeTrackViewController_y {
     var distanceLabel: UILabel!
     
     var mode = ""
+    
+    var dataButton: UIButton!
 
 
 //    @IBAction func onClickRecord(_ sender: Any) {
@@ -47,6 +49,12 @@ class EyePointView_y: EyeTrackViewController_y {
         eyeTargetPositionYLabel = UILabel(frame: CGRect(x: 60, y: 100, width: 40, height: 15))
         distanceLabel = UILabel(frame: CGRect(x: 110, y: 100, width: 50, height: 15))
         
+        dataButton = UIButton(type: .system)
+        dataButton.setTitle("データ記録", for: .normal)
+        dataButton.sizeToFit()
+        dataButton.center = CGPoint(x: self.view.center.x, y: self.view.bounds.height - 100)
+        dataButton.addTarget(self, action: #selector(dataButtonClick(_:)), for: UIControl.Event.touchUpInside)
+        
         self.view.addSubview(gridView)
         self.view.addSubview(eyePositionIndicatorView)
         self.eyePositionIndicatorView.addSubview(leftEyeView)
@@ -55,6 +63,11 @@ class EyePointView_y: EyeTrackViewController_y {
         self.view.addSubview(eyeTargetPositionXLabel)
         self.view.addSubview(eyeTargetPositionYLabel)
         self.view.addSubview(distanceLabel)
+        self.view.addSubview(dataButton)
+    }
+    
+    @objc func dataButtonClick(_ sender: UIButton){
+    
     }
 
     override func viewWillAppear(_ animated: Bool) {
