@@ -26,6 +26,9 @@ class EyePointView_y: EyeTrackViewController_y {
     var mode = ""
     
     var dataButton: UIButton!
+    let csvModel = CsvModel()
+    var participant: String? = "saki"
+    var dataLists = [[""]]
 
 
 //    @IBAction func onClickRecord(_ sender: Any) {
@@ -67,7 +70,12 @@ class EyePointView_y: EyeTrackViewController_y {
     }
     
     @objc func dataButtonClick(_ sender: UIButton){
-    
+        let time = timeToString(date: Date())
+        let fileName = csvModel.convertConditionsToFileName(name: participant!, conditions: [time, "gaze"])
+        let data = csvModel.convertFigureListToString(dataLists: dataLists)
+        let dataRows = ["frameId", "timestamp", "answer_icon", "answer_gaze", "answer_swipe", "faceTracking", "lookAtPosition_x", "lookAtPosition_y", "lookAtPosition_z", "leftEyeBlink", "rightEyeBlink", "cameraOnFaceNode_x", "cameraOnFaceNode_y", "cameraOnFaceNode_z"]
+        let rowNames = csvModel.convertDataToCSV(list: dataRows)
+        csvModel.write(fileName: fileName, rowsName: rowNames, dataList: data)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -113,7 +121,11 @@ class EyePointView_y: EyeTrackViewController_y {
 
 
 extension EyePointView_y {
-    
+    func timeToString(date: Date) -> String {
+        let format = DateFormatter()
+        format.dateFormat = "yyyy/MM/dd HH:mm:ss.SSS"
+        return format.string(from: date)
+    }
 }
 
 
