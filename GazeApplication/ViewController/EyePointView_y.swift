@@ -23,6 +23,9 @@ class EyePointView_y: EyeTrackViewController_y {
     var eyeTargetPositionYLabel: UILabel!
     var distanceLabel: UILabel!
     
+    var error: Bool = true
+    var errorLabel: UILabel!
+    
     var mode = ""
     
     var dataButton: UIButton!
@@ -53,8 +56,13 @@ class EyePointView_y: EyeTrackViewController_y {
         eyeTargetPositionYLabel = UILabel(frame: CGRect(x: 60, y: 100, width: 40, height: 15))
         distanceLabel = UILabel(frame: CGRect(x: 110, y: 100, width: 50, height: 15))
         
+        errorLabel = UILabel(frame: CGRect(x: 0, y: self.view.center.y, width: self.view.bounds.width, height: 50))
+        errorLabel.textAlignment = .center
+        errorLabel.isHidden = false
+        errorLabel.text = "顔をカメラに写してください"
+        
         dataButton = UIButton(type: .system)
-        dataButton.setTitle("データ記録", for: .normal)
+        dataButton.setTitle("データ追加", for: .normal)
         dataButton.sizeToFit()
         dataButton.center = CGPoint(x: self.view.center.x, y: self.view.bounds.height - 100)
         dataButton.addTarget(self, action: #selector(dataButtonClick(_:)), for: UIControl.Event.touchUpInside)
@@ -67,6 +75,7 @@ class EyePointView_y: EyeTrackViewController_y {
         self.view.addSubview(eyeTargetPositionXLabel)
         self.view.addSubview(eyeTargetPositionYLabel)
         self.view.addSubview(distanceLabel)
+        self.view.addSubview(errorLabel)
         self.view.addSubview(dataButton)
     }
     

@@ -77,7 +77,6 @@ class EyeTrackViewController_y: UIViewController, ARSCNViewDelegate, ARSessionDe
         recorder?.rest()
         // Pause the view's session
         eyeTrackSceneView.session.pause()
-
     }
 
     // MARK: - ARSCNViewDelegate
@@ -123,6 +122,7 @@ extension EyeTrackViewController_y {
     }
 
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
+        print("eyeTrack complete")
         eyeTrack.face.node.transform = node.transform
         guard let faceAnchor = anchor as? ARFaceAnchor else {
             return
@@ -132,8 +132,6 @@ extension EyeTrackViewController_y {
 
     func updateAnchor(withFaceAnchor anchor: ARFaceAnchor) {
         DispatchQueue.main.async {
-            self.anchor = anchor
-            
             self.eyeTrack.update(anchor: anchor)
             self.updateViewWithUpdateAnchor()
         }
