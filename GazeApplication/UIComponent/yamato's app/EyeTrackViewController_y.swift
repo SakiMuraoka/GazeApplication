@@ -18,6 +18,8 @@ class EyeTrackViewController_y: UIViewController, ARSCNViewDelegate, ARSessionDe
 
     var eyeTrack = EyeTrack_y(type: DeviceType.iPhone)
     var recorder: RecordAR?
+    
+    var anchor: ARAnchor!
 
     func initialize() {
         let frame = super.view.frame
@@ -130,6 +132,8 @@ extension EyeTrackViewController_y {
 
     func updateAnchor(withFaceAnchor anchor: ARFaceAnchor) {
         DispatchQueue.main.async {
+            self.anchor = anchor
+            
             self.eyeTrack.update(anchor: anchor)
             self.updateViewWithUpdateAnchor()
         }

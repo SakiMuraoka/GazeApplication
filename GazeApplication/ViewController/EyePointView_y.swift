@@ -29,6 +29,7 @@ class EyePointView_y: EyeTrackViewController_y {
     let csvModel = CsvModel()
     var participant: String? = "saki"
     var dataLists = [[""]]
+    var frameId: Int = 0
 
 
 //    @IBAction func onClickRecord(_ sender: Any) {
@@ -70,12 +71,18 @@ class EyePointView_y: EyeTrackViewController_y {
     }
     
     @objc func dataButtonClick(_ sender: UIButton){
-        let time = timeToString(date: Date())
-        let fileName = csvModel.convertConditionsToFileName(name: participant!, conditions: [time, "gaze"])
-        let data = csvModel.convertFigureListToString(dataLists: dataLists)
-        let dataRows = ["frameId", "timestamp", "answer_icon", "answer_gaze", "answer_swipe", "faceTracking", "lookAtPosition_x", "lookAtPosition_y", "lookAtPosition_z", "leftEyeBlink", "rightEyeBlink", "cameraOnFaceNode_x", "cameraOnFaceNode_y", "cameraOnFaceNode_z"]
-        let rowNames = csvModel.convertDataToCSV(list: dataRows)
-        csvModel.write(fileName: fileName, rowsName: rowNames, dataList: data)
+        let now = NSDate()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+        let time = formatter.string(from: now as Date)
+        self.frameId += 1
+        let data = [eyeTrack.lookAtPosition.x, eyeTrack.lookAtPosition.y,]
+        var dataString: [String] = [String(frameId), time,]
+        for i in 0..<data.count {
+            dataString.append(String(format: "%.8f", data[i]))
+        }
+        //print(dataString)
+        dataLists.append(dataString)
     }
 
     override func viewWillAppear(_ animated: Bool) {
