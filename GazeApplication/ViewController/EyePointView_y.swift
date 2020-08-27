@@ -33,6 +33,8 @@ class EyePointView_y: EyeTrackViewController_y {
     var participant: String? = "saki"
     var dataLists = [[""]]
     var frameId: Int = 0
+    
+    var eyeTrajectryList: [GazePointer] = []
 
 
 //    @IBAction func onClickRecord(_ sender: Any) {
@@ -66,6 +68,7 @@ class EyePointView_y: EyeTrackViewController_y {
         dataButton.sizeToFit()
         dataButton.center = CGPoint(x: self.view.center.x, y: self.view.bounds.height - 100)
         dataButton.addTarget(self, action: #selector(dataButtonClick(_:)), for: UIControl.Event.touchUpInside)
+        
         
         self.view.addSubview(gridView)
         self.view.addSubview(eyePositionIndicatorView)
@@ -117,6 +120,11 @@ class EyePointView_y: EyeTrackViewController_y {
             eyeTrack.lookAtPosition.y = view.bounds.height/2
         }
         self.eyePositionIndicatorView.transform = CGAffineTransform(translationX: eyeTrack.lookAtPosition.x, y: eyeTrack.lookAtPosition.y)
+        
+        let eyeTrajectry = GazePointer(frame: self.gridView.bounds)
+        eyeTrajectry.center = CGPoint(x: eyeTrack.lookAtPosition.x + view.bounds.width/2, y: eyeTrack.lookAtPosition.y + view.bounds.height/2)
+        eyeTrajectryList.append(eyeTrajectry)
+        self.view.addSubview(eyeTrajectryList[eyeTrajectryList.count - 1])
 
         if eyeTrack.lookAtPoint.x < 0 {
             self.eyeTargetPositionXLabel.text = "0"
