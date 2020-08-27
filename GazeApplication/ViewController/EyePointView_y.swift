@@ -34,7 +34,7 @@ class EyePointView_y: EyeTrackViewController_y {
     var dataLists = [[""]]
     var frameId: Int = 0
     
-    var eyeTrajectryList: [GazePointer] = []
+    var eyeTrajectryList: [GazeTrajectory] = []
 
 
 //    @IBAction func onClickRecord(_ sender: Any) {
@@ -121,9 +121,13 @@ class EyePointView_y: EyeTrackViewController_y {
         }
         self.eyePositionIndicatorView.transform = CGAffineTransform(translationX: eyeTrack.lookAtPosition.x, y: eyeTrack.lookAtPosition.y)
         
-        let eyeTrajectry = GazePointer(frame: self.gridView.bounds)
+        let eyeTrajectry = GazeTrajectory(frame: self.gridView.bounds)
         eyeTrajectry.center = CGPoint(x: eyeTrack.lookAtPosition.x + view.bounds.width/2, y: eyeTrack.lookAtPosition.y + view.bounds.height/2)
         eyeTrajectryList.append(eyeTrajectry)
+        if(eyeTrajectryList.count > 30){
+            eyeTrajectryList.first?.removeFromSuperview()
+            eyeTrajectryList.removeFirst()
+        }
         self.view.addSubview(eyeTrajectryList[eyeTrajectryList.count - 1])
 
         if eyeTrack.lookAtPoint.x < 0 {

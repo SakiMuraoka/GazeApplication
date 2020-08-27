@@ -122,7 +122,6 @@ extension EyeTrackViewController_y {
     }
 
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
-        print("eyeTrack complete")
         eyeTrack.face.node.transform = node.transform
         guard let faceAnchor = anchor as? ARFaceAnchor else {
             return
