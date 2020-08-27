@@ -145,6 +145,14 @@ class EyePointView_y: EyeTrackViewController_y {
         // Update distance label value
         self.distanceLabel.text = "\(Int(round(eyeTrack.face.getDistanceToDevice() * 100))) cm"
     }
+    
+    override func updateViewWithScene(withFaceAnchor: ARFaceAnchor){
+        if(withFaceAnchor.isTracked){
+            errorLabel.isHidden = true
+        }else{
+            errorLabel.isHidden = false
+        }
+    }
 }
 
 

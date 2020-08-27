@@ -100,6 +100,10 @@ class EyeTrackViewController_y: UIViewController, ARSCNViewDelegate, ARSessionDe
     // Update Some View when updating Face Anchor
     func updateViewWithUpdateAnchor() {
     }
+    
+    func updateViewWithScene(withFaceAnchor: ARFaceAnchor){
+        
+    }
 }
 
 
@@ -119,10 +123,12 @@ extension EyeTrackViewController_y {
         }
         // Update Virtual Device position
         eyeTrack.device.node.transform = sceneTransformInfo
+        updateScene()
     }
 
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
         eyeTrack.face.node.transform = node.transform
+        self.anchor = anchor
         guard let faceAnchor = anchor as? ARFaceAnchor else {
             return
         }
@@ -133,6 +139,16 @@ extension EyeTrackViewController_y {
         DispatchQueue.main.async {
             self.eyeTrack.update(anchor: anchor)
             self.updateViewWithUpdateAnchor()
+        }
+    }
+    
+    func updateScene(){
+        guard let faceAnchor = self.anchor as? ARFaceAnchor else{
+            return
+        }
+        DispatchQueue.main.async{
+            print("updateScene")
+            self.updateViewWithScene(withFaceAnchor: faceAnchor)
         }
     }
 
