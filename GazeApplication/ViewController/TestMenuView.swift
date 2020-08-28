@@ -8,12 +8,18 @@
 
 import UIKit
 
-class TestMenuView: UIViewController, UITableViewDelegate,UITableViewDataSource {
+class TestMenuView: UIViewController, UITableViewDelegate,UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
+    
 
     //スクリーンの横幅、縦幅を定義
     let screenWidth = Int(UIScreen.main.bounds.size.width)
     let screenHeight = Int(UIScreen.main.bounds.size.height)
     let tableRowHeight = 100
+    let margin = 10
+    
+    var pickerViewField: UITextField!
+    var pickerView: UIPickerView = UIPickerView()
+    let dataSource =  ["ユーザ名", "saki", "aaa", "bbb", "ccc"]
 
     //テーブルビューインスタンス作成
     var sampleTableView: UITableView  =   UITableView()
@@ -28,13 +34,28 @@ class TestMenuView: UIViewController, UITableViewDelegate,UITableViewDataSource 
         // タイトルを付けておきましょう
         self.title = "メイン"
         
+        pickerViewField = UITextField(frame: CGRect(x:screenWidth * 25/100, y: screenHeight * 10/100 + margin, width: screenWidth * 50/100, height: 50))
+        pickerViewField.borderStyle = .bezel
+        pickerViewField.inputView = pickerView
+        pickerViewField.tintColor = UIColor.clear
+        pickerViewField.delegate = self
+        pickerViewField.text = dataSource[0]
+
+        
+        self.pickerView.frame = CGRect(x: 0, y: screenHeight * 10/100, width: screenWidth, height: Int(pickerView.bounds.size.height))
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        
         //テーブルビューの設置場所を指定
-        sampleTableView.frame = CGRect(x:screenWidth * 0/100, y:screenHeight * 10/100, width:screenWidth * 100/100, height:tableRowHeight * exampleArray.count)
+        sampleTableView.frame = CGRect(x:0, y:screenHeight * 10/100 + Int(pickerViewField.bounds.size.height) + margin, width:screenWidth, height:tableRowHeight * exampleArray.count)
         sampleTableView.delegate = self
         sampleTableView.dataSource = self
         sampleTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        self.view.addSubview(sampleTableView)
         self.sampleTableView.rowHeight = CGFloat(tableRowHeight)
+        
+        self.view.addSubview(pickerViewField)
+        //self.view.addSubview(pickerView)
+        self.view.addSubview(sampleTableView)
     }
     
     func numberOfSections(in sampleTableView: UITableView) -> Int {
@@ -87,7 +108,38 @@ class TestMenuView: UIViewController, UITableViewDelegate,UITableViewDataSource 
         default:
             break
         }
-       }
+        
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return dataSource[row]
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return dataSource.count
+    }
+
+    // 各選択肢が選ばれた時の操作
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        print(dataSource[row])
+        pickerViewField.text = dataSource[row]
+//        switch row {
+//        case 0:
+//            break
+//        case 1:
+//            break
+//        case 2:
+//            break
+//        case 3:
+//            break
+//        default:
+//            break
+//        }
+    }
 }
 
 
