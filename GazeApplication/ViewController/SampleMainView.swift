@@ -13,6 +13,7 @@ class SampleMainView: UIViewController, UITableViewDelegate,UITableViewDataSourc
     //スクリーンの横幅、縦幅を定義
     let screenWidth = Int(UIScreen.main.bounds.size.width)
     let screenHeight = Int(UIScreen.main.bounds.size.height)
+    let tableRowHeight = 100
 
     //テーブルビューインスタンス作成
     var sampleTableView: UITableView  =   UITableView()
@@ -28,12 +29,12 @@ class SampleMainView: UIViewController, UITableViewDelegate,UITableViewDataSourc
         self.title = "メイン"
         
         //テーブルビューの設置場所を指定
-        sampleTableView.frame = CGRect(x:screenWidth * 0/100, y:screenHeight * 10/100, width:screenWidth * 100/100, height:screenHeight * 80/100)
+        sampleTableView.frame = CGRect(x:screenWidth * 0/100, y:screenHeight * 10/100, width:screenWidth * 100/100, height:tableRowHeight * exampleArray.count)
         sampleTableView.delegate = self
         sampleTableView.dataSource = self
         sampleTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         self.view.addSubview(sampleTableView)
-        self.sampleTableView.rowHeight = 100
+        self.sampleTableView.rowHeight = CGFloat(tableRowHeight)
     }
     
     func numberOfSections(in sampleTableView: UITableView) -> Int {
