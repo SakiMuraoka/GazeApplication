@@ -1,86 +1,41 @@
 //
-//  EyePointView.swift
+//  SampleBrowserView.swift
 //  GazeApplication
 //
-//  Created by 村岡沙紀 on 2020/08/02.
+//  Created by 村岡沙紀 on 2020/07/26.
 //  Copyright © 2020 村岡沙紀. All rights reserved.
 //
 
 import UIKit
 import ARKit
 
-class EyePointView: UIViewController, ARSessionDelegate {
-    var gridView: GridView!
-    var gazePointer: GazePointer!
+class SampleBrowserView: UIViewController, ARSessionDelegate {
     var session: ARSession!
-    
     var windowWidth: CGFloat!
     var windowHeight: CGFloat!
     
-    var label: UILabel!
-    var eyePointTarget: TestEyePointTarget!
+    var toolBar: UIToolbar!
+    var webBrowserView: WebBrowserView!
     
     var mode = ""
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "視線追跡"
-        gridView = GridView(frame: self.view.bounds)
-        gazePointer = GazePointer(frame: self.gridView.bounds)
+        
         session = ARSession()
         
-        label = UILabel()
-        label.frame = CGRect(x: 0, y: 100, width: UIScreen.main.bounds.size.width, height: 44) // 位置とサイズの指定
-        label.textAlignment = NSTextAlignment.center // 横揃えの設定
-        label.textColor = UIColor.black // テキストカラーの設定
-        label.font = UIFont(name: "HiraKakuProN-W6", size: 17) // フォントの設定
-        label.text = "赤い円を見てください"
-        
-        eyePointTarget = TestEyePointTarget(frame: self.view.bounds)
-        
-        self.view.addSubview(gridView)
-        self.view.addSubview(gazePointer)
-        self.view.addSubview(label)
-        self.view.addSubview(eyePointTarget)
+        self.title = "ブラウザ"
         
         self.session.delegate = self
-        
         self.windowWidth = self.view.frame.width
         self.windowHeight = self.view.frame.height
         
-        if mode == "demo"{
-            moveTarget(fig: eyePointTarget)
-        }
+        webBrowserView = WebBrowserView(frame: self.view.bounds)
+        webBrowserView.loadUrl(url: "https://www.google.co.jp/")
+        self.view.addSubview(webBrowserView)
+        print(mode)
     }
     
-        func moveTarget(fig: UIView) {
-            let screenWidth = self.view.bounds.width
-            let screenHeight = self.view.bounds.height
-            
-        //初期位置を左上にセット
-        fig.center = CGPoint(x: 3*screenWidth/6, y: screenHeight/4)
-        
-        //アニメーション
-        UIView.animate(withDuration: 0, delay: 3, options:[.curveLinear], animations: {
-                //fig.center.x += (screenWidth-figSize)
-            fig.center = CGPoint(x: 5*screenWidth/6, y: screenHeight/2)
-            }, completion: { finished in
-                UIView.animate(withDuration: 0, delay: 3, options: [.curveLinear], animations: {
-                        fig.center = CGPoint(x: 3*screenWidth/6, y: 3*screenHeight/4)
-                    }, completion: { finished in
-                        UIView.animate(withDuration: 0, delay: 3, options:[.curveLinear], animations: {
-                                fig.center = CGPoint(x: screenWidth/6, y: 2*screenHeight/4)
-                            }, completion: { finished in
-                                UIView.animate(withDuration: 0, delay: 3, options: [.curveLinear], animations: {
-                                        fig.center = CGPoint(x: 3*screenWidth/6, y: screenHeight/4)
-                                    }, completion: { finished in
-                                        self.moveTarget(fig: fig)
-                                    })
-                            })
-                    })
-            })
-    }
-    
+    //視線の処理---------
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         resetTracking()
@@ -89,10 +44,6 @@ class EyePointView: UIViewController, ARSessionDelegate {
     func resetTracking() {
         let configration = ARFaceTrackingConfiguration()    //front-facingカメラを使ったAR
         self.session.run(configration, options: [.resetTracking, .removeExistingAnchors])   //ARSessionの開始
-    }
-    
-    func movePointer(to: CGPoint){
-        self.gazePointer.center = to
     }
     
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
@@ -144,7 +95,6 @@ class EyePointView: UIViewController, ARSessionDelegate {
                         eyesCenter.z + k * point[2] - cameraOnFaceNode.z
                     ]
                 
-                
                 let hardWidth = 70.9
                 let hardHeight = 143.6
                 var milliIntersection = Array<CGFloat>(repeating: 0, count: 3)
@@ -160,8 +110,9 @@ class EyePointView: UIViewController, ARSessionDelegate {
                 //gazePointer.cordinationConvertor(lookAt: milliIntersection)
                 let gazex = CGFloat(milliIntersection[0]) + self.windowWidth/2
                 let gazey = -CGFloat(milliIntersection[1]) + self.windowHeight/2
-                self.movePointer(to: CGPoint(x: gazex, y: gazey))
+                self.webBrowserView.movePointer(to: CGPoint(x: gazex, y: gazey))
             }
         }
     }
+    //---------------------------------
 }
