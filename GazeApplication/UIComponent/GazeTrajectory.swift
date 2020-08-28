@@ -1,14 +1,15 @@
 //
-//  GazePointer.swift
+//  GazeTrajectory.swift
 //  GazeApplication
 //
-//  Created by 村岡沙紀 on 2020/07/22.
+//  Created by 村岡沙紀 on 2020/08/27.
 //  Copyright © 2020 村岡沙紀. All rights reserved.
 //
 
+
 import UIKit
 
-class GazePointer: UIView {
+class GazeTrajectory: UIView {
     var x: CGFloat!
     var y: CGFloat!
     var locationOffset: CGFloat!
@@ -42,15 +43,15 @@ class GazePointer: UIView {
         circle = UIBezierPath(arcCenter: CGPoint(x: self.radius + self.locationOffset, y: self.radius + self.locationOffset), radius: self.radius, startAngle: 0, endAngle: CGFloat(Double.pi)*2, clockwise: true)
 
         // 内側の色
-        circleColor.withAlphaComponent(0.4).setFill()
+        circleColor.withAlphaComponent(0.1).setFill()
         // 内側を塗りつぶす
         circle.fill()
         // 線の色
-        circleColor.setStroke()
+        //circleColor.setStroke()
         // 線の太さ
-        circle.lineWidth = 1.0
+        //circle.lineWidth = 1.0
         // 線を塗りつぶす
-        circle.stroke()
+        //circle.stroke()
     }
     
 //    func cordinationConvertor(lookAt: [CGFloat]){
@@ -63,3 +64,4 @@ class GazePointer: UIView {
 //        self.setNeedsDisplay()
 //    }
 }
+

@@ -3,18 +3,33 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CF594DD324CEEBA000ECE614 /* SampleGazePointView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF594DD224CEEBA000ECE614 /* SampleGazePointView.swift */; };
+		CF3D94F624D586DD003D48D5 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3D94F524D586DD003D48D5 /* HomeView.swift */; };
+		CF3FB3A024F23BDD00750743 /* EyePointView_y.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3FB39F24F23BDD00750743 /* EyePointView_y.swift */; };
+		CF3FB3A324F7C6DA00750743 /* GazeTrajectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3FB3A224F7C6DA00750743 /* GazeTrajectory.swift */; };
+		CF4DE3EA24E5694200EAC19D /* CsvModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4DE3E924E5694200EAC19D /* CsvModel.swift */; };
+		CF558CFE24D66C8000396A55 /* DemoMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF558CFD24D66C8000396A55 /* DemoMenuView.swift */; };
+		CF558D0224D66EA500396A55 /* TestMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF558D0124D66EA500396A55 /* TestMenuView.swift */; };
+		CF558D0424D67D2300396A55 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF558D0324D67D2300396A55 /* Main.storyboard */; };
+		CF558D0624D6812000396A55 /* EyePointView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF558D0524D6812000396A55 /* EyePointView.swift */; };
+		CF558D0824D685A900396A55 /* TestEyePointTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF558D0724D685A900396A55 /* TestEyePointTarget.swift */; };
 		CF5B0CFD24C84AC2003943EF /* GazePointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5B0CFC24C84AC2003943EF /* GazePointer.swift */; };
+		CF9BD2E724EB603900D0BC21 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF9BD2E624EB603900D0BC21 /* WebKit.framework */; };
+		CF9BD2F724ECD0B500D0BC21 /* ViewController_y.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9BD2F624ECD0B500D0BC21 /* ViewController_y.swift */; };
+		CF9BD2FB24ECD0E500D0BC21 /* Node_y.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9BD2FA24ECD0E500D0BC21 /* Node_y.swift */; };
+		CF9BD2FD24ECD0F800D0BC21 /* EyeTrackViewController_y.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9BD2FC24ECD0F800D0BC21 /* EyeTrackViewController_y.swift */; };
+		CF9BD2FF24ECD10700D0BC21 /* EyeTrack_y.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9BD2FE24ECD10700D0BC21 /* EyeTrack_y.swift */; };
+		CF9BD30124ECD16100D0BC21 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9BD30024ECD16100D0BC21 /* Extension.swift */; };
 		CFA6E27C24CDAAAB00D73177 /* SampleBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA6E27B24CDAAAB00D73177 /* SampleBrowserView.swift */; };
 		CFA6E27E24CDAAF900D73177 /* WebBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA6E27D24CDAAF900D73177 /* WebBrowserView.swift */; };
+		CFC39C4D24ECD752002DCF22 /* ARVideoKit in Frameworks */ = {isa = PBXBuildFile; productRef = CFC39C4C24ECD752002DCF22 /* ARVideoKit */; };
+		CFC39C4F24ECD8E9002DCF22 /* EyeTrackDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC39C4E24ECD8E9002DCF22 /* EyeTrackDelegate.swift */; };
 		CFCD667B24C55D000066E1B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFCD667A24C55D000066E1B2 /* AppDelegate.swift */; };
 		CFCD667D24C55D000066E1B2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFCD667C24C55D000066E1B2 /* SceneDelegate.swift */; };
 		CFCD667F24C55D000066E1B2 /* SampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFCD667E24C55D000066E1B2 /* SampleView.swift */; };
-		CFCD668224C55D000066E1B2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFCD668024C55D000066E1B2 /* Main.storyboard */; };
 		CFCD668424C55D050066E1B2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CFCD668324C55D050066E1B2 /* Assets.xcassets */; };
 		CFCD668724C55D050066E1B2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFCD668524C55D050066E1B2 /* LaunchScreen.storyboard */; };
 		CFCD669024C55DCC0066E1B2 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFCD668F24C55DCC0066E1B2 /* GridView.swift */; };
@@ -24,6 +39,8 @@
 		CFCD669824C56F270066E1B2 /* FaceDirectionArrowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFCD669724C56F270066E1B2 /* FaceDirectionArrowView.swift */; };
 		CFCD669A24C574B50066E1B2 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFCD669924C574B50066E1B2 /* MapView.swift */; };
 		CFCD669C24C578FF0066E1B2 /* SampleMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFCD669B24C578FF0066E1B2 /* SampleMapView.swift */; };
+		CFEBA69F24D4EE3500BFF21E /* SampleMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEBA69E24D4EE3500BFF21E /* SampleMainView.swift */; };
+		CFEBA6A524D4FBD100BFF21E /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEBA6A424D4FBD100BFF21E /* IconView.swift */; };
 		CFF8F39724CBE6B500BDD546 /* SampleGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF8F39624CBE6B500BDD546 /* SampleGalleryView.swift */; };
 		CFF8F39924CBE7ED00BDD546 /* GridFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF8F39824CBE7ED00BDD546 /* GridFlowLayout.swift */; };
 		CFF8F39B24CBE8FB00BDD546 /* ListFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF8F39A24CBE8FB00BDD546 /* ListFlowLayout.swift */; };
@@ -35,15 +52,29 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		CF594DD224CEEBA000ECE614 /* SampleGazePointView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleGazePointView.swift; sourceTree = "<group>"; };
+		CF3D94F524D586DD003D48D5 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		CF3FB39F24F23BDD00750743 /* EyePointView_y.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyePointView_y.swift; sourceTree = "<group>"; };
+		CF3FB3A224F7C6DA00750743 /* GazeTrajectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GazeTrajectory.swift; path = GazeApplication/UIComponent/GazeTrajectory.swift; sourceTree = SOURCE_ROOT; };
+		CF4DE3E924E5694200EAC19D /* CsvModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CsvModel.swift; sourceTree = "<group>"; };
+		CF558CFD24D66C8000396A55 /* DemoMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoMenuView.swift; sourceTree = "<group>"; };
+		CF558D0124D66EA500396A55 /* TestMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMenuView.swift; sourceTree = "<group>"; };
+		CF558D0324D67D2300396A55 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		CF558D0524D6812000396A55 /* EyePointView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyePointView.swift; sourceTree = "<group>"; };
+		CF558D0724D685A900396A55 /* TestEyePointTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestEyePointTarget.swift; sourceTree = "<group>"; };
 		CF5B0CFC24C84AC2003943EF /* GazePointer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GazePointer.swift; sourceTree = "<group>"; };
+		CF9BD2E624EB603900D0BC21 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		CF9BD2F624ECD0B500D0BC21 /* ViewController_y.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController_y.swift; sourceTree = SOURCE_ROOT; };
+		CF9BD2FA24ECD0E500D0BC21 /* Node_y.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node_y.swift; sourceTree = "<group>"; };
+		CF9BD2FC24ECD0F800D0BC21 /* EyeTrackViewController_y.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeTrackViewController_y.swift; sourceTree = "<group>"; };
+		CF9BD2FE24ECD10700D0BC21 /* EyeTrack_y.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeTrack_y.swift; sourceTree = "<group>"; };
+		CF9BD30024ECD16100D0BC21 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		CFA6E27B24CDAAAB00D73177 /* SampleBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleBrowserView.swift; sourceTree = "<group>"; };
 		CFA6E27D24CDAAF900D73177 /* WebBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebBrowserView.swift; sourceTree = "<group>"; };
+		CFC39C4E24ECD8E9002DCF22 /* EyeTrackDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeTrackDelegate.swift; sourceTree = "<group>"; };
 		CFCD667724C55D000066E1B2 /* GazeApplication.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GazeApplication.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFCD667A24C55D000066E1B2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CFCD667C24C55D000066E1B2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		CFCD667E24C55D000066E1B2 /* SampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleView.swift; sourceTree = "<group>"; };
-		CFCD668124C55D000066E1B2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CFCD668324C55D050066E1B2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CFCD668624C55D050066E1B2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CFCD668824C55D050066E1B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -54,6 +85,8 @@
 		CFCD669724C56F270066E1B2 /* FaceDirectionArrowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceDirectionArrowView.swift; sourceTree = "<group>"; };
 		CFCD669924C574B50066E1B2 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		CFCD669B24C578FF0066E1B2 /* SampleMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleMapView.swift; sourceTree = "<group>"; };
+		CFEBA69E24D4EE3500BFF21E /* SampleMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleMainView.swift; sourceTree = "<group>"; };
+		CFEBA6A424D4FBD100BFF21E /* IconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconView.swift; sourceTree = "<group>"; };
 		CFF8F39624CBE6B500BDD546 /* SampleGalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleGalleryView.swift; sourceTree = "<group>"; };
 		CFF8F39824CBE7ED00BDD546 /* GridFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridFlowLayout.swift; sourceTree = "<group>"; };
 		CFF8F39A24CBE8FB00BDD546 /* ListFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListFlowLayout.swift; sourceTree = "<group>"; };
@@ -69,17 +102,66 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CFC39C4D24ECD752002DCF22 /* ARVideoKit in Frameworks */,
+				CF9BD2E724EB603900D0BC21 /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CF3FB3A124F3EFE900750743 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		CF4DE3EB24E569E600EAC19D /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CF3D94F524D586DD003D48D5 /* HomeView.swift */,
+				CFCD667E24C55D000066E1B2 /* SampleView.swift */,
+				CFCD669B24C578FF0066E1B2 /* SampleMapView.swift */,
+				CFEBA69E24D4EE3500BFF21E /* SampleMainView.swift */,
+				CF558CFD24D66C8000396A55 /* DemoMenuView.swift */,
+				CF558D0124D66EA500396A55 /* TestMenuView.swift */,
+				CFF8F39624CBE6B500BDD546 /* SampleGalleryView.swift */,
+				CFA6E27B24CDAAAB00D73177 /* SampleBrowserView.swift */,
+				CF558D0524D6812000396A55 /* EyePointView.swift */,
+				CF3FB39F24F23BDD00750743 /* EyePointView_y.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		CF9BD2E524EB603800D0BC21 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CF9BD2E624EB603900D0BC21 /* WebKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CF9BD2F324ECCD6400D0BC21 /* yamato's app */ = {
+			isa = PBXGroup;
+			children = (
+				CF9BD2FE24ECD10700D0BC21 /* EyeTrack_y.swift */,
+				CF9BD2F624ECD0B500D0BC21 /* ViewController_y.swift */,
+				CF9BD2FA24ECD0E500D0BC21 /* Node_y.swift */,
+				CF9BD2FC24ECD0F800D0BC21 /* EyeTrackViewController_y.swift */,
+				CF9BD30024ECD16100D0BC21 /* Extension.swift */,
+				CFC39C4E24ECD8E9002DCF22 /* EyeTrackDelegate.swift */,
+			);
+			path = "yamato's app";
+			sourceTree = "<group>";
+		};
 		CFCD666E24C55D000066E1B2 = {
 			isa = PBXGroup;
 			children = (
+				CF3FB3A124F3EFE900750743 /* Data */,
 				CFCD667924C55D000066E1B2 /* GazeApplication */,
 				CFCD667824C55D000066E1B2 /* Products */,
+				CF9BD2E524EB603800D0BC21 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -94,15 +176,12 @@
 		CFCD667924C55D000066E1B2 /* GazeApplication */ = {
 			isa = PBXGroup;
 			children = (
+				CF4DE3EB24E569E600EAC19D /* ViewController */,
 				CFCD668E24C55D7F0066E1B2 /* UIComponent */,
 				CFCD667A24C55D000066E1B2 /* AppDelegate.swift */,
 				CFCD667C24C55D000066E1B2 /* SceneDelegate.swift */,
-				CFCD667E24C55D000066E1B2 /* SampleView.swift */,
-				CFCD669B24C578FF0066E1B2 /* SampleMapView.swift */,
-				CFF8F39624CBE6B500BDD546 /* SampleGalleryView.swift */,
-				CFA6E27B24CDAAAB00D73177 /* SampleBrowserView.swift */,
-				CF594DD224CEEBA000ECE614 /* SampleGazePointView.swift */,
-				CFCD668024C55D000066E1B2 /* Main.storyboard */,
+				CF4DE3E924E5694200EAC19D /* CsvModel.swift */,
+				CF558D0324D67D2300396A55 /* Main.storyboard */,
 				CFCD668324C55D050066E1B2 /* Assets.xcassets */,
 				CFCD668524C55D050066E1B2 /* LaunchScreen.storyboard */,
 				CFCD668824C55D050066E1B2 /* Info.plist */,
@@ -113,6 +192,8 @@
 		CFCD668E24C55D7F0066E1B2 /* UIComponent */ = {
 			isa = PBXGroup;
 			children = (
+				CF9BD2F324ECCD6400D0BC21 /* yamato's app */,
+				CF3FB3A224F7C6DA00750743 /* GazeTrajectory.swift */,
 				CFCD668F24C55DCC0066E1B2 /* GridView.swift */,
 				CFCD669124C55FB10066E1B2 /* LookAtPosition.swift */,
 				CFCD669324C5611F0066E1B2 /* LookAtPositionLabel.swift */,
@@ -127,7 +208,9 @@
 				CFF8F3A224CBFA9600BDD546 /* CollectionViewHeader..swift */,
 				CFF8F3A424CBFAB700BDD546 /* CollectionViewCell.swift */,
 				CFF8F39E24CBEA0C00BDD546 /* ImageGalleryView.swift */,
+				CF558D0724D685A900396A55 /* TestEyePointTarget.swift */,
 				CFA6E27D24CDAAF900D73177 /* WebBrowserView.swift */,
+				CFEBA6A424D4FBD100BFF21E /* IconView.swift */,
 			);
 			path = UIComponent;
 			sourceTree = "<group>";
@@ -148,6 +231,9 @@
 			dependencies = (
 			);
 			name = GazeApplication;
+			packageProductDependencies = (
+				CFC39C4C24ECD752002DCF22 /* ARVideoKit */,
+			);
 			productName = GazeApplication;
 			productReference = CFCD667724C55D000066E1B2 /* GazeApplication.app */;
 			productType = "com.apple.product-type.application";
@@ -176,6 +262,9 @@
 				Base,
 			);
 			mainGroup = CFCD666E24C55D000066E1B2;
+			packageReferences = (
+				CFC39C4B24ECD752002DCF22 /* XCRemoteSwiftPackageReference "ARVideoKit" */,
+			);
 			productRefGroup = CFCD667824C55D000066E1B2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -190,9 +279,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF558D0424D67D2300396A55 /* Main.storyboard in Resources */,
 				CFCD668724C55D050066E1B2 /* LaunchScreen.storyboard in Resources */,
 				CFCD668424C55D050066E1B2 /* Assets.xcassets in Resources */,
-				CFCD668224C55D000066E1B2 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,22 +295,37 @@
 				CFCD667F24C55D000066E1B2 /* SampleView.swift in Sources */,
 				CFCD669224C55FB10066E1B2 /* LookAtPosition.swift in Sources */,
 				CFF8F3A524CBFAB700BDD546 /* CollectionViewCell.swift in Sources */,
+				CF3D94F624D586DD003D48D5 /* HomeView.swift in Sources */,
 				CFCD667B24C55D000066E1B2 /* AppDelegate.swift in Sources */,
+				CF558D0624D6812000396A55 /* EyePointView.swift in Sources */,
+				CF9BD2FD24ECD0F800D0BC21 /* EyeTrackViewController_y.swift in Sources */,
 				CFF8F39B24CBE8FB00BDD546 /* ListFlowLayout.swift in Sources */,
 				CFA6E27E24CDAAF900D73177 /* WebBrowserView.swift in Sources */,
+				CF558D0224D66EA500396A55 /* TestMenuView.swift in Sources */,
 				CFF8F39724CBE6B500BDD546 /* SampleGalleryView.swift in Sources */,
 				CFCD669424C5611F0066E1B2 /* LookAtPositionLabel.swift in Sources */,
 				CFF8F3A124CBFA3C00BDD546 /* CollectionView.swift in Sources */,
 				CFCD669024C55DCC0066E1B2 /* GridView.swift in Sources */,
 				CFCD669824C56F270066E1B2 /* FaceDirectionArrowView.swift in Sources */,
+				CF3FB3A324F7C6DA00750743 /* GazeTrajectory.swift in Sources */,
+				CF4DE3EA24E5694200EAC19D /* CsvModel.swift in Sources */,
+				CFC39C4F24ECD8E9002DCF22 /* EyeTrackDelegate.swift in Sources */,
 				CFCD669624C56B780066E1B2 /* EyeBlinkView.swift in Sources */,
 				CFA6E27C24CDAAAB00D73177 /* SampleBrowserView.swift in Sources */,
+				CF3FB3A024F23BDD00750743 /* EyePointView_y.swift in Sources */,
+				CF558CFE24D66C8000396A55 /* DemoMenuView.swift in Sources */,
+				CFEBA6A524D4FBD100BFF21E /* IconView.swift in Sources */,
 				CF5B0CFD24C84AC2003943EF /* GazePointer.swift in Sources */,
-				CF594DD324CEEBA000ECE614 /* SampleGazePointView.swift in Sources */,
 				CFCD669A24C574B50066E1B2 /* MapView.swift in Sources */,
 				CFF8F3A324CBFA9600BDD546 /* CollectionViewHeader..swift in Sources */,
+				CF9BD2FF24ECD10700D0BC21 /* EyeTrack_y.swift in Sources */,
+				CF9BD2FB24ECD0E500D0BC21 /* Node_y.swift in Sources */,
+				CF9BD2F724ECD0B500D0BC21 /* ViewController_y.swift in Sources */,
+				CF9BD30124ECD16100D0BC21 /* Extension.swift in Sources */,
 				CFF8F39924CBE7ED00BDD546 /* GridFlowLayout.swift in Sources */,
 				CFF8F3A724CC07AE00BDD546 /* CollectionViewData.swift in Sources */,
+				CF558D0824D685A900396A55 /* TestEyePointTarget.swift in Sources */,
+				CFEBA69F24D4EE3500BFF21E /* SampleMainView.swift in Sources */,
 				CFCD667D24C55D000066E1B2 /* SceneDelegate.swift in Sources */,
 				CFCD669C24C578FF0066E1B2 /* SampleMapView.swift in Sources */,
 				CFF8F39F24CBEA0C00BDD546 /* ImageGalleryView.swift in Sources */,
@@ -231,14 +335,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		CFCD668024C55D000066E1B2 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CFCD668124C55D000066E1B2 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		CFCD668524C55D050066E1B2 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -424,6 +520,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CFC39C4B24ECD752002DCF22 /* XCRemoteSwiftPackageReference "ARVideoKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AFathi/ARVideoKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CFC39C4C24ECD752002DCF22 /* ARVideoKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CFC39C4B24ECD752002DCF22 /* XCRemoteSwiftPackageReference "ARVideoKit" */;
+			productName = ARVideoKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CFCD666F24C55D000066E1B2 /* Project object */;
 }

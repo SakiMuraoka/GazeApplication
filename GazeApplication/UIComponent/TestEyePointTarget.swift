@@ -1,14 +1,13 @@
 //
-//  GazePointer.swift
+//  TestEyePointTarget.swift
 //  GazeApplication
 //
-//  Created by 村岡沙紀 on 2020/07/22.
+//  Created by 村岡沙紀 on 2020/08/02.
 //  Copyright © 2020 村岡沙紀. All rights reserved.
 //
-
 import UIKit
 
-class GazePointer: UIView {
+class TestEyePointTarget: UIView {
     var x: CGFloat!
     var y: CGFloat!
     var locationOffset: CGFloat!
@@ -18,25 +17,24 @@ class GazePointer: UIView {
 
     var windowWidth: CGFloat!
     var windowHeight: CGFloat!
-    var length: CGFloat!
+    var mode = ""
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.x = frame.width/2
         self.y = frame.height/2
         self.locationOffset = 1
-        self.radius = frame.width/15
-        self.length = frame.width/8
-        self.circleColor = UIColor.gray
+        self.radius = frame.width/10
+        self.circleColor = UIColor.red
         self.backgroundColor = UIColor.clear
-        
-        self.frame = CGRect(origin: CGPoint(x: self.x - (self.radius + self.locationOffset), y: self.y - (self.radius - self.locationOffset)), size: CGSize(width: self.radius*2+locationOffset*2, height: self.radius*2+locationOffset*2))
+         
+        self.frame = CGRect(origin: CGPoint(x: self.x - (self.radius + self.locationOffset), y: self.y - (self.radius - self.locationOffset + 300)), size: CGSize(width: self.radius*2+locationOffset*2, height: self.radius*2+locationOffset*2))
     }
-    
+     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+         fatalError("init(coder:) has not been implemented")
+     }
+     
     override func draw(_ rect: CGRect) {
         // 円
         circle = UIBezierPath(arcCenter: CGPoint(x: self.radius + self.locationOffset, y: self.radius + self.locationOffset), radius: self.radius, startAngle: 0, endAngle: CGFloat(Double.pi)*2, clockwise: true)
@@ -53,13 +51,9 @@ class GazePointer: UIView {
         circle.stroke()
     }
     
-//    func cordinationConvertor(lookAt: [CGFloat]){
-//        //スクリーン座標へ変換
-//        self.x = CGFloat(lookAt[0]) + self.windowWidth/2
-//        self.y = -CGFloat(lookAt[1]) + self.windowHeight/2
-//        self.length = self.defaultLength - CGFloat(lookAt[2])
-//        print("x: \(String(describing: self.posx)), y: \(String(describing: self.posy)), z: \(String(describing: self.length))")
-//        print(x.description + "," + posy.description)
-//        self.setNeedsDisplay()
-//    }
+    func Resize(radius: CGFloat){
+        self.radius = radius
+        self.setNeedsDisplay()
+    }
 }
+     
