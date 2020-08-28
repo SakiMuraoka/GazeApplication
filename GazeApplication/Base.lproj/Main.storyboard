@@ -7,10 +7,21 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+<<<<<<< HEAD
+        <!--Sample Browser View-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="SampleBrowserView" customModule="GazeApplication" customModuleProvider="target" sceneMemberID="viewController">
+=======
         <!--Sample Main View-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="SampleMainView" customModule="GazeApplication" customModuleProvider="target" sceneMemberID="viewController">
+<<<<<<< HEAD
+>>>>>>> feature/map
+=======
+>>>>>>> feature/testMenuView
+>>>>>>> e8e0c49224453830f277e4019821e6f951e3764f
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -38,6 +49,36 @@
             </objects>
             <point key="canvasLocation" x="1165" y="114"/>
         </scene>
+        <!--Demo Menu View-->
+        <scene sceneID="xwu-7u-RLy">
+            <objects>
+                <viewController storyboardIdentifier="demoMenuView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Jjh-4L-b5k" customClass="DemoMenuView" customModule="GazeApplication" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="yzB-zM-OPT">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="OSX-bU-Tx7"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UbF-Qd-xQf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1936" y="114"/>
+        </scene>
+        <!--Test Menu View-->
+        <scene sceneID="Wf9-ed-abn">
+            <objects>
+                <viewController storyboardIdentifier="testMenuView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Wzc-ZK-aCi" customClass="TestMenuView" customModule="GazeApplication" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0I0-5o-pK5">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="fFy-Fg-XFI"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GEu-fD-nA0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2614" y="114"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="s2h-UB-aLG">
             <objects>
@@ -53,6 +94,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GfU-0E-oDg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-649" y="114"/>
+        </scene>
+        <!--Sample Map View-->
+        <scene sceneID="EVf-JZ-Y32">
+            <objects>
+                <viewController storyboardIdentifier="mapView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Ysh-Hn-7wg" customClass="SampleMapView" customModule="GazeApplication" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="pCK-Df-8BM">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="HC9-Ih-Yxe"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Zig-PM-Qam" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="138" y="783"/>
         </scene>
     </scenes>
 </document>

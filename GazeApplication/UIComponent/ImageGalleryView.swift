@@ -18,6 +18,8 @@ class ImageGalleryView: UIView, UICollectionViewDelegate, UICollectionViewDataSo
     
     var collectionViewData = CollectionViewData()
     
+    let gazePointer: GazePointer!
+    
     override init(frame: CGRect) {
         //UISegmentedControlの作成と初期化
         segmentedControlTitle = ["リスト", "グリッド"]
@@ -28,11 +30,15 @@ class ImageGalleryView: UIView, UICollectionViewDelegate, UICollectionViewDataSo
         collectionView.backgroundColor = UIColor.white
         collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
         collectionView.register(CollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "Header")
+        
+        gazePointer = GazePointer(frame: frame)
               
         super.init(frame: frame)
         //Viewを追加
         self.addSubview(segmentedControl)
         self.addSubview(collectionView)
+        
+        self.addSubview(gazePointer)
         
         //segmentedControlのイベント初期化
         segmentedControl.addTarget(self, action: #selector(segmentedControlChenged(_:)), for: UIControl.Event.valueChanged)
@@ -111,5 +117,17 @@ class ImageGalleryView: UIView, UICollectionViewDelegate, UICollectionViewDataSo
     // ヘッダーのサイズ
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: self.frame.size.width, height:50)
+    }
+    
+    func movePointer(to: CGPoint){
+        self.gazePointer.center = to
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first, let view = touch.view else { return }
+
+        if view == self.gazePointer {
+            view.center = touch.location(in: self)
+        }
     }
 }

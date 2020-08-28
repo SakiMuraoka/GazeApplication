@@ -1,41 +1,65 @@
 //
-//  SampleGazePointView.swift
+//  HomeView.swift
 //  GazeApplication
 //
-//  Created by 村岡沙紀 on 2020/07/27.
+//  Created by 村岡沙紀 on 2020/08/01.
 //  Copyright © 2020 村岡沙紀. All rights reserved.
 //
 
 import UIKit
 import ARKit
 
-class SampleGazePointView: UIViewController, ARSessionDelegate {
-    var gridView: GridView!
-    var gazePointer: GazePointer!
+class HomeView: UIViewController, ARSessionDelegate {
     var session: ARSession!
-    
     var windowWidth: CGFloat!
     var windowHeight: CGFloat!
     
+    var iconView: IconView!
+    
+    var mode = ""
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        gridView = GridView(frame: self.view.bounds)
-        gazePointer = GazePointer(frame: self.gridView.bounds)
+        
         session = ARSession()
         
-        self.view.addSubview(gridView)
-        self.view.addSubview(gazePointer)
+        iconView = IconView(frame: self.view.bounds)
+        self.view.addSubview(iconView)
         
+        iconView.mapIcon.addTarget(self,action: #selector(self.tapButton(_ :)),for: .touchUpInside)
+        iconView.galleryIcon.addTarget(self,action: #selector(self.tapButton(_ :)),for: .touchUpInside)
+        iconView.browserIcon.addTarget(self,action: #selector(self.tapButton(_ :)),for: .touchUpInside)
+        
+        self.title = "ホーム"
         self.session.delegate = self
-        
         self.windowWidth = self.view.frame.width
         self.windowHeight = self.view.frame.height
+        self.mode  = "デモ"
     }
     
-    func gazeInit(){
-        
+    @objc func tapButton(_ sender: UIButton){
+        if mode == "デモ"{
+            switch sender.accessibilityIdentifier{
+            case "map":
+                let nextView = self.storyboard!.instantiateViewController(withIdentifier: "mapView")
+                self.navigationController?.pushViewController(nextView, animated: true)
+                break
+            case "gallery":
+                let nextView = self.storyboard!.instantiateViewController(withIdentifier: "galleryView")
+                self.navigationController?.pushViewController(nextView, animated: true)
+                break
+            case "browser":
+                let nextView = self.storyboard!.instantiateViewController(withIdentifier: "browserView")
+                self.navigationController?.pushViewController(nextView, animated: true)
+                break
+            default:
+                break
+            }
+        }
     }
     
+    //視線の処理---------
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         resetTracking()
@@ -58,14 +82,14 @@ class SampleGazePointView: UIViewController, ARSessionDelegate {
             let cameraTransform = frame.camera.transform    //カメラの位置と向きの情報
         
             //world cordinationにおけるカメラの座標（絶対(0,0,0))
-            let cameraPosition = SCNVector3Make(cameraTransform.columns.3.x, cameraTransform.columns.3.y - 0.0718, cameraTransform.columns.3.z)
+            let cameraPosition = SCNVector3Make(cameraTransform.columns.3.x, cameraTransform.columns.3.y, cameraTransform.columns.3.z)
             
             
             //face cordinate spaceにおけるカメラの座標（のはず）
             let cameraOnFaceNode = faceNode.convertPosition(cameraPosition, from: nil)
             
             //カメラの向き
-            let cameraAngle = SCNVector3Make(cameraTransform.columns.3.x, cameraTransform.columns.3.y - 0.0718, cameraTransform.columns.3.z)
+            let cameraAngle = SCNVector3Make(cameraTransform.columns.3.x, cameraTransform.columns.3.y, cameraTransform.columns.3.z)
             let cameraAngleFaceNode = faceNode.convertPosition(cameraAngle, to: nil)
             
             let leftEye = faceAnchor.leftEyeTransform
@@ -108,7 +132,11 @@ class SampleGazePointView: UIViewController, ARSessionDelegate {
                 milliIntersection[1] = milliIntersection[1] * heightRate
                 //print("x: \(String(describing: milliIntersection[0])), y: \(String(describing: milliIntersection[1]))")
                 //gazePointer.cordinationConvertor(lookAt: milliIntersection)
+                let gazex = CGFloat(milliIntersection[0]) + self.windowWidth/2
+                let gazey = -CGFloat(milliIntersection[1]) + self.windowHeight/2
+                self.iconView.movePointer(to: CGPoint(x: gazex, y: gazey))
             }
         }
     }
+    //---------------------------------
 }
