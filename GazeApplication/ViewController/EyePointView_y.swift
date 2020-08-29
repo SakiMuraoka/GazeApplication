@@ -85,7 +85,9 @@ class EyePointView_y: EyeTrackViewController_y {
         dataButton.sizeToFit()
         dataButton.center = CGPoint(x: self.view.center.x, y: self.view.bounds.height - 100)
         dataButton.addTarget(self, action: #selector(dataButtonClick(_:)), for: UIControl.Event.touchUpInside)
-        
+        if(mode == "test"){
+            dataButton.isHidden = true
+        }
         
         self.view.addSubview(gridView)
         self.view.addSubview(eyePositionIndicatorView)
@@ -102,18 +104,18 @@ class EyePointView_y: EyeTrackViewController_y {
     }
     
     @objc func dataButtonClick(_ sender: UIButton){
-//        let now = NSDate()
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
-//        let time = formatter.string(from: now as Date)
-//        self.frameId += 1
-//        let data = [eyeTrack.lookAtPosition.x, eyeTrack.lookAtPosition.y,]
-//        var dataString: [String] = [String(frameId), time,]
-//        for i in 0..<data.count {
-//            dataString.append(String(format: "%.8f", data[i]))
-//        }
-//        //print(dataString)
-//        dataLists.append(dataString)
+        let now = NSDate()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+        let time = formatter.string(from: now as Date)
+        self.frameId += 1
+        let data = [eyeTrack.lookAtPosition.x, eyeTrack.lookAtPosition.y,]
+        var dataString: [String] = [String(frameId), time, mode]
+        for i in 0..<data.count {
+            dataString.append(String(format: "%.8f", data[i]))
+        }
+        //print(dataString)
+        dataLists.append(dataString)
     }
     
     @objc func recordButtonClick(_ sender: UIButton){
@@ -132,9 +134,10 @@ class EyePointView_y: EyeTrackViewController_y {
         let time = timeToString(date: Date())
         let fileName = csvModel.convertConditionsToFileName(name: username, conditions: [time, "gaze"])
         let data = csvModel.convertFigureListToString(dataLists: dataLists)
-        let dataRows = ["frameId", "timestamp", "lookAtPosition_x", "lookAtPosition_y",]
+        let dataRows = ["frameId", "timestamp", "mode", "lookAtPosition_x", "lookAtPosition_y",]
         let rowNames = csvModel.convertDataToCSV(list: dataRows)
         csvModel.write(fileName: fileName, rowsName: rowNames, dataList: data)
+        recordState = false
     }
 
     override func updateViewWithUpdateAnchor() {
@@ -145,7 +148,7 @@ class EyePointView_y: EyeTrackViewController_y {
             let time = formatter.string(from: now as Date)
             self.frameId += 1
             let data = [eyeTrack.lookAtPosition.x, eyeTrack.lookAtPosition.y,]
-            var dataString: [String] = [String(frameId), time,]
+            var dataString: [String] = [String(frameId), time, mode]
             for i in 0..<data.count {
                 dataString.append(String(format: "%.8f", data[i]))
             }

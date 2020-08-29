@@ -147,7 +147,6 @@ extension EyeTrackViewController_y {
             return
         }
         DispatchQueue.main.async{
-            print("updateScene")
             self.updateViewWithScene(withFaceAnchor: faceAnchor)
         }
     }
