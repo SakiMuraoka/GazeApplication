@@ -17,6 +17,7 @@ class HomeView: UIViewController, ARSessionDelegate {
     var iconView: IconView!
     
     var mode = ""
+    var username = ""
     
     
     override func viewDidLoad() {

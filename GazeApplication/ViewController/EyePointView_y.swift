@@ -27,6 +27,7 @@ class EyePointView_y: EyeTrackViewController_y {
     var errorLabel: UILabel!
     
     var mode = ""
+    var username = ""
     
     var dataButton: UIButton!
     let csvModel = CsvModel()

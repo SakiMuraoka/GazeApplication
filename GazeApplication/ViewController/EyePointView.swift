@@ -23,6 +23,7 @@ class EyePointView: UIViewController, ARSessionDelegate {
     var fileButton: UIButton!
     
     var mode = ""
+    var username = ""
     
     //testモードのアニメーションの定数
     let interval = 50
