@@ -80,7 +80,7 @@ class TestMenuView: UIViewController, UITableViewDelegate,UITableViewDataSource,
            print("\(indexPath.row)番セルが押されたよ！")
         switch indexPath.row {
         case 0:
-            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "eyePointView") as! EyePointView
+            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "eyePointView_y") as! EyePointView_y
             nextView.mode = "test"
             nextView.username = pickerViewField.text!
             self.navigationController?.pushViewController(nextView, animated: true)
