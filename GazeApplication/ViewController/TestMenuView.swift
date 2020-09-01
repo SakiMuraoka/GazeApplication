@@ -34,7 +34,7 @@ class TestMenuView: UIViewController, UITableViewDelegate,UITableViewDataSource,
         super.viewDidLoad()
         
         // タイトルを付けておきましょう
-        self.title = "メイン"
+        self.title = "テスト"
         
         addUserButton = UIButton(type: UIButton.ButtonType.contactAdd)
         addUserButton.center = CGPoint(x:screenWidth * 10/100, y: screenHeight * 13/100 + margin)
