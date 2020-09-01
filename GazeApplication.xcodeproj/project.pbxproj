@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CF1C6C0D24FDCFBA00D1D621 /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1C6C0C24FDCFBA00D1D621 /* PopupView.swift */; };
 		CF3D94F624D586DD003D48D5 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3D94F524D586DD003D48D5 /* HomeView.swift */; };
 		CF3FB3A024F23BDD00750743 /* EyePointView_y.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3FB39F24F23BDD00750743 /* EyePointView_y.swift */; };
 		CF3FB3A324F7C6DA00750743 /* GazeTrajectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3FB3A224F7C6DA00750743 /* GazeTrajectory.swift */; };
@@ -52,6 +53,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CF1C6C0C24FDCFBA00D1D621 /* PopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupView.swift; sourceTree = "<group>"; };
 		CF3D94F524D586DD003D48D5 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		CF3FB39F24F23BDD00750743 /* EyePointView_y.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyePointView_y.swift; sourceTree = "<group>"; };
 		CF3FB3A224F7C6DA00750743 /* GazeTrajectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GazeTrajectory.swift; path = GazeApplication/UIComponent/GazeTrajectory.swift; sourceTree = SOURCE_ROOT; };
@@ -211,6 +213,7 @@
 				CFA6E27D24CDAAF900D73177 /* WebBrowserView.swift */,
 				CFEBA6A424D4FBD100BFF21E /* IconView.swift */,
 				CF4DE3E924E5694200EAC19D /* CsvModel.swift */,
+				CF1C6C0C24FDCFBA00D1D621 /* PopupView.swift */,
 			);
 			path = UIComponent;
 			sourceTree = "<group>";
@@ -313,6 +316,7 @@
 				CFCD669624C56B780066E1B2 /* EyeBlinkView.swift in Sources */,
 				CFA6E27C24CDAAAB00D73177 /* SampleBrowserView.swift in Sources */,
 				CF3FB3A024F23BDD00750743 /* EyePointView_y.swift in Sources */,
+				CF1C6C0D24FDCFBA00D1D621 /* PopupView.swift in Sources */,
 				CF558CFE24D66C8000396A55 /* DemoMenuView.swift in Sources */,
 				CFEBA6A524D4FBD100BFF21E /* IconView.swift in Sources */,
 				CF5B0CFD24C84AC2003943EF /* GazePointer.swift in Sources */,
