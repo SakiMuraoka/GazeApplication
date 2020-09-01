@@ -27,6 +27,7 @@ class SampleMapView:UIViewController, CLLocationManagerDelegate, ARSessionDelega
     
     //モード変数
     var mode: String = ""
+    var username = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()

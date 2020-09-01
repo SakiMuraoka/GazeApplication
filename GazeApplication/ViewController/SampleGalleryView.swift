@@ -17,6 +17,7 @@ class SampleGalleryView: UIViewController, ARSessionDelegate {
     var imageGalleryView: ImageGalleryView!
     
     var mode = ""
+    var username = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()

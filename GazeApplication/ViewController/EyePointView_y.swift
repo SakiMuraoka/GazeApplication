@@ -26,7 +26,11 @@ class EyePointView_y: EyeTrackViewController_y {
     var error: Bool = true
     var errorLabel: UILabel!
     
+    var recordButton: UIButton!
+    var recordState:Bool = false
+    
     var mode = ""
+    var username = ""
     
     var dataButton: UIButton!
     let csvModel = CsvModel()
@@ -35,6 +39,8 @@ class EyePointView_y: EyeTrackViewController_y {
     var frameId: Int = 0
     
     var eyeTrajectryList: [GazeTrajectory] = []
+    
+    var popupView: PopupView!
 
 
 //    @IBAction func onClickRecord(_ sender: Any) {
@@ -63,12 +69,30 @@ class EyePointView_y: EyeTrackViewController_y {
         errorLabel.isHidden = false
         errorLabel.text = "顔をカメラに写してください"
         
+        recordButton = UIButton(type: .system)
+        recordButton.setTitle("記録開始", for: .normal)
+        recordButton.frame = CGRect(x: 0, y: 0, width: 200, height: 100)
+        recordButton.titleLabel?.font = UIFont.systemFont(ofSize: 30)
+        recordButton.setTitleColor(UIColor.white, for: .normal)
+        recordButton.layer.cornerRadius = recordButton.bounds.midY
+        recordButton.center = CGPoint(x: self.view.center.x, y: self.view.center.y)
+        recordButton.backgroundColor = UIColor.gray
+        recordButton.addTarget(self, action: #selector(recordButtonClick(_:)), for: UIControl.Event.touchUpInside)
+        if(mode == "demo"){
+            recordButton.isHidden = true
+        }
+        
         dataButton = UIButton(type: .system)
         dataButton.setTitle("データ追加", for: .normal)
         dataButton.sizeToFit()
         dataButton.center = CGPoint(x: self.view.center.x, y: self.view.bounds.height - 100)
         dataButton.addTarget(self, action: #selector(dataButtonClick(_:)), for: UIControl.Event.touchUpInside)
+        if(mode == "test"){
+            dataButton.isHidden = true
+        }
         
+        popupView = PopupView(frame: self.view.bounds)
+        popupView.textLabelChange(text: "視線記録を開始しますか")
         
         self.view.addSubview(gridView)
         self.view.addSubview(eyePositionIndicatorView)
@@ -80,21 +104,26 @@ class EyePointView_y: EyeTrackViewController_y {
         self.view.addSubview(distanceLabel)
         self.view.addSubview(errorLabel)
         self.view.addSubview(dataButton)
+        self.view.addSubview(recordButton)
+        self.view.addSubview(popupView)
     }
     
     @objc func dataButtonClick(_ sender: UIButton){
         let now = NSDate()
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
-        let time = formatter.string(from: now as Date)
+        let time = timeToString(date: now as Date)
         self.frameId += 1
         let data = [eyeTrack.lookAtPosition.x, eyeTrack.lookAtPosition.y,]
-        var dataString: [String] = [String(frameId), time,]
+        var dataString: [String] = [String(frameId), time, mode]
         for i in 0..<data.count {
             dataString.append(String(format: "%.8f", data[i]))
         }
         //print(dataString)
         dataLists.append(dataString)
+    }
+    
+    @objc func recordButtonClick(_ sender: UIButton){
+        recordState = true
+        recordButton.isHidden = true
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -105,9 +134,31 @@ class EyePointView_y: EyeTrackViewController_y {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        let now = NSDate()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd"
+        let time = formatter.string(from: now as Date)
+        let fileName = csvModel.convertConditionsToFileName(name: username, conditions: [time, "gaze"])
+        let data = csvModel.convertFigureListToString(dataLists: dataLists)
+        let dataRows = ["frameId", "timestamp", "mode", "lookAtPosition_x", "lookAtPosition_y",]
+        let rowNames = csvModel.convertDataToCSV(list: dataRows)
+        csvModel.write(fileName: fileName, rowsName: rowNames, dataList: data)
+        recordState = false
     }
 
     override func updateViewWithUpdateAnchor() {
+        if(recordState){
+            let now = NSDate()
+            let time = timeToString(date: now as Date)
+            self.frameId += 1
+            let data = [eyeTrack.lookAtPosition.x, eyeTrack.lookAtPosition.y,]
+            var dataString: [String] = [String(frameId), time, mode]
+            for i in 0..<data.count {
+                dataString.append(String(format: "%.8f", data[i]))
+            }
+            //print(dataString)
+            dataLists.append(dataString)
+        }
         // update indicator position
          if eyeTrack.lookAtPosition.x < -view.bounds.width/2 + eyePositionIndicatorView.frame.width {
              eyeTrack.lookAtPosition.x = -view.bounds.width/2 + eyePositionIndicatorView.frame.width
@@ -159,7 +210,7 @@ class EyePointView_y: EyeTrackViewController_y {
 extension EyePointView_y {
     func timeToString(date: Date) -> String {
         let format = DateFormatter()
-        format.dateFormat = "yyyy/MM/dd HH:mm:ss.SSS"
+        format.dateFormat = "HH:mm:ss.SSS"
         return format.string(from: date)
     }
 }
