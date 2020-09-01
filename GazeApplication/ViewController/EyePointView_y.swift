@@ -39,6 +39,8 @@ class EyePointView_y: EyeTrackViewController_y {
     var frameId: Int = 0
     
     var eyeTrajectryList: [GazeTrajectory] = []
+    
+    var popupView: PopupView!
 
 
 //    @IBAction func onClickRecord(_ sender: Any) {
@@ -89,6 +91,9 @@ class EyePointView_y: EyeTrackViewController_y {
             dataButton.isHidden = true
         }
         
+        popupView = PopupView(frame: self.view.bounds)
+        popupView.textLabelChange(text: "視線記録を開始しますか")
+        
         self.view.addSubview(gridView)
         self.view.addSubview(eyePositionIndicatorView)
         self.eyePositionIndicatorView.addSubview(leftEyeView)
@@ -100,7 +105,7 @@ class EyePointView_y: EyeTrackViewController_y {
         self.view.addSubview(errorLabel)
         self.view.addSubview(dataButton)
         self.view.addSubview(recordButton)
-        
+        self.view.addSubview(popupView)
     }
     
     @objc func dataButtonClick(_ sender: UIButton){
