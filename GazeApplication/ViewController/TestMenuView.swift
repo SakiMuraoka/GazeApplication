@@ -29,6 +29,8 @@ class TestMenuView: UIViewController, UITableViewDelegate,UITableViewDataSource,
     //テーブルに表示するセル配列
     var exampleArray: [String] = ["視線", "ホーム", "マップ", "ギャラリ", "ブラウザ"]
     
+    var popupView: PopupView!
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -66,10 +68,17 @@ class TestMenuView: UIViewController, UITableViewDelegate,UITableViewDataSource,
         sampleTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         self.sampleTableView.rowHeight = CGFloat(tableRowHeight)
         
+        popupView = PopupView(frame: self.view.bounds)
+        popupView.textLabelChange(text: "ユーザ名を選択してください")
+        popupView.yesButton.isHidden = true
+        popupView.noButton.isHidden = true
+        popupView.isHidden = true
+        
         self.view.addSubview(addUserButton)
         self.view.addSubview(addUserField)
         self.view.addSubview(pickerViewField)
         self.view.addSubview(sampleTableView)
+        self.view.addSubview(popupView)
     }
     
     @objc func addUserButtonClick(_ sender: UIButton){
@@ -108,42 +117,48 @@ class TestMenuView: UIViewController, UITableViewDelegate,UITableViewDataSource,
        //cellが選択された時の処理
        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
            print("\(indexPath.row)番セルが押されたよ！")
+        if(pickerViewField.text == userNames[0]){
+            popupView.isHidden = false
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+                self.popupView.isHidden = true
+            }
+        }else{
         switch indexPath.row {
-        case 0:
-            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "eyePointView_y") as! EyePointView_y
-            nextView.mode = "test"
-            nextView.username = pickerViewField.text!
-            self.navigationController?.pushViewController(nextView, animated: true)
-            break
-        case 1:
-            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "homeView") as! HomeView
-            nextView.mode = "test"
-            nextView.username = pickerViewField.text!
-            self.navigationController?.pushViewController(nextView, animated: true)
-            break
-        case 2:
-            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "mapView") as! SampleMapView
-            nextView.mode = "test"
-            nextView.username = pickerViewField.text!
-            self.navigationController?.pushViewController(nextView, animated: true)
-            break
-        case 3:
-            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "galleryView") as!
-            SampleGalleryView
-            nextView.mode = "test"
-            nextView.username = pickerViewField.text!
-            self.navigationController?.pushViewController(nextView, animated: true)
-            break
-        case 4:
-            let nextView = self.storyboard!.instantiateViewController(withIdentifier: "browserView") as! SampleBrowserView
-            nextView.mode = "test"
-            nextView.username = pickerViewField.text!
-            self.navigationController?.pushViewController(nextView, animated: true)
-            break
-        default:
-            break
+            case 0:
+                let nextView = self.storyboard!.instantiateViewController(withIdentifier: "eyePointView_y") as! EyePointView_y
+                nextView.mode = "test"
+                nextView.username = pickerViewField.text!
+                self.navigationController?.pushViewController(nextView, animated: true)
+                break
+            case 1:
+                let nextView = self.storyboard!.instantiateViewController(withIdentifier: "homeView") as! HomeView
+                nextView.mode = "test"
+                nextView.username = pickerViewField.text!
+                self.navigationController?.pushViewController(nextView, animated: true)
+                break
+            case 2:
+                let nextView = self.storyboard!.instantiateViewController(withIdentifier: "mapView") as! SampleMapView
+                nextView.mode = "test"
+                nextView.username = pickerViewField.text!
+                self.navigationController?.pushViewController(nextView, animated: true)
+                break
+            case 3:
+                let nextView = self.storyboard!.instantiateViewController(withIdentifier: "galleryView") as!
+                SampleGalleryView
+                nextView.mode = "test"
+                nextView.username = pickerViewField.text!
+                self.navigationController?.pushViewController(nextView, animated: true)
+                break
+            case 4:
+                let nextView = self.storyboard!.instantiateViewController(withIdentifier: "browserView") as! SampleBrowserView
+                nextView.mode = "test"
+                nextView.username = pickerViewField.text!
+                self.navigationController?.pushViewController(nextView, animated: true)
+                break
+            default:
+                break
+            }
         }
-        
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
