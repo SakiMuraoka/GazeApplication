@@ -180,7 +180,6 @@
 				CFCD668E24C55D7F0066E1B2 /* UIComponent */,
 				CFCD667A24C55D000066E1B2 /* AppDelegate.swift */,
 				CFCD667C24C55D000066E1B2 /* SceneDelegate.swift */,
-				CF4DE3E924E5694200EAC19D /* CsvModel.swift */,
 				CF558D0324D67D2300396A55 /* Main.storyboard */,
 				CFCD668324C55D050066E1B2 /* Assets.xcassets */,
 				CFCD668524C55D050066E1B2 /* LaunchScreen.storyboard */,
@@ -211,6 +210,7 @@
 				CF558D0724D685A900396A55 /* TestEyePointTarget.swift */,
 				CFA6E27D24CDAAF900D73177 /* WebBrowserView.swift */,
 				CFEBA6A424D4FBD100BFF21E /* IconView.swift */,
+				CF4DE3E924E5694200EAC19D /* CsvModel.swift */,
 			);
 			path = UIComponent;
 			sourceTree = "<group>";
