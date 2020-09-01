@@ -105,9 +105,7 @@ class EyePointView_y: EyeTrackViewController_y {
     
     @objc func dataButtonClick(_ sender: UIButton){
         let now = NSDate()
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
-        let time = formatter.string(from: now as Date)
+        let time = timeToString(date: now as Date)
         self.frameId += 1
         let data = [eyeTrack.lookAtPosition.x, eyeTrack.lookAtPosition.y,]
         var dataString: [String] = [String(frameId), time, mode]
@@ -131,7 +129,10 @@ class EyePointView_y: EyeTrackViewController_y {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        let time = timeToString(date: Date())
+        let now = NSDate()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd"
+        let time = formatter.string(from: now as Date)
         let fileName = csvModel.convertConditionsToFileName(name: username, conditions: [time, "gaze"])
         let data = csvModel.convertFigureListToString(dataLists: dataLists)
         let dataRows = ["frameId", "timestamp", "mode", "lookAtPosition_x", "lookAtPosition_y",]
@@ -143,9 +144,7 @@ class EyePointView_y: EyeTrackViewController_y {
     override func updateViewWithUpdateAnchor() {
         if(recordState){
             let now = NSDate()
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
-            let time = formatter.string(from: now as Date)
+            let time = timeToString(date: now as Date)
             self.frameId += 1
             let data = [eyeTrack.lookAtPosition.x, eyeTrack.lookAtPosition.y,]
             var dataString: [String] = [String(frameId), time, mode]
@@ -206,7 +205,7 @@ class EyePointView_y: EyeTrackViewController_y {
 extension EyePointView_y {
     func timeToString(date: Date) -> String {
         let format = DateFormatter()
-        format.dateFormat = "yyyy/MM/dd HH:mm:ss.SSS"
+        format.dateFormat = "HH:mm:ss.SSS"
         return format.string(from: date)
     }
 }
