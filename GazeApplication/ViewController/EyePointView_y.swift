@@ -38,14 +38,12 @@ class EyePointView_y: EyeTrackViewController_y {
     
     var popupView: PopupView!
     var recordState:Bool = false
-
-//    @IBAction func onClickRecord(_ sender: Any) {
-//        self.startRecord()
-//    }
-//
-//    @IBAction func onClickStop(_ sender: Any) {
-//        self.stopRecord()
-//    }
+    
+    //testモードのアニメーションの定数
+    let interval = 50
+    let offsetX = 16
+    let offsetY = 25
+    var eyePointTarget: TestEyePointTarget!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,6 +72,10 @@ class EyePointView_y: EyeTrackViewController_y {
             popupView.isHidden = true
         }
         
+        eyePointTarget = TestEyePointTarget(frame: self.view.bounds)
+        eyePointTarget.center = CGPoint(x: 2*Int(interval) - offsetX, y:Int(interval)*5-offsetY)
+        eyePointTarget.Resize(radius: self.view.bounds.width/30)
+        
         self.view.addSubview(gridView)
         self.view.addSubview(eyePositionIndicatorView)
         self.eyePositionIndicatorView.addSubview(leftEyeView)
@@ -84,6 +86,8 @@ class EyePointView_y: EyeTrackViewController_y {
         self.view.addSubview(distanceLabel)
         self.view.addSubview(errorLabel)
         self.view.addSubview(popupView)
+        self.view.addSubview(eyePointTarget)
+        
     }
     
     @objc func dataButtonClick(_ sender: UIButton){
@@ -103,11 +107,45 @@ class EyePointView_y: EyeTrackViewController_y {
         recordState = true
         popupView.isHidden = true
         eyePositionIndicatorView.isHidden = false
+        moveTarget(fig: eyePointTarget)
     }
     
     @objc func noButtonClick(_ sender: UIButton){
         popupView.isHidden = true
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    func moveTarget(fig: UIView) {
+        //初期位置をセット
+        let i = 2 + 1
+        let j = 5
+        testTargetAnimation(fig: fig, x: i, y: j)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 180.0) {
+            self.eyePointTarget.isHidden = true
+            self.recordState = false
+        }
+    }
+    
+    func testTargetAnimation(fig: UIView, x: Int, y: Int){
+        var i = x
+        var j = y
+        let maxi = 8
+        let maxj = 16
+        UIView.animate(withDuration: 0, delay: 2, options:[.curveLinear], animations: {
+            fig.center = CGPoint(x: Int(self.interval)*i - self.offsetX, y: Int(self.interval)*j - self.offsetY)
+            if( i < maxi){
+                i += 1
+            }else{
+                i = 2
+                if(j < maxj){
+                    j += 1
+                }else{
+                    j = 5
+                }
+            }
+        }, completion: { finished in
+            self.testTargetAnimation(fig: fig, x: i, y: j)
+        })
     }
 
     override func viewWillAppear(_ animated: Bool) {

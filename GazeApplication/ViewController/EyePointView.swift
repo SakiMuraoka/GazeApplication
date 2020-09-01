@@ -72,40 +72,40 @@ class EyePointView: UIViewController, ARSessionDelegate {
         }
     }
     
-        func moveTarget(fig: UIView) {
-            let screenWidth = self.view.bounds.width
-            let screenHeight = self.view.bounds.height
+    func moveTarget(fig: UIView) {
+        let screenWidth = self.view.bounds.width
+        let screenHeight = self.view.bounds.height
+        
+        if(mode == "demo"){
+            //初期位置をセット
+            fig.center = CGPoint(x: 3*screenWidth/6, y: screenHeight/4)
             
-            if(mode == "demo"){
-                //初期位置をセット
-                fig.center = CGPoint(x: 3*screenWidth/6, y: screenHeight/4)
-                
-                //アニメーション
-                UIView.animate(withDuration: 0, delay: 3, options:[.curveLinear], animations: {
-                        //fig.center.x += (screenWidth-figSize)
-                    fig.center = CGPoint(x: 5*screenWidth/6, y: screenHeight/2)
-                    }, completion: { finished in
-                        UIView.animate(withDuration: 0, delay: 3, options: [.curveLinear], animations: {
-                                fig.center = CGPoint(x: 3*screenWidth/6, y: 3*screenHeight/4)
-                            }, completion: { finished in
-                                UIView.animate(withDuration: 0, delay: 3, options:[.curveLinear], animations: {
-                                        fig.center = CGPoint(x: screenWidth/6, y: 2*screenHeight/4)
-                                    }, completion: { finished in
-                                        UIView.animate(withDuration: 0, delay: 3, options: [.curveLinear], animations: {
-                                                fig.center = CGPoint(x: 3*screenWidth/6, y: screenHeight/4)
-                                            }, completion: { finished in
-                                                self.moveTarget(fig: fig)
-                                            })
-                                    })
-                            })
-                    })
-            }else{
-                //初期位置をセット
-                fig.center = CGPoint(x: 2*Int(interval) - offsetX, y:Int(interval)*5-offsetY)
-                let i = 2 + 1
-                let j = 5
-                testTargetAnimation(fig: fig, x: i, y: j)
-            }
+            //アニメーション
+            UIView.animate(withDuration: 0, delay: 3, options:[.curveLinear], animations: {
+                    //fig.center.x += (screenWidth-figSize)
+                fig.center = CGPoint(x: 5*screenWidth/6, y: screenHeight/2)
+                }, completion: { finished in
+                    UIView.animate(withDuration: 0, delay: 3, options: [.curveLinear], animations: {
+                            fig.center = CGPoint(x: 3*screenWidth/6, y: 3*screenHeight/4)
+                        }, completion: { finished in
+                            UIView.animate(withDuration: 0, delay: 3, options:[.curveLinear], animations: {
+                                    fig.center = CGPoint(x: screenWidth/6, y: 2*screenHeight/4)
+                                }, completion: { finished in
+                                    UIView.animate(withDuration: 0, delay: 3, options: [.curveLinear], animations: {
+                                            fig.center = CGPoint(x: 3*screenWidth/6, y: screenHeight/4)
+                                        }, completion: { finished in
+                                            self.moveTarget(fig: fig)
+                                        })
+                                })
+                        })
+                })
+        }else{
+            //初期位置をセット
+            fig.center = CGPoint(x: 2*Int(interval) - offsetX, y:Int(interval)*5-offsetY)
+            let i = 2 + 1
+            let j = 5
+            testTargetAnimation(fig: fig, x: i, y: j)
+        }
     }
     
     func testTargetAnimation(fig: UIView, x: Int, y: Int){
