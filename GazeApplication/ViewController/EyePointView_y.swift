@@ -53,6 +53,7 @@ class EyePointView_y: EyeTrackViewController_y {
         gridView = GridView(frame: self.view.bounds)
         
         eyePositionIndicatorView = GazePointer(frame: self.gridView.bounds)
+        eyePositionIndicatorView.isHidden = true
         leftEyeView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 5))
         rightEyeView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 5))
         eyeTrackingPositionView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 5))
@@ -69,7 +70,7 @@ class EyePointView_y: EyeTrackViewController_y {
         popupView.textLabelChange(text: "視線記録を開始しますか")
         popupView.yesButton.addTarget(self, action: #selector(yesButtonClick(_:)), for: UIControl.Event.touchUpInside)
         popupView.noButton.addTarget(self, action: #selector(noButtonClick(_:)), for: UIControl.Event.touchUpInside)
-        if(mode == "test"){
+        if(mode == "demo"){
             popupView.isHidden = true
         }
         
@@ -101,6 +102,7 @@ class EyePointView_y: EyeTrackViewController_y {
     @objc func yesButtonClick(_ sender: UIButton){
         recordState = true
         popupView.isHidden = true
+        eyePositionIndicatorView.isHidden = false
     }
     
     @objc func noButtonClick(_ sender: UIButton){
@@ -130,6 +132,15 @@ class EyePointView_y: EyeTrackViewController_y {
 
     override func updateViewWithUpdateAnchor() {
         if(recordState){
+            let eyeTrajectry = GazeTrajectory(frame: self.gridView.bounds)
+            eyeTrajectry.center = CGPoint(x: eyeTrack.lookAtPosition.x + view.bounds.width/2, y: eyeTrack.lookAtPosition.y + view.bounds.height/2)
+            eyeTrajectryList.append(eyeTrajectry)
+            if(eyeTrajectryList.count > 30){
+                eyeTrajectryList.first?.removeFromSuperview()
+                eyeTrajectryList.removeFirst()
+            }
+            self.view.addSubview(eyeTrajectryList[eyeTrajectryList.count - 1])
+            
             let now = NSDate()
             let time = timeToString(date: now as Date)
             self.frameId += 1
@@ -153,15 +164,6 @@ class EyePointView_y: EyeTrackViewController_y {
             eyeTrack.lookAtPosition.y = view.bounds.height/2
         }
         self.eyePositionIndicatorView.transform = CGAffineTransform(translationX: eyeTrack.lookAtPosition.x, y: eyeTrack.lookAtPosition.y)
-        
-        let eyeTrajectry = GazeTrajectory(frame: self.gridView.bounds)
-        eyeTrajectry.center = CGPoint(x: eyeTrack.lookAtPosition.x + view.bounds.width/2, y: eyeTrack.lookAtPosition.y + view.bounds.height/2)
-        eyeTrajectryList.append(eyeTrajectry)
-        if(eyeTrajectryList.count > 30){
-            eyeTrajectryList.first?.removeFromSuperview()
-            eyeTrajectryList.removeFirst()
-        }
-        self.view.addSubview(eyeTrajectryList[eyeTrajectryList.count - 1])
 
         if eyeTrack.lookAtPoint.x < 0 {
             self.eyeTargetPositionXLabel.text = "0"
