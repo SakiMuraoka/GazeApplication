@@ -92,6 +92,7 @@ class EyePointView_y: EyeTrackViewController_y {
         }
         
         popupView = PopupView(frame: self.view.bounds)
+        popupView.textLabelChange(text: "視線記録を開始しますか")
         
         self.view.addSubview(gridView)
         self.view.addSubview(eyePositionIndicatorView)
