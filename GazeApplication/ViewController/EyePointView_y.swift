@@ -29,7 +29,6 @@ class EyePointView_y: EyeTrackViewController_y {
     var mode = ""
     var username = ""
     
-    var dataButton: UIButton!
     let csvModel = CsvModel()
     var participant: String? = "saki"
     var dataLists = [[""]]
@@ -66,19 +65,13 @@ class EyePointView_y: EyeTrackViewController_y {
         errorLabel.isHidden = false
         errorLabel.text = "顔をカメラに写してください"
         
-        dataButton = UIButton(type: .system)
-        dataButton.setTitle("データ追加", for: .normal)
-        dataButton.sizeToFit()
-        dataButton.center = CGPoint(x: self.view.center.x, y: self.view.bounds.height - 100)
-        dataButton.addTarget(self, action: #selector(dataButtonClick(_:)), for: UIControl.Event.touchUpInside)
-        if(mode == "test"){
-            dataButton.isHidden = true
-        }
-        
         popupView = PopupView(frame: self.view.bounds)
         popupView.textLabelChange(text: "視線記録を開始しますか")
         popupView.yesButton.addTarget(self, action: #selector(yesButtonClick(_:)), for: UIControl.Event.touchUpInside)
         popupView.noButton.addTarget(self, action: #selector(noButtonClick(_:)), for: UIControl.Event.touchUpInside)
+        if(mode == "test"){
+            popupView.isHidden = true
+        }
         
         self.view.addSubview(gridView)
         self.view.addSubview(eyePositionIndicatorView)
@@ -89,7 +82,6 @@ class EyePointView_y: EyeTrackViewController_y {
         self.view.addSubview(eyeTargetPositionYLabel)
         self.view.addSubview(distanceLabel)
         self.view.addSubview(errorLabel)
-        self.view.addSubview(dataButton)
         self.view.addSubview(popupView)
     }
     
