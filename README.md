@@ -10,5 +10,7 @@
 画像ギャラリ
 ### SampleBrouserView
 ブラウザ
-### SampleGazePointView
+### EyePointView
 視線位置の表示
+### EyePointView_y
+視線位置の表示（大和さん参考）
