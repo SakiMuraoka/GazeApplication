@@ -120,9 +120,10 @@ class EyePointView_y: EyeTrackViewController_y {
         let i = 2 + 1
         let j = 5
         testTargetAnimation(fig: fig, x: i, y: j)
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 180.0) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 60) {
             self.eyePointTarget.isHidden = true
             self.recordState = false
+            self.navigationController?.popViewController(animated: true)
         }
     }
     
