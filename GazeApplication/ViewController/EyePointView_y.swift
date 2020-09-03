@@ -69,6 +69,7 @@ class EyePointView_y: EyeTrackViewController_y {
         popupView.noButton.addTarget(self, action: #selector(noButtonClick(_:)), for: UIControl.Event.touchUpInside)
         if(mode == "demo"){
             popupView.isHidden = true
+            recordState = true
         }
         
         eyePointTarget = TestEyePointTarget(frame: self.view.bounds)
@@ -174,16 +175,19 @@ class EyePointView_y: EyeTrackViewController_y {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        let now = NSDate()
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy/MM/dd"
-        let time = formatter.string(from: now as Date)
-        let fileName = csvModel.convertConditionsToFileName(name: username, conditions: [time, "gaze"])
-        let data = csvModel.convertFigureListToString(dataLists: dataLists)
-        let dataRows = ["frameId", "timestamp", "mode", "lookAtPosition_x", "lookAtPosition_y", "target_x", "target_y"]
-        let rowNames = csvModel.convertDataToCSV(list: dataRows)
-        csvModel.write(fileName: fileName, rowsName: rowNames, dataList: data)
-        recordState = false
+        if(mode == "test"){
+            let now = NSDate()
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy/MM/dd"
+            let time = formatter.string(from: now as Date)
+            let fileName = csvModel.convertConditionsToFileName(name: username, conditions: [time, "gaze"])
+            let data = csvModel.convertFigureListToString(dataLists: dataLists)
+            let dataRows = ["frameId", "timestamp", "mode", "lookAtPosition_x", "lookAtPosition_y", "target_x", "target_y"]
+            let rowNames = csvModel.convertDataToCSV(list: dataRows)
+            csvModel.write(fileName: fileName, rowsName: rowNames, dataList: data)
+                recordState = false
+            
+        }
     }
 
     override func updateViewWithUpdateAnchor() {
