@@ -51,7 +51,6 @@ class EyePointView_y: EyeTrackViewController_y {
         gridView = GridView(frame: self.view.bounds)
         
         eyePositionIndicatorView = GazePointer(frame: self.gridView.bounds)
-        eyePositionIndicatorView.isHidden = true
         leftEyeView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 5))
         rightEyeView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 5))
         eyeTrackingPositionView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 5))
@@ -75,6 +74,7 @@ class EyePointView_y: EyeTrackViewController_y {
         eyePointTarget = TestEyePointTarget(frame: self.view.bounds)
         eyePointTarget.center = CGPoint(x: 2*Int(interval) - offsetX, y:Int(interval)*5-offsetY)
         eyePointTarget.Resize(radius: self.view.bounds.width/30)
+        eyePointTarget.isHidden = true
         
         self.view.addSubview(gridView)
         self.view.addSubview(eyePositionIndicatorView)
@@ -88,6 +88,7 @@ class EyePointView_y: EyeTrackViewController_y {
         self.view.addSubview(popupView)
         self.view.addSubview(eyePointTarget)
         
+        moveTarget(fig: eyePointTarget)
     }
     
     @objc func dataButtonClick(_ sender: UIButton){
@@ -106,8 +107,7 @@ class EyePointView_y: EyeTrackViewController_y {
     @objc func yesButtonClick(_ sender: UIButton){
         recordState = true
         popupView.isHidden = true
-        eyePositionIndicatorView.isHidden = false
-        moveTarget(fig: eyePointTarget)
+        eyePointTarget.isHidden = false
     }
     
     @objc func noButtonClick(_ sender: UIButton){
@@ -131,6 +131,23 @@ class EyePointView_y: EyeTrackViewController_y {
         var j = y
         let maxi = 8
         let maxj = 16
+//        UIView.animate(withDuration: 0, delay: 2, options:[.curveLinear], animations: {
+//            fig.center = CGPoint(x: Int(self.interval)*i - self.offsetX, y: Int(self.interval)*j - self.offsetY)
+//            if( i < maxi){
+//                i += 1
+//            }else{
+//                i = 2
+//                if(j < maxj){
+//                    j += 1
+//                }else{
+//                    j = 5
+//                }
+//            }
+//        }, completion: { finished in
+//            self.testTargetAnimation(fig: fig, x: i, y: j)
+//        })
+        i = Int.random(in: 3..<maxi + 1)
+        j = Int.random(in: 5..<maxj + 1)
         UIView.animate(withDuration: 0, delay: 2, options:[.curveLinear], animations: {
             fig.center = CGPoint(x: Int(self.interval)*i - self.offsetX, y: Int(self.interval)*j - self.offsetY)
             if( i < maxi){
@@ -162,7 +179,7 @@ class EyePointView_y: EyeTrackViewController_y {
         let time = formatter.string(from: now as Date)
         let fileName = csvModel.convertConditionsToFileName(name: username, conditions: [time, "gaze"])
         let data = csvModel.convertFigureListToString(dataLists: dataLists)
-        let dataRows = ["frameId", "timestamp", "mode", "lookAtPosition_x", "lookAtPosition_y",]
+        let dataRows = ["frameId", "timestamp", "mode", "lookAtPosition_x", "lookAtPosition_y", "target_x", "target_y"]
         let rowNames = csvModel.convertDataToCSV(list: dataRows)
         csvModel.write(fileName: fileName, rowsName: rowNames, dataList: data)
         recordState = false
@@ -170,6 +187,34 @@ class EyePointView_y: EyeTrackViewController_y {
 
     override func updateViewWithUpdateAnchor() {
         if(recordState){
+            // update indicator position
+             if eyeTrack.lookAtPosition.x < -view.bounds.width/2 + eyePositionIndicatorView.frame.width {
+                 eyeTrack.lookAtPosition.x = -view.bounds.width/2 + eyePositionIndicatorView.frame.width
+             }else if eyeTrack.lookAtPosition.x > view.bounds.width/2 {
+                 eyeTrack.lookAtPosition.x = view.bounds.width/2
+             }
+            if eyeTrack.lookAtPosition.y < -view.bounds.height/2 + eyePositionIndicatorView.frame.height + 50{
+                eyeTrack.lookAtPosition.y = -view.bounds.height/2 + eyePositionIndicatorView.frame.height + 50
+            }else if eyeTrack.lookAtPosition.y > view.bounds.height/2{
+                eyeTrack.lookAtPosition.y = view.bounds.height/2
+            }
+            self.eyePositionIndicatorView.transform = CGAffineTransform(translationX: eyeTrack.lookAtPosition.x, y: eyeTrack.lookAtPosition.y)
+
+            if eyeTrack.lookAtPoint.x < 0 {
+                self.eyeTargetPositionXLabel.text = "0"
+            } else {
+                self.eyeTargetPositionXLabel.text = "\(Int(round(eyeTrack.lookAtPoint.x)))"
+            }
+
+            if eyeTrack.lookAtPoint.y < 0 {
+                self.eyeTargetPositionYLabel.text = "0"
+            } else {
+                self.eyeTargetPositionYLabel.text = "\(Int(round(eyeTrack.lookAtPoint.y)))"
+            }
+
+            // Update distance label value
+            self.distanceLabel.text = "\(Int(round(eyeTrack.face.getDistanceToDevice() * 100))) cm"
+            
             let eyeTrajectry = GazeTrajectory(frame: self.gridView.bounds)
             eyeTrajectry.center = CGPoint(x: eyeTrack.lookAtPosition.x + view.bounds.width/2, y: eyeTrack.lookAtPosition.y + view.bounds.height/2)
             eyeTrajectryList.append(eyeTrajectry)
@@ -182,7 +227,7 @@ class EyePointView_y: EyeTrackViewController_y {
             let now = NSDate()
             let time = timeToString(date: now as Date)
             self.frameId += 1
-            let data = [eyeTrack.lookAtPosition.x, eyeTrack.lookAtPosition.y,]
+            let data = [eyePositionIndicatorView.center.x, eyePositionIndicatorView.center.y ,eyePointTarget.center.x, eyePointTarget.center.y]
             var dataString: [String] = [String(frameId), time, mode]
             for i in 0..<data.count {
                 dataString.append(String(format: "%.8f", data[i]))
@@ -190,33 +235,6 @@ class EyePointView_y: EyeTrackViewController_y {
             //print(dataString)
             dataLists.append(dataString)
         }
-        // update indicator position
-         if eyeTrack.lookAtPosition.x < -view.bounds.width/2 + eyePositionIndicatorView.frame.width {
-             eyeTrack.lookAtPosition.x = -view.bounds.width/2 + eyePositionIndicatorView.frame.width
-         }else if eyeTrack.lookAtPosition.x > view.bounds.width/2 {
-             eyeTrack.lookAtPosition.x = view.bounds.width/2
-         }
-        if eyeTrack.lookAtPosition.y < -view.bounds.height/2 + eyePositionIndicatorView.frame.height + 50{
-            eyeTrack.lookAtPosition.y = -view.bounds.height/2 + eyePositionIndicatorView.frame.height + 50
-        }else if eyeTrack.lookAtPosition.y > view.bounds.height/2{
-            eyeTrack.lookAtPosition.y = view.bounds.height/2
-        }
-        self.eyePositionIndicatorView.transform = CGAffineTransform(translationX: eyeTrack.lookAtPosition.x, y: eyeTrack.lookAtPosition.y)
-
-        if eyeTrack.lookAtPoint.x < 0 {
-            self.eyeTargetPositionXLabel.text = "0"
-        } else {
-            self.eyeTargetPositionXLabel.text = "\(Int(round(eyeTrack.lookAtPoint.x)))"
-        }
-
-        if eyeTrack.lookAtPoint.y < 0 {
-            self.eyeTargetPositionYLabel.text = "0"
-        } else {
-            self.eyeTargetPositionYLabel.text = "\(Int(round(eyeTrack.lookAtPoint.y)))"
-        }
-
-        // Update distance label value
-        self.distanceLabel.text = "\(Int(round(eyeTrack.face.getDistanceToDevice() * 100))) cm"
     }
     
     override func updateViewWithScene(withFaceAnchor: ARFaceAnchor){
