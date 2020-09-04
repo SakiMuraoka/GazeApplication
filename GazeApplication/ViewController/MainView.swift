@@ -69,6 +69,8 @@ class MainView: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
         modeSegment = UISegmentedControl(items: modeParams)
         modeSegment.center = CGPoint(x: self.view.center.x, y: modeLabel.center.y)
         modeSegment.selectedSegmentIndex = 0
+        modeSegment.addTarget(self, action: #selector(segmentChanged(_:)), for: UIControl.Event.valueChanged)
+        modeSegment.accessibilityIdentifier = "modeSegment"
         
         self.view.addSubview(addUserButton)
         self.view.addSubview(addUserField)
@@ -82,6 +84,23 @@ class MainView: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
         addUserField.isHidden = false
         pickerViewField.isHidden = true
         addUserField.becomeFirstResponder()
+    }
+    
+    @objc func segmentChanged(_ segment: UISegmentedControl){
+        if segment.accessibilityIdentifier == "modeSegment" {
+            mymode = segment.selectedSegmentIndex
+        }
+        print(mymode)
+//        switch segment.selectedSegmentIndex {
+//        case 0:
+//            print("左を選択した。")
+//        case 1:
+//            print("中央を選択した。")
+//        case 2:
+//            print("右を選択した。")
+//        default:
+//            break
+//        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
