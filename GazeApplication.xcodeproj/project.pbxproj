@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		CF1C6C0D24FDCFBA00D1D621 /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1C6C0C24FDCFBA00D1D621 /* PopupView.swift */; };
+		CF1C6C112502F2FF00D1D621 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1C6C102502F2FF00D1D621 /* MainView.swift */; };
 		CF3D94F624D586DD003D48D5 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3D94F524D586DD003D48D5 /* HomeView.swift */; };
 		CF3FB3A024F23BDD00750743 /* EyePointView_y.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3FB39F24F23BDD00750743 /* EyePointView_y.swift */; };
 		CF3FB3A324F7C6DA00750743 /* GazeTrajectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3FB3A224F7C6DA00750743 /* GazeTrajectory.swift */; };
@@ -54,6 +55,7 @@
 
 /* Begin PBXFileReference section */
 		CF1C6C0C24FDCFBA00D1D621 /* PopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupView.swift; sourceTree = "<group>"; };
+		CF1C6C102502F2FF00D1D621 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		CF3D94F524D586DD003D48D5 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		CF3FB39F24F23BDD00750743 /* EyePointView_y.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyePointView_y.swift; sourceTree = "<group>"; };
 		CF3FB3A224F7C6DA00750743 /* GazeTrajectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GazeTrajectory.swift; path = GazeApplication/UIComponent/GazeTrajectory.swift; sourceTree = SOURCE_ROOT; };
@@ -123,6 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				CF3D94F524D586DD003D48D5 /* HomeView.swift */,
+				CF1C6C102502F2FF00D1D621 /* MainView.swift */,
 				CFCD667E24C55D000066E1B2 /* SampleView.swift */,
 				CFCD669B24C578FF0066E1B2 /* SampleMapView.swift */,
 				CFEBA69E24D4EE3500BFF21E /* SampleMainView.swift */,
@@ -296,6 +299,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CFCD667F24C55D000066E1B2 /* SampleView.swift in Sources */,
+				CF1C6C112502F2FF00D1D621 /* MainView.swift in Sources */,
 				CFCD669224C55FB10066E1B2 /* LookAtPosition.swift in Sources */,
 				CFF8F3A524CBFAB700BDD546 /* CollectionViewCell.swift in Sources */,
 				CF3D94F624D586DD003D48D5 /* HomeView.swift in Sources */,
