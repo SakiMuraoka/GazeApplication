@@ -29,7 +29,6 @@ class EyePointView_y: EyeTrackViewController_y {
     var mode = ""
     var username = ""
     
-    var dataButton: UIButton!
     let csvModel = CsvModel()
     var participant: String? = "saki"
     var dataLists = [[""]]
@@ -39,14 +38,12 @@ class EyePointView_y: EyeTrackViewController_y {
     
     var popupView: PopupView!
     var recordState:Bool = false
-
-//    @IBAction func onClickRecord(_ sender: Any) {
-//        self.startRecord()
-//    }
-//
-//    @IBAction func onClickStop(_ sender: Any) {
-//        self.stopRecord()
-//    }
+    
+    //testモードのアニメーションの定数
+    let interval = 50
+    let offsetX = 16
+    let offsetY = 25
+    var eyePointTarget: TestEyePointTarget!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,19 +63,19 @@ class EyePointView_y: EyeTrackViewController_y {
         errorLabel.isHidden = false
         errorLabel.text = "顔をカメラに写してください"
         
-        dataButton = UIButton(type: .system)
-        dataButton.setTitle("データ追加", for: .normal)
-        dataButton.sizeToFit()
-        dataButton.center = CGPoint(x: self.view.center.x, y: self.view.bounds.height - 100)
-        dataButton.addTarget(self, action: #selector(dataButtonClick(_:)), for: UIControl.Event.touchUpInside)
-        if(mode == "test"){
-            dataButton.isHidden = true
-        }
-        
         popupView = PopupView(frame: self.view.bounds)
         popupView.textLabelChange(text: "視線記録を開始しますか")
         popupView.yesButton.addTarget(self, action: #selector(yesButtonClick(_:)), for: UIControl.Event.touchUpInside)
         popupView.noButton.addTarget(self, action: #selector(noButtonClick(_:)), for: UIControl.Event.touchUpInside)
+        if(mode == "demo"){
+            popupView.isHidden = true
+            recordState = true
+        }
+        
+        eyePointTarget = TestEyePointTarget(frame: self.view.bounds)
+        eyePointTarget.center = CGPoint(x: 2*Int(interval) - offsetX, y:Int(interval)*5-offsetY)
+        eyePointTarget.Resize(radius: self.view.bounds.width/30)
+        eyePointTarget.isHidden = true
         
         self.view.addSubview(gridView)
         self.view.addSubview(eyePositionIndicatorView)
@@ -89,8 +86,10 @@ class EyePointView_y: EyeTrackViewController_y {
         self.view.addSubview(eyeTargetPositionYLabel)
         self.view.addSubview(distanceLabel)
         self.view.addSubview(errorLabel)
-        self.view.addSubview(dataButton)
         self.view.addSubview(popupView)
+        self.view.addSubview(eyePointTarget)
+        
+        moveTarget(fig: eyePointTarget)
     }
     
     @objc func dataButtonClick(_ sender: UIButton){
@@ -109,11 +108,63 @@ class EyePointView_y: EyeTrackViewController_y {
     @objc func yesButtonClick(_ sender: UIButton){
         recordState = true
         popupView.isHidden = true
+        eyePointTarget.isHidden = false
     }
     
     @objc func noButtonClick(_ sender: UIButton){
         popupView.isHidden = true
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    func moveTarget(fig: UIView) {
+        //初期位置をセット
+        let i = 2 + 1
+        let j = 5
+        testTargetAnimation(fig: fig, x: i, y: j)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 60) {
+            self.eyePointTarget.isHidden = true
+            self.recordState = false
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    func testTargetAnimation(fig: UIView, x: Int, y: Int){
+        var i = x
+        var j = y
+        let maxi = 8
+        let maxj = 16
+//        UIView.animate(withDuration: 0, delay: 2, options:[.curveLinear], animations: {
+//            fig.center = CGPoint(x: Int(self.interval)*i - self.offsetX, y: Int(self.interval)*j - self.offsetY)
+//            if( i < maxi){
+//                i += 1
+//            }else{
+//                i = 2
+//                if(j < maxj){
+//                    j += 1
+//                }else{
+//                    j = 5
+//                }
+//            }
+//        }, completion: { finished in
+//            self.testTargetAnimation(fig: fig, x: i, y: j)
+//        })
+        i = Int.random(in: 3..<maxi + 1)
+        j = Int.random(in: 5..<maxj + 1)
+        UIView.animate(withDuration: 0, delay: 2, options:[.curveLinear], animations: {
+            fig.center = CGPoint(x: Int(self.interval)*i - self.offsetX, y: Int(self.interval)*j - self.offsetY)
+            if( i < maxi){
+                i += 1
+            }else{
+                i = 2
+                if(j < maxj){
+                    j += 1
+                }else{
+                    j = 5
+                }
+            }
+        }, completion: { finished in
+            self.testTargetAnimation(fig: fig, x: i, y: j)
+        })
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -124,24 +175,64 @@ class EyePointView_y: EyeTrackViewController_y {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        let now = NSDate()
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy/MM/dd"
-        let time = formatter.string(from: now as Date)
-        let fileName = csvModel.convertConditionsToFileName(name: username, conditions: [time, "gaze"])
-        let data = csvModel.convertFigureListToString(dataLists: dataLists)
-        let dataRows = ["frameId", "timestamp", "mode", "lookAtPosition_x", "lookAtPosition_y",]
-        let rowNames = csvModel.convertDataToCSV(list: dataRows)
-        csvModel.write(fileName: fileName, rowsName: rowNames, dataList: data)
-        recordState = false
+        if(mode == "test"){
+            let now = NSDate()
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy/MM/dd"
+            let time = formatter.string(from: now as Date)
+            let fileName = csvModel.convertConditionsToFileName(name: username, conditions: [time, "gaze"])
+            let data = csvModel.convertFigureListToString(dataLists: dataLists)
+            let dataRows = ["frameId", "timestamp", "mode", "lookAtPosition_x", "lookAtPosition_y", "target_x", "target_y"]
+            let rowNames = csvModel.convertDataToCSV(list: dataRows)
+            csvModel.write(fileName: fileName, rowsName: rowNames, dataList: data)
+                recordState = false
+            
+        }
     }
 
     override func updateViewWithUpdateAnchor() {
         if(recordState){
+            // update indicator position
+             if eyeTrack.lookAtPosition.x < -view.bounds.width/2 + eyePositionIndicatorView.frame.width {
+                 eyeTrack.lookAtPosition.x = -view.bounds.width/2 + eyePositionIndicatorView.frame.width
+             }else if eyeTrack.lookAtPosition.x > view.bounds.width/2 {
+                 eyeTrack.lookAtPosition.x = view.bounds.width/2
+             }
+            if eyeTrack.lookAtPosition.y < -view.bounds.height/2 + eyePositionIndicatorView.frame.height + 50{
+                eyeTrack.lookAtPosition.y = -view.bounds.height/2 + eyePositionIndicatorView.frame.height + 50
+            }else if eyeTrack.lookAtPosition.y > view.bounds.height/2{
+                eyeTrack.lookAtPosition.y = view.bounds.height/2
+            }
+            self.eyePositionIndicatorView.transform = CGAffineTransform(translationX: eyeTrack.lookAtPosition.x, y: eyeTrack.lookAtPosition.y)
+
+            if eyeTrack.lookAtPoint.x < 0 {
+                self.eyeTargetPositionXLabel.text = "0"
+            } else {
+                self.eyeTargetPositionXLabel.text = "\(Int(round(eyeTrack.lookAtPoint.x)))"
+            }
+
+            if eyeTrack.lookAtPoint.y < 0 {
+                self.eyeTargetPositionYLabel.text = "0"
+            } else {
+                self.eyeTargetPositionYLabel.text = "\(Int(round(eyeTrack.lookAtPoint.y)))"
+            }
+
+            // Update distance label value
+            self.distanceLabel.text = "\(Int(round(eyeTrack.face.getDistanceToDevice() * 100))) cm"
+            
+            let eyeTrajectry = GazeTrajectory(frame: self.gridView.bounds)
+            eyeTrajectry.center = CGPoint(x: eyeTrack.lookAtPosition.x + view.bounds.width/2, y: eyeTrack.lookAtPosition.y + view.bounds.height/2)
+            eyeTrajectryList.append(eyeTrajectry)
+            if(eyeTrajectryList.count > 30){
+                eyeTrajectryList.first?.removeFromSuperview()
+                eyeTrajectryList.removeFirst()
+            }
+            self.view.addSubview(eyeTrajectryList[eyeTrajectryList.count - 1])
+            
             let now = NSDate()
             let time = timeToString(date: now as Date)
             self.frameId += 1
-            let data = [eyeTrack.lookAtPosition.x, eyeTrack.lookAtPosition.y,]
+            let data = [eyePositionIndicatorView.center.x, eyePositionIndicatorView.center.y ,eyePointTarget.center.x, eyePointTarget.center.y]
             var dataString: [String] = [String(frameId), time, mode]
             for i in 0..<data.count {
                 dataString.append(String(format: "%.8f", data[i]))
@@ -149,42 +240,6 @@ class EyePointView_y: EyeTrackViewController_y {
             //print(dataString)
             dataLists.append(dataString)
         }
-        // update indicator position
-         if eyeTrack.lookAtPosition.x < -view.bounds.width/2 + eyePositionIndicatorView.frame.width {
-             eyeTrack.lookAtPosition.x = -view.bounds.width/2 + eyePositionIndicatorView.frame.width
-         }else if eyeTrack.lookAtPosition.x > view.bounds.width/2 {
-             eyeTrack.lookAtPosition.x = view.bounds.width/2
-         }
-        if eyeTrack.lookAtPosition.y < -view.bounds.height/2 + eyePositionIndicatorView.frame.height + 50{
-            eyeTrack.lookAtPosition.y = -view.bounds.height/2 + eyePositionIndicatorView.frame.height + 50
-        }else if eyeTrack.lookAtPosition.y > view.bounds.height/2{
-            eyeTrack.lookAtPosition.y = view.bounds.height/2
-        }
-        self.eyePositionIndicatorView.transform = CGAffineTransform(translationX: eyeTrack.lookAtPosition.x, y: eyeTrack.lookAtPosition.y)
-        
-        let eyeTrajectry = GazeTrajectory(frame: self.gridView.bounds)
-        eyeTrajectry.center = CGPoint(x: eyeTrack.lookAtPosition.x + view.bounds.width/2, y: eyeTrack.lookAtPosition.y + view.bounds.height/2)
-        eyeTrajectryList.append(eyeTrajectry)
-        if(eyeTrajectryList.count > 30){
-            eyeTrajectryList.first?.removeFromSuperview()
-            eyeTrajectryList.removeFirst()
-        }
-        self.view.addSubview(eyeTrajectryList[eyeTrajectryList.count - 1])
-
-        if eyeTrack.lookAtPoint.x < 0 {
-            self.eyeTargetPositionXLabel.text = "0"
-        } else {
-            self.eyeTargetPositionXLabel.text = "\(Int(round(eyeTrack.lookAtPoint.x)))"
-        }
-
-        if eyeTrack.lookAtPoint.y < 0 {
-            self.eyeTargetPositionYLabel.text = "0"
-        } else {
-            self.eyeTargetPositionYLabel.text = "\(Int(round(eyeTrack.lookAtPoint.y)))"
-        }
-
-        // Update distance label value
-        self.distanceLabel.text = "\(Int(round(eyeTrack.face.getDistanceToDevice() * 100))) cm"
     }
     
     override func updateViewWithScene(withFaceAnchor: ARFaceAnchor){
