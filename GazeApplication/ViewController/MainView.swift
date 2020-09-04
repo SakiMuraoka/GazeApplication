@@ -23,6 +23,11 @@ class MainView: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
 
     var popupView: PopupView!
     
+    var modeLabel: UILabel!
+    var modeSegment: UISegmentedControl!
+    var modeParams = ["デモ", "テスト"]
+    var mymode = 0
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -47,9 +52,8 @@ class MainView: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
         pickerViewField.tintColor = UIColor.clear
         pickerViewField.delegate = self
         pickerViewField.text = userNames[0]
-
         
-        self.pickerView.frame = CGRect(x: 0, y: screenHeight * 10/100, width: screenWidth, height: Int(pickerView.bounds.size.height))
+        pickerView.frame = CGRect(x: 0, y: screenHeight * 10/100, width: screenWidth, height: Int(pickerView.bounds.size.height))
         pickerView.delegate = self
         pickerView.dataSource = self
         
@@ -59,10 +63,19 @@ class MainView: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
         popupView.noButton.isHidden = true
         popupView.isHidden = true
         
+        modeLabel = UILabel(frame: CGRect(x: 10, y: pickerViewField.center.y + 50, width: 100, height: 50))
+        modeLabel.text = "モード"
+        modeLabel.sizeToFit()
+        modeSegment = UISegmentedControl(items: modeParams)
+        modeSegment.center = CGPoint(x: self.view.center.x, y: modeLabel.center.y)
+        modeSegment.selectedSegmentIndex = 0
+        
         self.view.addSubview(addUserButton)
         self.view.addSubview(addUserField)
         self.view.addSubview(pickerViewField)
         self.view.addSubview(popupView)
+        self.view.addSubview(modeLabel)
+        self.view.addSubview(modeSegment)
     }
     
     @objc func addUserButtonClick(_ sender: UIButton){
