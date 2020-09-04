@@ -7,10 +7,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Sample Main View-->
+        <!--Main View-->
         <scene sceneID="IrH-6B-5Xc">
             <objects>
-                <viewController id="byR-wb-hs8" customClass="SampleMainView" customModule="GazeApplication" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="byR-wb-hs8" customClass="MainView" customModule="GazeApplication" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="mEG-Hx-irL">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
