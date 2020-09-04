@@ -26,9 +26,6 @@ class EyePointView_y: EyeTrackViewController_y {
     var error: Bool = true
     var errorLabel: UILabel!
     
-    var recordButton: UIButton!
-    var recordState:Bool = false
-    
     var mode = ""
     var username = ""
     
@@ -41,7 +38,7 @@ class EyePointView_y: EyeTrackViewController_y {
     var eyeTrajectryList: [GazeTrajectory] = []
     
     var popupView: PopupView!
-
+    var recordState:Bool = false
 
 //    @IBAction func onClickRecord(_ sender: Any) {
 //        self.startRecord()
@@ -69,19 +66,6 @@ class EyePointView_y: EyeTrackViewController_y {
         errorLabel.isHidden = false
         errorLabel.text = "顔をカメラに写してください"
         
-        recordButton = UIButton(type: .system)
-        recordButton.setTitle("記録開始", for: .normal)
-        recordButton.frame = CGRect(x: 0, y: 0, width: 200, height: 100)
-        recordButton.titleLabel?.font = UIFont.systemFont(ofSize: 30)
-        recordButton.setTitleColor(UIColor.white, for: .normal)
-        recordButton.layer.cornerRadius = recordButton.bounds.midY
-        recordButton.center = CGPoint(x: self.view.center.x, y: self.view.center.y)
-        recordButton.backgroundColor = UIColor.gray
-        recordButton.addTarget(self, action: #selector(recordButtonClick(_:)), for: UIControl.Event.touchUpInside)
-        if(mode == "demo"){
-            recordButton.isHidden = true
-        }
-        
         dataButton = UIButton(type: .system)
         dataButton.setTitle("データ追加", for: .normal)
         dataButton.sizeToFit()
@@ -93,6 +77,8 @@ class EyePointView_y: EyeTrackViewController_y {
         
         popupView = PopupView(frame: self.view.bounds)
         popupView.textLabelChange(text: "視線記録を開始しますか")
+        popupView.yesButton.addTarget(self, action: #selector(yesButtonClick(_:)), for: UIControl.Event.touchUpInside)
+        popupView.noButton.addTarget(self, action: #selector(noButtonClick(_:)), for: UIControl.Event.touchUpInside)
         
         self.view.addSubview(gridView)
         self.view.addSubview(eyePositionIndicatorView)
@@ -104,7 +90,6 @@ class EyePointView_y: EyeTrackViewController_y {
         self.view.addSubview(distanceLabel)
         self.view.addSubview(errorLabel)
         self.view.addSubview(dataButton)
-        self.view.addSubview(recordButton)
         self.view.addSubview(popupView)
     }
     
@@ -121,9 +106,14 @@ class EyePointView_y: EyeTrackViewController_y {
         dataLists.append(dataString)
     }
     
-    @objc func recordButtonClick(_ sender: UIButton){
+    @objc func yesButtonClick(_ sender: UIButton){
         recordState = true
-        recordButton.isHidden = true
+        popupView.isHidden = true
+    }
+    
+    @objc func noButtonClick(_ sender: UIButton){
+        popupView.isHidden = true
+        self.navigationController?.popViewController(animated: true)
     }
 
     override func viewWillAppear(_ animated: Bool) {
