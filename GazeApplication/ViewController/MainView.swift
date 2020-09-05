@@ -99,12 +99,12 @@ class MainView: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
         self.view.addSubview(addUserButton)
         self.view.addSubview(addUserField)
         self.view.addSubview(pickerViewField)
-        self.view.addSubview(popupView)
         self.view.addSubview(modeLabel)
         self.view.addSubview(modeSegment)
         self.view.addSubview(appLabel)
         self.view.addSubview(appSegment)
         self.view.addSubview(startButton)
+        self.view.addSubview(popupView)
     }
     
     @objc func addUserButtonClick(_ sender: UIButton){
@@ -133,40 +133,47 @@ class MainView: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
     }
     
     @objc func startButtonClick(_ sender: UIButton) {
-        switch myapp {
-            case 0:
-                let nextView = self.storyboard!.instantiateViewController(withIdentifier: "eyePointView_y") as! EyePointView_y
-                nextView.mode = mymode
-                nextView.username = pickerViewField.text!
-                self.navigationController?.pushViewController(nextView, animated: true)
-                break
-            case 1:
-                let nextView = self.storyboard!.instantiateViewController(withIdentifier: "homeView") as! HomeView
-                nextView.mode = mymode
-                nextView.username = pickerViewField.text!
-                self.navigationController?.pushViewController(nextView, animated: true)
-                break
-            case 2:
-                let nextView = self.storyboard!.instantiateViewController(withIdentifier: "mapView") as! SampleMapView
-                nextView.mode = mymode
-                nextView.username = pickerViewField.text!
-                self.navigationController?.pushViewController(nextView, animated: true)
-                break
-            case 3:
-                let nextView = self.storyboard!.instantiateViewController(withIdentifier: "galleryView") as!
-                SampleGalleryView
-                nextView.mode = mymode
-                nextView.username = pickerViewField.text!
-                self.navigationController?.pushViewController(nextView, animated: true)
-                break
-            case 4:
-                let nextView = self.storyboard!.instantiateViewController(withIdentifier: "browserView") as! SampleBrowserView
-                nextView.mode = mymode
-                nextView.username = pickerViewField.text!
-                self.navigationController?.pushViewController(nextView, animated: true)
-                break
-            default:
-                break
+        if pickerViewField.text == userNames[0]{
+            popupView.isHidden = false
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.0) {
+                self.popupView.isHidden = true
+            }
+        }else {
+            switch myapp {
+                case 0:
+                    let nextView = self.storyboard!.instantiateViewController(withIdentifier: "eyePointView_y") as! EyePointView_y
+                    nextView.mode = mymode
+                    nextView.username = pickerViewField.text!
+                    self.navigationController?.pushViewController(nextView, animated: true)
+                    break
+                case 1:
+                    let nextView = self.storyboard!.instantiateViewController(withIdentifier: "homeView") as! HomeView
+                    nextView.mode = mymode
+                    nextView.username = pickerViewField.text!
+                    self.navigationController?.pushViewController(nextView, animated: true)
+                    break
+                case 2:
+                    let nextView = self.storyboard!.instantiateViewController(withIdentifier: "mapView") as! SampleMapView
+                    nextView.mode = mymode
+                    nextView.username = pickerViewField.text!
+                    self.navigationController?.pushViewController(nextView, animated: true)
+                    break
+                case 3:
+                    let nextView = self.storyboard!.instantiateViewController(withIdentifier: "galleryView") as!
+                    SampleGalleryView
+                    nextView.mode = mymode
+                    nextView.username = pickerViewField.text!
+                    self.navigationController?.pushViewController(nextView, animated: true)
+                    break
+                case 4:
+                    let nextView = self.storyboard!.instantiateViewController(withIdentifier: "browserView") as! SampleBrowserView
+                    nextView.mode = mymode
+                    nextView.username = pickerViewField.text!
+                    self.navigationController?.pushViewController(nextView, animated: true)
+                    break
+                default:
+                    break
+            }
         }
     }
     
@@ -197,18 +204,10 @@ class MainView: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         print(userNames[row])
         pickerViewField.text = userNames[row]
-//        switch row {
-//        case 0:
-//            break
-//        case 1:
-//            break
-//        case 2:
-//            break
-//        case 3:
-//            break
-//        default:
-//            break
-//        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
 }
 
