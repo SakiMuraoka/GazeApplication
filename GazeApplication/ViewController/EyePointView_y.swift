@@ -28,6 +28,7 @@ class EyePointView_y: EyeTrackViewController_y {
     
     var mode = 0
     var username = ""
+    var mymode = ""
     
     let csvModel = CsvModel()
     var participant: String? = "saki"
@@ -90,6 +91,12 @@ class EyePointView_y: EyeTrackViewController_y {
         self.view.addSubview(eyePointTarget)
         
         moveTarget(fig: eyePointTarget)
+        
+        if mode == 0 {
+            mymode = "demo"
+        }else {
+            mymode = "test"
+        }
     }
     
     @objc func dataButtonClick(_ sender: UIButton){
@@ -97,12 +104,6 @@ class EyePointView_y: EyeTrackViewController_y {
         let time = timeToString(date: now as Date)
         self.frameId += 1
         let data = [eyeTrack.lookAtPosition.x, eyeTrack.lookAtPosition.y,]
-        var mymode = ""
-        if mode == 0 {
-            mymode = "demo"
-        }else {
-            mymode = "test"
-        }
         var dataString: [String] = [String(frameId), time, mymode]
         for i in 0..<data.count {
             dataString.append(String(format: "%.8f", data[i]))
@@ -181,19 +182,16 @@ class EyePointView_y: EyeTrackViewController_y {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if(mode == 1){
             let now = NSDate()
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy/MM/dd"
             let time = formatter.string(from: now as Date)
-            let fileName = csvModel.convertConditionsToFileName(name: username, conditions: [time, "gaze"])
+            let fileName = csvModel.convertConditionsToFileName(name: username, conditions: [time, mymode])
             let data = csvModel.convertFigureListToString(dataLists: dataLists)
             let dataRows = ["frameId", "timestamp", "mode", "lookAtPosition_x", "lookAtPosition_y", "target_x", "target_y"]
             let rowNames = csvModel.convertDataToCSV(list: dataRows)
             csvModel.write(fileName: fileName, rowsName: rowNames, dataList: data)
                 recordState = false
-            
-        }
     }
 
     override func updateViewWithUpdateAnchor() {
@@ -210,7 +208,6 @@ class EyePointView_y: EyeTrackViewController_y {
                 eyeTrack.lookAtPosition.y = view.bounds.height/2
             }
             self.eyePositionIndicatorView.transform = CGAffineTransform(translationX: eyeTrack.lookAtPosition.x, y: eyeTrack.lookAtPosition.y)
-
             if eyeTrack.lookAtPoint.x < 0 {
                 self.eyeTargetPositionXLabel.text = "0"
             } else {
@@ -238,13 +235,7 @@ class EyePointView_y: EyeTrackViewController_y {
             let now = NSDate()
             let time = timeToString(date: now as Date)
             self.frameId += 1
-            let data = [eyePositionIndicatorView.center.x, eyePositionIndicatorView.center.y ,eyePointTarget.center.x, eyePointTarget.center.y]
-            var mymode = ""
-                   if mode == 0 {
-                       mymode = "demo"
-                   }else {
-                       mymode = "test"
-                   }
+            let data = [eyePositionIndicatorView.center.x + eyeTrack.lookAtPosition.x, eyePositionIndicatorView.center.y + eyeTrack.lookAtPosition.y ,eyePointTarget.center.x, eyePointTarget.center.y]
             var dataString: [String] = [String(frameId), time, mymode]
             for i in 0..<data.count {
                 dataString.append(String(format: "%.8f", data[i]))
