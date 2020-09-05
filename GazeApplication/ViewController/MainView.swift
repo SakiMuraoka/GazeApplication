@@ -28,6 +28,11 @@ class MainView: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
     var modeParams = ["デモ", "テスト"]
     var mymode = 0
     
+    var appLabel: UILabel!
+    var appSegment: UISegmentedControl!
+    var appParams = ["視線", "ホーム", "マップ", "ギャラリ", "ブラウザ"]
+    var myapp = 0
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -63,14 +68,25 @@ class MainView: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
         popupView.noButton.isHidden = true
         popupView.isHidden = true
         
-        modeLabel = UILabel(frame: CGRect(x: 10, y: pickerViewField.center.y + 50, width: 100, height: 50))
+        modeLabel = UILabel()
         modeLabel.text = "モード"
         modeLabel.sizeToFit()
+        modeLabel.center = CGPoint(x: self.view.center.x, y: pickerViewField.center.y + 80)
         modeSegment = UISegmentedControl(items: modeParams)
-        modeSegment.center = CGPoint(x: self.view.center.x, y: modeLabel.center.y)
+        modeSegment.center = CGPoint(x: self.view.center.x, y: modeLabel.center.y + 40)
         modeSegment.selectedSegmentIndex = 0
         modeSegment.addTarget(self, action: #selector(segmentChanged(_:)), for: UIControl.Event.valueChanged)
         modeSegment.accessibilityIdentifier = "modeSegment"
+        
+        appLabel = UILabel()
+        appLabel.text = "アプリ"
+        appLabel.sizeToFit()
+        appLabel.center = CGPoint(x: self.view.center.x, y: modeSegment.center.y + 80)
+        appSegment = UISegmentedControl(items: appParams)
+        appSegment.center = CGPoint(x: self.view.center.x, y: appLabel.center.y + 40)
+        appSegment.selectedSegmentIndex = 0
+        appSegment.addTarget(self, action: #selector(segmentChanged(_:)), for: UIControl.Event.valueChanged)
+        appSegment.accessibilityIdentifier = "appSegment"
         
         self.view.addSubview(addUserButton)
         self.view.addSubview(addUserField)
@@ -78,6 +94,8 @@ class MainView: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
         self.view.addSubview(popupView)
         self.view.addSubview(modeLabel)
         self.view.addSubview(modeSegment)
+        self.view.addSubview(appLabel)
+        self.view.addSubview(appSegment)
     }
     
     @objc func addUserButtonClick(_ sender: UIButton){
@@ -89,6 +107,8 @@ class MainView: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
     @objc func segmentChanged(_ segment: UISegmentedControl){
         if segment.accessibilityIdentifier == "modeSegment" {
             mymode = segment.selectedSegmentIndex
+        }else if segment.accessibilityIdentifier == "appSegment" {
+            myapp = segment.selectedSegmentIndex
         }
         print(mymode)
 //        switch segment.selectedSegmentIndex {
