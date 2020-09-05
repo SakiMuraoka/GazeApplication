@@ -26,7 +26,7 @@ class SampleMapView:UIViewController, CLLocationManagerDelegate, ARSessionDelega
     var mapInit: Bool = true
     
     //モード変数
-    var mode: String = ""
+    var mode = 0
     var username = ""
     
     override func viewDidLoad() {

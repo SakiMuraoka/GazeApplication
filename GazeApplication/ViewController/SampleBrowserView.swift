@@ -17,7 +17,7 @@ class SampleBrowserView: UIViewController, ARSessionDelegate {
     var toolBar: UIToolbar!
     var webBrowserView: WebBrowserView!
     
-    var mode = ""
+    var mode = 0
     var username = ""
     
     override func viewDidLoad() {

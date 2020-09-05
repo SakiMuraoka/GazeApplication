@@ -16,7 +16,7 @@ class HomeView: UIViewController, ARSessionDelegate {
     
     var iconView: IconView!
     
-    var mode = ""
+    var mode = 0
     var username = ""
     
     
@@ -36,11 +36,11 @@ class HomeView: UIViewController, ARSessionDelegate {
         self.session.delegate = self
         self.windowWidth = self.view.frame.width
         self.windowHeight = self.view.frame.height
-        self.mode  = "デモ"
+        self.mode  = 0
     }
     
     @objc func tapButton(_ sender: UIButton){
-        if mode == "デモ"{
+        if mode == 0{
             switch sender.accessibilityIdentifier{
             case "map":
                 let nextView = self.storyboard!.instantiateViewController(withIdentifier: "mapView")

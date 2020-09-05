@@ -26,7 +26,7 @@ class EyePointView_y: EyeTrackViewController_y {
     var error: Bool = true
     var errorLabel: UILabel!
     
-    var mode = ""
+    var mode = 0
     var username = ""
     
     let csvModel = CsvModel()
@@ -67,7 +67,7 @@ class EyePointView_y: EyeTrackViewController_y {
         popupView.textLabelChange(text: "視線記録を開始しますか")
         popupView.yesButton.addTarget(self, action: #selector(yesButtonClick(_:)), for: UIControl.Event.touchUpInside)
         popupView.noButton.addTarget(self, action: #selector(noButtonClick(_:)), for: UIControl.Event.touchUpInside)
-        if(mode == "demo"){
+        if(mode == 0){
             popupView.isHidden = true
             recordState = true
         }
@@ -97,7 +97,13 @@ class EyePointView_y: EyeTrackViewController_y {
         let time = timeToString(date: now as Date)
         self.frameId += 1
         let data = [eyeTrack.lookAtPosition.x, eyeTrack.lookAtPosition.y,]
-        var dataString: [String] = [String(frameId), time, mode]
+        var mymode = ""
+        if mode == 0 {
+            mymode = "demo"
+        }else {
+            mymode = "test"
+        }
+        var dataString: [String] = [String(frameId), time, mymode]
         for i in 0..<data.count {
             dataString.append(String(format: "%.8f", data[i]))
         }
@@ -175,7 +181,7 @@ class EyePointView_y: EyeTrackViewController_y {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if(mode == "test"){
+        if(mode == 1){
             let now = NSDate()
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy/MM/dd"
@@ -233,7 +239,13 @@ class EyePointView_y: EyeTrackViewController_y {
             let time = timeToString(date: now as Date)
             self.frameId += 1
             let data = [eyePositionIndicatorView.center.x, eyePositionIndicatorView.center.y ,eyePointTarget.center.x, eyePointTarget.center.y]
-            var dataString: [String] = [String(frameId), time, mode]
+            var mymode = ""
+                   if mode == 0 {
+                       mymode = "demo"
+                   }else {
+                       mymode = "test"
+                   }
+            var dataString: [String] = [String(frameId), time, mymode]
             for i in 0..<data.count {
                 dataString.append(String(format: "%.8f", data[i]))
             }
