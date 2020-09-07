@@ -57,7 +57,6 @@ class Face {
     let leftEye: Eye
     var transform: simd_float4x4 = simd_float4x4()
 
-
     init() {
         // Node生成
         self.node = SCNNode()
