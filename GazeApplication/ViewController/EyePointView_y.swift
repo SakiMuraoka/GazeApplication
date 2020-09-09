@@ -115,7 +115,7 @@ class EyePointView_y: EyeTrackViewController_y {
     @objc func yesButtonClick(_ sender: UIButton){
         recordState = true
         popupView.isHidden = true
-        eyePointTarget.isHidden = false
+//        eyePointTarget.isHidden = false
     }
     
     @objc func noButtonClick(_ sender: UIButton){
