@@ -159,7 +159,7 @@ class EyePointView_y: EyeTrackViewController_y {
 //        })
         i = Int.random(in: 3..<maxi + 1)
         j = Int.random(in: 5..<maxj + 1)
-        UIView.animate(withDuration: 0, delay: 2, options:[.curveLinear], animations: {
+        UIView.animate(withDuration: 2, delay: 0, options:[.curveLinear], animations: {
             fig.center = CGPoint(x: Int(self.interval)*i - self.offsetX, y: Int(self.interval)*j - self.offsetY)
             if( i < maxi){
                 i += 1
@@ -234,14 +234,14 @@ class EyePointView_y: EyeTrackViewController_y {
                 }
                 self.view.addSubview(eyeTrajectryList[eyeTrajectryList.count - 1])
             }
-            
+            let target = eyePointTarget.layer.presentation()?.position
             let now = NSDate()
             let time = timeToString(date: now as Date)
             self.frameId += 1
             let face_t = eyeTrack.face.transform.columns
             let right_t = eyeTrack.face.rightEye.node.simdTransform.columns
             let left_t = eyeTrack.face.leftEye.node.simdTransform.columns
-            let data = [eyePositionIndicatorView.center.x + eyeTrack.lookAtPosition.x, eyePositionIndicatorView.center.y + eyeTrack.lookAtPosition.y ,eyePointTarget.center.x, eyePointTarget.center.y, face_t.0.x, face_t.0.y, face_t.0.z, face_t.0.w,face_t.1.x, face_t.1.y, face_t.1.z, face_t.1.w, face_t.2.x, face_t.2.y, face_t.2.z, face_t.2.w, face_t.3.x, face_t.3.y, face_t.3.z, face_t.3.w, right_t.0.x, right_t.0.y, right_t.0.z, right_t.0.w,right_t.1.x, right_t.1.y, right_t.1.z, right_t.1.w, right_t.2.x, right_t.2.y, right_t.2.z, right_t.2.w, right_t.3.x, right_t.3.y, right_t.3.z, right_t.3.w, left_t.0.x, left_t.0.y, left_t.0.z, left_t.0.w,left_t.1.x, left_t.1.y, left_t.1.z, left_t.1.w, left_t.2.x, left_t.2.y, left_t.2.z, left_t.2.w, left_t.3.x, left_t.3.y, left_t.3.z, left_t.3.w] as [Any]
+            let data = [eyePositionIndicatorView.center.x + eyeTrack.lookAtPosition.x, eyePositionIndicatorView.center.y + eyeTrack.lookAtPosition.y ,target?.x, target?.y, face_t.0.x, face_t.0.y, face_t.0.z, face_t.0.w,face_t.1.x, face_t.1.y, face_t.1.z, face_t.1.w, face_t.2.x, face_t.2.y, face_t.2.z, face_t.2.w, face_t.3.x, face_t.3.y, face_t.3.z, face_t.3.w, right_t.0.x, right_t.0.y, right_t.0.z, right_t.0.w,right_t.1.x, right_t.1.y, right_t.1.z, right_t.1.w, right_t.2.x, right_t.2.y, right_t.2.z, right_t.2.w, right_t.3.x, right_t.3.y, right_t.3.z, right_t.3.w, left_t.0.x, left_t.0.y, left_t.0.z, left_t.0.w,left_t.1.x, left_t.1.y, left_t.1.z, left_t.1.w, left_t.2.x, left_t.2.y, left_t.2.z, left_t.2.w, left_t.3.x, left_t.3.y, left_t.3.z, left_t.3.w] as [Any]
             var dataString: [String] = [String(frameId), time, mymode]
             for i in 0..<data.count {
                 dataString.append(String(format: "%.8f", data[i] as! CVarArg))
