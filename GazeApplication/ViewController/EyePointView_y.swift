@@ -71,6 +71,8 @@ class EyePointView_y: EyeTrackViewController_y {
         if(mode == 0){
             popupView.isHidden = true
             recordState = true
+        }else{
+            eyePositionIndicatorView.isHidden = true
         }
         
         eyePointTarget = TestEyePointTarget(frame: self.view.bounds)
@@ -115,7 +117,7 @@ class EyePointView_y: EyeTrackViewController_y {
     @objc func yesButtonClick(_ sender: UIButton){
         recordState = true
         popupView.isHidden = true
-//        eyePointTarget.isHidden = false
+        eyePointTarget.isHidden = false
     }
     
     @objc func noButtonClick(_ sender: UIButton){
@@ -222,15 +224,16 @@ class EyePointView_y: EyeTrackViewController_y {
 
             // Update distance label value
             self.distanceLabel.text = "\(Int(round(eyeTrack.face.getDistanceToDevice() * 100))) cm"
-            
-            let eyeTrajectry = GazeTrajectory(frame: self.gridView.bounds)
-            eyeTrajectry.center = CGPoint(x: eyeTrack.lookAtPosition.x + view.bounds.width/2, y: eyeTrack.lookAtPosition.y + view.bounds.height/2)
-            eyeTrajectryList.append(eyeTrajectry)
-            if(eyeTrajectryList.count > 30){
-                eyeTrajectryList.first?.removeFromSuperview()
-                eyeTrajectryList.removeFirst()
+            if(mode == 0){
+                let eyeTrajectry = GazeTrajectory(frame: self.gridView.bounds)
+                eyeTrajectry.center = CGPoint(x: eyeTrack.lookAtPosition.x + view.bounds.width/2, y: eyeTrack.lookAtPosition.y + view.bounds.height/2)
+                eyeTrajectryList.append(eyeTrajectry)
+                if(eyeTrajectryList.count > 30){
+                    eyeTrajectryList.first?.removeFromSuperview()
+                    eyeTrajectryList.removeFirst()
+                }
+                self.view.addSubview(eyeTrajectryList[eyeTrajectryList.count - 1])
             }
-            self.view.addSubview(eyeTrajectryList[eyeTrajectryList.count - 1])
             
             let now = NSDate()
             let time = timeToString(date: now as Date)
