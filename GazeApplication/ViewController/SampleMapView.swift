@@ -58,6 +58,9 @@ class SampleMapView:UIViewController, CLLocationManagerDelegate, ARSessionDelega
         self.session.delegate = self
         self.windowWidth = self.view.frame.width
         self.windowHeight = self.view.frame.height
+        if(mode == 1){
+        displayAlert(title: "データの記録", message: "記録を開始してもいいですか？")
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations:[CLLocation]) {
@@ -157,5 +160,24 @@ class SampleMapView:UIViewController, CLLocationManagerDelegate, ARSessionDelega
         }
     }
     //---------------------------------
-
+    func displayAlert(title: String, message: String){
+        let alert: UIAlertController = UIAlertController(title: title, message: message, preferredStyle:  UIAlertController.Style.alert)
+        // OKボタン
+        let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
+            // ボタンが押された時の処理を書く（クロージャ実装）
+            (action: UIAlertAction!) -> Void in
+            print("OK")
+        })
+        // キャンセルボタン
+        let cancelAction: UIAlertAction = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler:{
+            // ボタンが押された時の処理を書く（クロージャ実装）
+            (action: UIAlertAction!) -> Void in
+            print("Cancel")
+            self.navigationController?.popViewController(animated: true)
+        })
+        alert.addAction(cancelAction)
+        alert.addAction(defaultAction)
+        //Alertを表示
+        present(alert, animated: true, completion: nil)
+    }
 }
