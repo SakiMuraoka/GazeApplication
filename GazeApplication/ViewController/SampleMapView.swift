@@ -59,7 +59,8 @@ class SampleMapView:UIViewController, CLLocationManagerDelegate, ARSessionDelega
         self.windowWidth = self.view.frame.width
         self.windowHeight = self.view.frame.height
         if(mode == 1){
-        displayAlert(title: "データの記録", message: "記録を開始してもいいですか？")
+            //テストモードでデータ記録の確認
+            displayAlert(title: "データの記録", message: "記録を開始してもいいですか？")
         }
     }
     
@@ -160,6 +161,7 @@ class SampleMapView:UIViewController, CLLocationManagerDelegate, ARSessionDelega
         }
     }
     //---------------------------------
+//MARK:- アラート表示
     func displayAlert(title: String, message: String){
         let alert: UIAlertController = UIAlertController(title: title, message: message, preferredStyle:  UIAlertController.Style.alert)
         // OKボタン
