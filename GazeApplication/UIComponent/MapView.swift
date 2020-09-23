@@ -28,6 +28,8 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate {
     var doubleTapGesture: UITapGestureRecognizer!
     let maxScale: CGFloat = 10
     
+    var operationType = "none"
+    
     override init(frame: CGRect) {
         //MKMapViewを作成と初期化
         self.mapView = MKMapView()
@@ -158,6 +160,7 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate {
     
     //マップの表示タイプ切り替えボタンの処理
     @objc func mapViewTypeButtonThouchDown(_ sender: UIButton) {
+        self.operationType = "typeButton"
         switch mapView.mapType {
         case .standard:         // 標準の地図
             mapView.mapType = .satellite
@@ -183,6 +186,7 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate {
     }
     //テキストフィールドが改行された時（doneが押された時）の処理
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.operationType = "returnTextField"
         //キーボードを閉じる
         textField.resignFirstResponder()
         if let searchKey = textField.text {
@@ -219,6 +223,7 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate {
 
     // テキストフィールドがフォーカスされた時の処理
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        self.operationType = "BeginTextField"
         print("Start")
         return true
     }
@@ -231,8 +236,10 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate {
     var exsistPin = false
     //ピンを作成し，マップの中心にする
     func createPin(coordinate:CLLocationCoordinate2D, title: String) {
+        self.operationType = "createPin"
         //すでにピンがある場合は，削除
         if(exsistPin) {
+            self.operationType = "deletePin"
             self.mapView.removeAnnotation(searchPin)
         }
         self.searchPin = MKPointAnnotation()
@@ -246,8 +253,9 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate {
     //GazePointerをドラッグで移動
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first, let view = touch.view else { return }
-
+        self.operationType = "drug"
         if view == self.gazePointer {
+            self.operationType = "drugPointer"
             movePointer(to: touch.location(in: self))
         }
     }
@@ -263,6 +271,7 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate {
     //ダブルタップで，gazePointerの位置でズーム
     var gazePointInit = true
     @objc func doubleTapAction(gesture: UITapGestureRecognizer) {
+        self.operationType = "doubleTap"
         let offset: CGFloat!
         offset = 4.8
 

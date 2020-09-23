@@ -37,6 +37,7 @@ class SampleMapView:EyeTrackViewController_y, CLLocationManagerDelegate{
     var username = ""
     var mymode = ""
     var myapp = "map"
+    var operationType = "none"//
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -131,7 +132,7 @@ class SampleMapView:EyeTrackViewController_y, CLLocationManagerDelegate{
             let time = formatter.string(from: now as Date)
             let fileName = csvModel.convertConditionsToFileName(name: username, conditions: [time, myapp])
             let data = csvModel.convertFigureListToString(dataLists: dataLists)
-            let dataRows = ["frameId", "timestamp", "mode", "face_0x","face_0y", "face_0z", "face_0w", "face_1x","face_1y", "face_1z", "face_1w", "face_2x","face_2y", "face_2z", "face_2w", "face_3x","face_3y", "face_3z", "face_3w", "right_0x","right_0y", "right_0z", "right_0w", "right_1x","right_1y", "right_1z", "right_1w", "right_2x","right_2y", "right_2z", "right_2w", "right_3x","right_3y", "right_3z", "right_3w", "left_0x","left_0y", "left_0z", "left_0w", "left_1x","left_1y", "left_1z", "left_1w", "left_2x","left_2y", "left_2z", "left_2w", "left_3x","left_3y", "left_3z", "left_3w"]
+            let dataRows = ["frameId", "timestamp", "mode", "operationType", "face_0x","face_0y", "face_0z", "face_0w", "face_1x","face_1y", "face_1z", "face_1w", "face_2x","face_2y", "face_2z", "face_2w", "face_3x","face_3y", "face_3z", "face_3w", "right_0x","right_0y", "right_0z", "right_0w", "right_1x","right_1y", "right_1z", "right_1w", "right_2x","right_2y", "right_2z", "right_2w", "right_3x","right_3y", "right_3z", "right_3w", "left_0x","left_0y", "left_0z", "left_0w", "left_1x","left_1y", "left_1z", "left_1w", "left_2x","left_2y", "left_2z", "left_2w", "left_3x","left_3y", "left_3z", "left_3w"]
             let rowNames = csvModel.convertDataToCSV(list: dataRows)
             csvModel.write(fileName: fileName, rowsName: rowNames, dataList: data)
                 recordState = false
@@ -140,6 +141,7 @@ class SampleMapView:EyeTrackViewController_y, CLLocationManagerDelegate{
     //MARK: -ARKitデータの取得
     override func updateViewWithUpdateAnchor() {
         if(recordState){
+            self.operationType = mapView.operationType
             let now = NSDate()
             let time = timeToString(date: now as Date)
             self.frameId += 1
@@ -147,7 +149,7 @@ class SampleMapView:EyeTrackViewController_y, CLLocationManagerDelegate{
             let right_t = eyeTrack.face.rightEye.node.simdTransform.columns
             let left_t = eyeTrack.face.leftEye.node.simdTransform.columns
             let data = [face_t.0.x, face_t.0.y, face_t.0.z, face_t.0.w,face_t.1.x, face_t.1.y, face_t.1.z, face_t.1.w, face_t.2.x, face_t.2.y, face_t.2.z, face_t.2.w, face_t.3.x, face_t.3.y, face_t.3.z, face_t.3.w, right_t.0.x, right_t.0.y, right_t.0.z, right_t.0.w,right_t.1.x, right_t.1.y, right_t.1.z, right_t.1.w, right_t.2.x, right_t.2.y, right_t.2.z, right_t.2.w, right_t.3.x, right_t.3.y, right_t.3.z, right_t.3.w, left_t.0.x, left_t.0.y, left_t.0.z, left_t.0.w,left_t.1.x, left_t.1.y, left_t.1.z, left_t.1.w, left_t.2.x, left_t.2.y, left_t.2.z, left_t.2.w, left_t.3.x, left_t.3.y, left_t.3.z, left_t.3.w] as [Any]
-            var dataString: [String] = [String(frameId), time, mymode]
+            var dataString: [String] = [String(frameId), time, mymode, operationType]
             for i in 0..<data.count {
                 dataString.append(String(format: "%.8f", data[i] as! CVarArg))
             }
@@ -240,3 +242,4 @@ class SampleMapView:EyeTrackViewController_y, CLLocationManagerDelegate{
     //        }
     //    }
 }
+
