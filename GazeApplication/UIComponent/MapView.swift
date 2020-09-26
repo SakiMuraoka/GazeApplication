@@ -29,6 +29,7 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate {
     let maxScale: CGFloat = 10
     
     var operationType = "none"
+    var operationPosition = CGPoint()
     
     override init(frame: CGRect) {
         //MKMapViewを作成と初期化
@@ -161,6 +162,7 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate {
     //マップの表示タイプ切り替えボタンの処理
     @objc func mapViewTypeButtonThouchDown(_ sender: UIButton) {
         self.operationType = "typeButton"
+        self.operationPosition = sender.center
         switch mapView.mapType {
         case .standard:         // 標準の地図
             mapView.mapType = .satellite
@@ -224,6 +226,7 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate {
     // テキストフィールドがフォーカスされた時の処理
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         self.operationType = "BeginTextField"
+        self.operationPosition = textField.center
         print("Start")
         return true
     }
@@ -239,7 +242,6 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate {
         self.operationType = "createPin"
         //すでにピンがある場合は，削除
         if(exsistPin) {
-            self.operationType = "deletePin"
             self.mapView.removeAnnotation(searchPin)
         }
         self.searchPin = MKPointAnnotation()
@@ -254,6 +256,7 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate {
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first, let view = touch.view else { return }
         self.operationType = "drug"
+        self.operationPosition = touch.location(in: self)
         if view == self.gazePointer {
             self.operationType = "drugPointer"
             movePointer(to: touch.location(in: self))
@@ -272,6 +275,7 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate {
     var gazePointInit = true
     @objc func doubleTapAction(gesture: UITapGestureRecognizer) {
         self.operationType = "doubleTap"
+        self.operationPosition = gesture.location(in: self)
         let offset: CGFloat!
         offset = 4.8
 
