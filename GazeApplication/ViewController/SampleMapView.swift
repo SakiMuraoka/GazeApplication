@@ -181,7 +181,7 @@ class SampleMapView:EyeTrackViewController_y, CLLocationManagerDelegate{
         let format = DateFormatter()
         switch mode {
         case 0:
-                format.dateFormat = "MM/dd/HH:mm"
+                format.dateFormat = "MM.dd.HH.mm"
         case 1:
                 format.dateFormat = "HH:mm:ss.SSS"
         default:
