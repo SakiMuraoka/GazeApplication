@@ -42,7 +42,7 @@ class CsvModel {
         conditions.forEach {condition in
             var modifiedCondition = condition.replace(from: " ", to: "_")
             modifiedCondition = modifiedCondition.replace(from: ";", to: "")
-            modifiedCondition = modifiedCondition.replace(from: "/", to: "-")
+//            modifiedCondition = modifiedCondition.replace(from: "/", to: "-")
             fileName += "_"
             fileName += modifiedCondition
         }
