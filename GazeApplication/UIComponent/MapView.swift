@@ -158,7 +158,7 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate {
             mapView.setRegion(mapRegion,animated:true)
         }
    }
-    
+    //MARK: -ボタン
     //マップの表示タイプ切り替えボタンの処理
     @objc func mapViewTypeButtonThouchDown(_ sender: UIButton) {
         self.operationType = "typeButton"
@@ -186,6 +186,7 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate {
             break
         }
     }
+    //MARK: -テキストフィールド
     //テキストフィールドが改行された時（doneが押された時）の処理
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.operationType = "returnTextField"
@@ -213,33 +214,34 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate {
                 }
                 })
         }
-        print("Return")
         return true
     }
 
     // クリアボタンが押された時の処理
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        print("Clear")
+        self.operationType = "ClearTextField"
+        //FIXME: クリアボタンの座標にする
+        self.operationPosition = textField.center
         return true
     }
 
     // テキストフィールドがフォーカスされた時の処理
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        self.operationType = "BeginTextField"
+        self.operationType = "EditTextField"
         self.operationPosition = textField.center
-        print("Start")
         return true
     }
 
     // テキストフィールドでの編集が終了する直前での処理
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        print("End")
         return true
     }
+
+    //MARK: -ピン
     var exsistPin = false
     //ピンを作成し，マップの中心にする
     func createPin(coordinate:CLLocationCoordinate2D, title: String) {
-        self.operationType = "createPin"
+//        self.operationType = "createPin"
         //すでにピンがある場合は，削除
         if(exsistPin) {
             self.mapView.removeAnnotation(searchPin)
@@ -251,7 +253,8 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate {
         self.mapView.region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 500.0, longitudinalMeters: 500.0)
         exsistPin = true
     }
-    
+
+    //MARK: -ドラッグ
     //GazePointerをドラッグで移動
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first, let view = touch.view else { return }
@@ -271,6 +274,7 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
+    //MARK: -タップ
     //ダブルタップで，gazePointerの位置でズーム
     var gazePointInit = true
     @objc func doubleTapAction(gesture: UITapGestureRecognizer) {
