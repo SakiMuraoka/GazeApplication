@@ -103,7 +103,7 @@ class EyePointView_y: EyeTrackViewController_y {
     
     @objc func dataButtonClick(_ sender: UIButton){
         let now = NSDate()
-        let time = timeToString(date: now as Date)
+        let time = timeToString(date: now as Date, mode: 1)
         self.frameId += 1
         let data = [eyeTrack.lookAtPosition.x, eyeTrack.lookAtPosition.y,]
         var dataString: [String] = [String(frameId), time, mymode]
@@ -236,7 +236,7 @@ class EyePointView_y: EyeTrackViewController_y {
             }
             let target = eyePointTarget.layer.presentation()?.position
             let now = NSDate()
-            let time = timeToString(date: now as Date)
+            let time = timeToString(date: now as Date, mode: 1)
             self.frameId += 1
             let face_t = eyeTrack.face.transform.columns
             let right_t = eyeTrack.face.rightEye.node.simdTransform.columns
@@ -262,9 +262,16 @@ class EyePointView_y: EyeTrackViewController_y {
 
 
 extension EyePointView_y {
-    func timeToString(date: Date) -> String {
+    func timeToString(date: Date, mode: Int) -> String {
         let format = DateFormatter()
-        format.dateFormat = "HH:mm:ss.SSS"
+        switch mode {
+        case 0:
+                format.dateFormat = "MM/dd/HH:mm"
+        case 1:
+                format.dateFormat = "HH:mm:ss.SSS"
+        default:
+            break
+        }
         return format.string(from: date)
     }
 }

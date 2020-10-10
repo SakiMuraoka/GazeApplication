@@ -32,6 +32,9 @@ class SampleMapView:EyeTrackViewController_y, CLLocationManagerDelegate{
     var mapView: MapView!
     var mapInit: Bool = true
     
+    var error: Bool = true
+    var errorLabel: UILabel!
+    
     //モード変数
     var mode = 0
     var username = ""
@@ -65,6 +68,12 @@ class SampleMapView:EyeTrackViewController_y, CLLocationManagerDelegate{
                 break
             }
         }
+        
+        errorLabel = UILabel(frame: CGRect(x: 0, y: self.view.center.y, width: self.view.bounds.width, height: 50))
+        errorLabel.textAlignment = .center
+        errorLabel.isHidden = false
+        errorLabel.text = "顔をカメラに写してください"
+        self.view.addSubview(errorLabel)
         
         if mode == 0 {
             mymode = "demo"
@@ -159,6 +168,15 @@ class SampleMapView:EyeTrackViewController_y, CLLocationManagerDelegate{
             dataLists.append(dataString)
         }
     }
+    
+    override func updateViewWithScene(withFaceAnchor: ARFaceAnchor){
+        if(withFaceAnchor.isTracked){
+            errorLabel.isHidden = true
+        }else{
+            errorLabel.isHidden = false
+        }
+    }
+    
     func timeToString(date: Date, mode: Int) -> String {
         let format = DateFormatter()
         switch mode {
