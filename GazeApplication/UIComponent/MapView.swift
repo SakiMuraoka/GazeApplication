@@ -171,17 +171,17 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate {
             mapView.mapType = .hybrid
             break
         case .hybrid:           // 標準の地図＋航空写真
-            mapView.mapType = .satelliteFlyover
-            break
-        case .satelliteFlyover: // 3D航空写真
-            mapView.mapType = .hybridFlyover
-            break
-        case .hybridFlyover:    // 3D標準の地図＋航空写真
-            mapView.mapType = .mutedStandard
-            break
-        case .mutedStandard:    // 地図よりもデータを強調
             mapView.mapType = .standard
             break
+//        case .satelliteFlyover: // 3D航空写真
+//            mapView.mapType = .hybridFlyover
+//            break
+//        case .hybridFlyover:    // 3D標準の地図＋航空写真
+//            mapView.mapType = .mutedStandard
+//            break
+//        case .mutedStandard:    // 地図よりもデータを強調
+//            mapView.mapType = .standard
+//            break
         default:
             break
         }
