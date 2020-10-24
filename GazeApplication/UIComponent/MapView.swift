@@ -25,6 +25,7 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate {
     
     let gazePointer: GazePointer!
     
+    var tapGesture: UITapGestureRecognizer!
     var doubleTapGesture: UITapGestureRecognizer!
     let maxScale: CGFloat = 10
     
@@ -87,8 +88,12 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate {
         doubleTapGesture = UITapGestureRecognizer(target: self, action:#selector(self.doubleTapAction(gesture:)))
         doubleTapGesture.numberOfTapsRequired = 2
         self.addGestureRecognizer(doubleTapGesture)
+        tapGesture = UITapGestureRecognizer(target: self, action:#selector(self.tapAction(gesture:)))
+        self.addGestureRecognizer(tapGesture)
+        
         
         searchField.delegate = self
+        tapGesture.delegate = self
         doubleTapGesture.delegate = self
     }
     
@@ -275,6 +280,13 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate {
         return true
     }
     //MARK: -タップ
+    var tapCount = 0
+    @objc func tapAction(gesture: UITapGestureRecognizer) {
+        self.operationType = "Tap"
+        self.operationPosition = gesture.location(in: self)
+        print("tap" + tapCount.description)
+        tapCount += 1
+    }
     //ダブルタップで，gazePointerの位置でズーム
     var gazePointInit = true
     @objc func doubleTapAction(gesture: UITapGestureRecognizer) {
@@ -293,4 +305,7 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate {
     }
 }
 
+extension MKUserTrackingButton {
+
+}
 
