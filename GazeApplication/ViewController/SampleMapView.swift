@@ -84,10 +84,15 @@ class SampleMapView:EyeTrackViewController_y, CLLocationManagerDelegate{
         self.session.delegate = self
         self.windowWidth = self.view.frame.width
         self.windowHeight = self.view.frame.height
+        
+        self.mapView.gazePointer.isHidden = true
         if(mode == 1){
             //テストモードでデータ記録の確認
             displayAlert(title: "データの記録", message: "記録を開始してもいいですか？")
-            self.mapView.gazePointer.isHidden = true
+        }
+        let timeLimit = 120.0
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + timeLimit) {
+            self.navigationController?.popViewController(animated: true)
         }
     }
     
