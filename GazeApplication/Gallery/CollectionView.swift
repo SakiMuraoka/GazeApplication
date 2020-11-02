@@ -55,7 +55,7 @@ extension CollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell",for: indexPath as IndexPath) as! CollectionViewCell
         let cellImage = UIImage(named: photo[0][0])!
-        cell.setUpContents(image: cellImage)
+//        cell.setUpContents(image: cellImage)
         return cell
     }
     
@@ -76,7 +76,7 @@ extension CollectionView:  UICollectionViewDelegateFlowLayout {
     
     // セルの余白
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
     // ヘッダーのサイズ

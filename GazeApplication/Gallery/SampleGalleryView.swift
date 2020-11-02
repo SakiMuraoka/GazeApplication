@@ -1,0 +1,198 @@
+//
+//  ImageGalleryView.swift
+//  GazeApplication
+//
+//  Created by 村岡沙紀 on 2020/07/25.
+//  Copyright © 2020 村岡沙紀. All rights reserved.
+//
+
+import UIKit
+import ARKit
+
+class SampleGalleryView: UIViewController, ARSessionDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    var collectionView: UICollectionView!
+    var collectionViewData = CollectionViewData()
+    
+//    let gazePointer: GazePointer! = nil
+    
+    var selectedImageView : UIImageView?
+    
+    var session: ARSession!
+    
+//    var imageGalleryView: ImageGalleryView!
+    
+    var mode = 0
+    var username = ""
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        session = ARSession()
+        self.session.delegate = self
+        
+        self.title = "画像ギャラリ"
+//        imageGalleryView = ImageGalleryView(frame: self.view.bounds)
+//        self.view.addSubview(imageGalleryView)
+        collectionView = UICollectionView(frame: CGRect(x: 0, y: 100, width: self.view.bounds.width, height: self.view.bounds.height - 100), collectionViewLayout: UICollectionViewFlowLayout())
+        collectionView.backgroundColor = UIColor.white
+//        collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+//        collectionView.register(CollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "Header")
+        
+//        gazePointer = GazePointer(frame: frame)
+        
+//        selectedImageView = UIImageView()
+        //Viewを追加
+        self.view.addSubview(collectionView)
+        
+//        self.addSubview(gazePointer)
+      
+//        collectionView.delegate = self
+//        collectionView.dataSource = self
+    }
+    
+    //MARK:-セルの処理
+    //表示するセルの数
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.collectionViewData.data[section].count
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return self.collectionViewData.sectionName.count
+    }
+    // 表示するセルを登録
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell",for: indexPath as IndexPath) as! CollectionViewCell
+        cell.image = UIImage(named: collectionViewData.photo[indexPath.section][indexPath.item])!
+        
+        self.selectedImageView = cell.cellImageView
+        
+        return cell
+    }
+    //セルが選択された時
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath as IndexPath) as! CollectionViewCell
+        self.selectedImageView = cell.cellImageView
+
+        let nextView = self.storyboard!.instantiateViewController(withIdentifier: "detailView") as! DetailViewController
+        nextView.image = self.selectedImageView!.image
+
+        self.navigationController?.pushViewController(nextView, animated: true)
+    }
+    //セルの大きさや隙間の調整
+   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+       return CollectionViewCell.cellOfSize()
+   }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let collectionViewHeader = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "Header", for: indexPath) as! CollectionViewHeader
+        let headerText = collectionViewData.sectionName[indexPath.section][indexPath.item]
+        collectionViewHeader.setUpContents(titleText: headerText)
+        return collectionViewHeader
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 5
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 5
+    }
+    
+    // ヘッダーのサイズ
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: self.view.bounds.width, height:50)
+    }
+    
+    func createImageView() -> UIImageView? {
+        
+        guard let selectedImageView = self.selectedImageView else {
+            return nil
+        }
+        let imageView = UIImageView(image: selectedImageView.image)
+        imageView.contentMode = .scaleAspectFill
+        imageView.frame = selectedImageView.convert(selectedImageView.frame, to: self.view)
+        return imageView
+    }
+    
+//    //視線の処理---------
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//        resetTracking()
+//    }
+//
+//    func resetTracking() {
+//        let configration = ARFaceTrackingConfiguration()    //front-facingカメラを使ったAR
+//        self.session.run(configration, options: [.resetTracking, .removeExistingAnchors])   //ARSessionの開始
+//    }
+//
+//    func session(_ session: ARSession, didUpdate frame: ARFrame) {
+//        frame.anchors.forEach { anchor in
+//            guard #available(iOS 12.0, *), let faceAnchor = anchor as? ARFaceAnchor else { return }
+//
+//            let faceNode = SCNNode()                        //faceNodeの作成
+//            faceNode.simdTransform = faceAnchor.transform   //変換行列の設定
+//
+//            let point = faceAnchor.lookAtPoint   //ユーザが見ている点
+//
+//            let cameraTransform = frame.camera.transform    //カメラの位置と向きの情報
+//
+//            //world cordinationにおけるカメラの座標（絶対(0,0,0))
+//            let cameraPosition = SCNVector3Make(cameraTransform.columns.3.x, cameraTransform.columns.3.y, cameraTransform.columns.3.z)
+//
+//
+//            //face cordinate spaceにおけるカメラの座標（のはず）
+//            let cameraOnFaceNode = faceNode.convertPosition(cameraPosition, from: nil)
+//
+//            //カメラの向き
+//            let cameraAngle = SCNVector3Make(cameraTransform.columns.3.x, cameraTransform.columns.3.y, cameraTransform.columns.3.z)
+//            let cameraAngleFaceNode = faceNode.convertPosition(cameraAngle, to: nil)
+//
+//            let leftEye = faceAnchor.leftEyeTransform
+//            let rightEye = faceAnchor.rightEyeTransform
+//            let eyesCenter = SCNVector3Make(
+//                            (leftEye.columns.3.x + rightEye.columns.3.x)/2,
+//                            (leftEye.columns.3.y + rightEye.columns.3.y)/2,
+//                            (leftEye.columns.3.z + rightEye.columns.3.z)/2)
+//
+//
+//            //スクリーン平面の法線ベクトルを計算
+//            let cameraNorm = SCNVector3Make(cameraAngleFaceNode.x - cameraOnFaceNode.x,
+//                                            cameraAngleFaceNode.y - cameraOnFaceNode.y,
+//                                            cameraAngleFaceNode.z - cameraOnFaceNode.z)
+//            //スクリーンを含む平面と視線ベクトルの交点を求める
+//            let k = -(cameraNorm.x * (eyesCenter.x - cameraOnFaceNode.x)
+//                    + cameraNorm.y * (eyesCenter.y - cameraOnFaceNode.y)
+//                    + cameraNorm.z * (eyesCenter.z - cameraOnFaceNode.z))
+//                    / (cameraNorm.x * point[0]
+//                        + cameraNorm.y * point[1]
+//                        + cameraNorm.z * point[2])
+//            //スクリーンの中心を始点とするベクトルとして交点を表現
+//            if k > 0 {
+//                let intersection = [
+//                        eyesCenter.x + k * point[0] - cameraOnFaceNode.x,
+//                        eyesCenter.y + k * point[1] - cameraOnFaceNode.y,
+//                        eyesCenter.z + k * point[2] - cameraOnFaceNode.z
+//                    ]
+//
+//                let hardWidth = 70.9
+//                let hardHeight = 143.6
+//                var milliIntersection = Array<CGFloat>(repeating: 0, count: 3)
+//                for i in 0..<3 {
+//                    milliIntersection[i] = CGFloat(intersection[i] * 1000)
+//                }
+//                let widthRate = self.windowWidth / CGFloat(hardWidth)
+//                let heightRate = self.windowHeight / CGFloat(hardHeight)
+//
+//                milliIntersection[0] = milliIntersection[0] * widthRate
+//                milliIntersection[1] = milliIntersection[1] * heightRate
+//                //print("x: \(String(describing: milliIntersection[0])), y: \(String(describing: milliIntersection[1]))")
+//                //gazePointer.cordinationConvertor(lookAt: milliIntersection)
+//                let gazex = CGFloat(milliIntersection[0]) + self.windowWidth/2
+//                let gazey = -CGFloat(milliIntersection[1]) + self.windowHeight/2
+//                self.imageGalleryView.movePointer(to: CGPoint(x: gazex, y: gazey))
+//            }
+//        }
+//    }
+//    //---------------------------------
+}
