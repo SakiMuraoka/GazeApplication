@@ -9,6 +9,15 @@
           "revision": "8eabd3193125812439ac82dc81bf99dc79886722",
           "version": "1.6.0"
         }
+      },
+      {
+        "package": "EyeTrackKit",
+        "repositoryURL": "https://github.com/ukitomato/EyeTrackKit",
+        "state": {
+          "branch": null,
+          "revision": "5b5f742f3edf2bfc2e4621fb10ff78e2210467a5",
+          "version": "0.6.2"
+        }
       }
     ]
   },

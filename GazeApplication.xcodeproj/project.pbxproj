@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CF0EEC30254F99F100D4B075 /* EyeTrackKit in Frameworks */ = {isa = PBXBuildFile; productRef = CF0EEC2F254F99F100D4B075 /* EyeTrackKit */; };
 		CF1C6C0D24FDCFBA00D1D621 /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1C6C0C24FDCFBA00D1D621 /* PopupView.swift */; };
 		CF1C6C112502F2FF00D1D621 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1C6C102502F2FF00D1D621 /* MainView.swift */; };
 		CF3D94F624D586DD003D48D5 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3D94F524D586DD003D48D5 /* HomeView.swift */; };
@@ -100,6 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF0EEC30254F99F100D4B075 /* EyeTrackKit in Frameworks */,
 				CFC39C4D24ECD752002DCF22 /* ARVideoKit in Frameworks */,
 				CF9BD2E724EB603900D0BC21 /* WebKit.framework in Frameworks */,
 			);
@@ -230,6 +232,7 @@
 			name = GazeApplication;
 			packageProductDependencies = (
 				CFC39C4C24ECD752002DCF22 /* ARVideoKit */,
+				CF0EEC2F254F99F100D4B075 /* EyeTrackKit */,
 			);
 			productName = GazeApplication;
 			productReference = CFCD667724C55D000066E1B2 /* GazeApplication.app */;
@@ -261,6 +264,7 @@
 			mainGroup = CFCD666E24C55D000066E1B2;
 			packageReferences = (
 				CFC39C4B24ECD752002DCF22 /* XCRemoteSwiftPackageReference "ARVideoKit" */,
+				CF0EEC2E254F99F100D4B075 /* XCRemoteSwiftPackageReference "EyeTrackKit" */,
 			);
 			productRefGroup = CFCD667824C55D000066E1B2 /* Products */;
 			projectDirPath = "";
@@ -518,6 +522,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		CF0EEC2E254F99F100D4B075 /* XCRemoteSwiftPackageReference "EyeTrackKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ukitomato/EyeTrackKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.6.2;
+			};
+		};
 		CFC39C4B24ECD752002DCF22 /* XCRemoteSwiftPackageReference "ARVideoKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/AFathi/ARVideoKit";
@@ -529,6 +541,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		CF0EEC2F254F99F100D4B075 /* EyeTrackKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CF0EEC2E254F99F100D4B075 /* XCRemoteSwiftPackageReference "EyeTrackKit" */;
+			productName = EyeTrackKit;
+		};
 		CFC39C4C24ECD752002DCF22 /* ARVideoKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = CFC39C4B24ECD752002DCF22 /* XCRemoteSwiftPackageReference "ARVideoKit" */;
