@@ -29,6 +29,7 @@ class EyePointView_y: EyeTrackViewController {
     let csvModel = CsvModel()
     var participant: String? = "saki"
     
+    var gazePointer: GazePointer!
     var eyeTrajectryList: [GazeTrajectory] = []
     
     var recordState:Bool = false
@@ -55,12 +56,18 @@ class EyePointView_y: EyeTrackViewController {
         eyePointTarget.Resize(radius: self.view.bounds.width/30)
         eyePointTarget.isHidden = false
         
+        //視線カーソルの作成と初期化
+        gazePointer = GazePointer(frame:self.view.bounds)
+        gazePointer.isHidden = true
+        
         self.view.addSubview(gridView)
         self.view.addSubview(errorLabel)
         self.view.addSubview(eyePointTarget)
+        self.view.addSubview(gazePointer)
         
         if mode == 0 {
             mymode = "demo"
+            gazePointer.isHidden = false
         }else {
             mymode = "test"
         }
@@ -71,13 +78,14 @@ class EyePointView_y: EyeTrackViewController {
         }else{
 
         }
-        eyeTrackController = EyeTrackController(device: EyeTrackKit.Device(type: .iPhone), smoothingRange: 10, blinkThreshold: .infinity, isHidden: false)
+        eyeTrackController = EyeTrackController(device: EyeTrackKit.Device(screenSize: CGSize(width: 0.0757, height: 0.1509), screenPointSize: CGSize(width: 414, height: 896), compensation: CGPoint(x: 0, y: 414)), smoothingRange: 10, blinkThreshold: .infinity, isHidden: false)
         dataController = DataController()
         self.eyeTrackController.onUpdate = { info in
             self.errorLabel.isHidden = true
             let targetPoint = self.eyePointTarget.layer.presentation()?.position
             self.dataController.add(info: info!, targetPoint: targetPoint!)
-            print(info!.leftEyeDistance)
+            print(info!.leftEyeBlink)
+            self.gazePointer.center = CGPoint(x:info!.centerEyeLookAtPoint.x+self.view.bounds.width/2, y:info!.centerEyeLookAtPoint.y+self.view.bounds.height/2)
         }
         self.initialize(eyeTrack: eyeTrackController.eyeTrack)
 //        self.show()
