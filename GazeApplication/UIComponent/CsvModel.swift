@@ -46,7 +46,7 @@ class CsvModel {
             fileName += "_"
             fileName += modifiedCondition
         }
-        return fileName + ".csv"
+        return fileName
     }
     
     func convertDataToCSV(list: [String]) -> String {
