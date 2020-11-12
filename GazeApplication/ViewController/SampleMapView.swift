@@ -10,12 +10,14 @@ import UIKit
 import MapKit
 import CoreLocation
 import ARKit
+import EyeTrackKit
+import Foundation
 
-class SampleMapView:EyeTrackViewController_y, CLLocationManagerDelegate{
+class SampleMapView:EyeTrackViewController, CLLocationManagerDelegate, MKMapViewDelegate{
     
-    var session: ARSession!
-    var windowWidth: CGFloat!
-    var windowHeight: CGFloat!
+    var eyeTrackController: EyeTrackController!
+    var dataController: DataController!
+    var lastUpdate: Date = Date()
     
     //データ記録
     let csvModel = CsvModel()
@@ -40,13 +42,15 @@ class SampleMapView:EyeTrackViewController_y, CLLocationManagerDelegate{
     var username = ""
     var mymode = ""
     var myapp = "map"
-    var operationType = "none"
-    var operationPosition = CGPoint()
+//    var operationType = "none"
+//    var operationPosition = CGPoint()
+    
+    var eyePointTarget: TestEyePointTarget!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "マップ"
-        session = ARSession()
+//        session = ARSession()
         
         //MapViewの表示（今回はマップのみ）
         mapView = MapView(frame: self.view.bounds)
@@ -75,28 +79,50 @@ class SampleMapView:EyeTrackViewController_y, CLLocationManagerDelegate{
         errorLabel.text = "顔をカメラに写してください"
         self.view.addSubview(errorLabel)
         
+        eyePointTarget = TestEyePointTarget(frame: self.view.bounds)
+        eyePointTarget.center = CGPoint(x: 5*Int(50) - 16, y:Int(50)*10-25)
+        eyePointTarget.Resize(radius: self.view.bounds.width/30)
+        eyePointTarget.isHidden = true
+        self.view.addSubview(eyePointTarget)
+        
         if mode == 0 {
             mymode = "demo"
+            
         }else {
             mymode = "test"
+            self.mapView.gazePointer.isHidden = true
+            self.eyePointTarget.isHidden = false
         }
-        
-        self.session.delegate = self
-        self.windowWidth = self.view.frame.width
-        self.windowHeight = self.view.frame.height
-        
-        self.mapView.gazePointer.isHidden = true
+    
         if(mode == 1){
             //テストモードでデータ記録の確認
             displayAlert(title: "データの記録", message: "記録を開始してもいいですか？")
+        }        
+        eyeTrackController = EyeTrackController(device: EyeTrackKit.Device(screenSize: CGSize(width: 0.0757, height: 0.1509), screenPointSize: CGSize(width: 414, height: 896), compensation: CGPoint(x: 0, y: 414)), smoothingRange: 10, blinkThreshold: .infinity, isHidden: false)
+        dataController = DataController()
+        self.eyeTrackController.onUpdate = { info in
+            self.lastUpdate = info!.timestamp
+            self.errorLabel.isHidden = true
+            self.dataController.add(info: info!, operationType: self.mapView.operationType, operationPoint: self.mapView.operationPosition)
+//            print(info!.leftEyeBlink)
+            self.mapView.gazePointer.center = CGPoint(x:info!.centerEyeLookAtPoint.x+self.view.bounds.width/2, y:info!.centerEyeLookAtPoint.y+self.view.bounds.height/2)
         }
-        let timeLimit = 120.0
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + timeLimit) {
-            self.navigationController?.popViewController(animated: true)
+        self.initialize(eyeTrack: eyeTrackController.eyeTrack)
+//        self.show()
+        Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.updateChecker), userInfo: nil, repeats: true)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    }
+    
+    @objc func updateChecker(){
+        let now = Date()
+        if(now > Calendar.current.date(byAdding: .nanosecond, value: 100000000, to:self.lastUpdate)!){
+            self.errorLabel.isHidden = false
         }
     }
     
-    
+ //MARK: -　マップ処理
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations:[CLLocation]) {
         //現在地が変わるたびに，マップの中心を移動
         self.mapView.updateCurrentPos((locations.last?.coordinate)!, mapInit: self.mapInit)
@@ -123,6 +149,10 @@ class SampleMapView:EyeTrackViewController_y, CLLocationManagerDelegate{
             (action: UIAlertAction!) -> Void in
             print("OK")
             self.recordState = true
+            Timer.scheduledTimer(timeInterval: 180, target: self, selector: #selector(self.screenTimer), userInfo: nil, repeats: false)
+            Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.targetTimer), userInfo: nil, repeats: false)
+            self.eyeTrackController.startRecord()
+            self.dataController.start()
         })
         // キャンセルボタン
         let cancelAction: UIAlertAction = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler:{
@@ -136,49 +166,34 @@ class SampleMapView:EyeTrackViewController_y, CLLocationManagerDelegate{
         //Alertを表示
         present(alert, animated: true, completion: nil)
     }
+ //MARK: - タイマー
+    @objc func screenTimer(){
+//        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 5) {
+//            let timeLimit = 180.0 + 5.0
+//            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + timeLimit) {
+//                self.navigationController?.popViewController(animated: true)
+//            }
+//        }
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func targetTimer(){
+        eyePointTarget.isHidden = true
+    }
     
     //MARK: - 画面が閉じる時の処理
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if(recordState){
-            //csvファイル作成
             let now = NSDate()
             let time = timeToString(date: now as Date, mode: 0)
             let fileName = csvModel.convertConditionsToFileName(name: username, conditions: [time, myapp, mymode])
-            let data = csvModel.convertFigureListToString(dataLists: dataLists)
-            let dataRows = ["frameId", "timestamp", "operationType","oPositionX","oPositionY", "face_0x","face_0y", "face_0z", "face_0w", "face_1x","face_1y", "face_1z", "face_1w", "face_2x","face_2y", "face_2z", "face_2w", "face_3x","face_3y", "face_3z", "face_3w", "right_0x","right_0y", "right_0z", "right_0w", "right_1x","right_1y", "right_1z", "right_1w", "right_2x","right_2y", "right_2z", "right_2w", "right_3x","right_3y", "right_3z", "right_3w", "left_0x","left_0y", "left_0z", "left_0w", "left_1x","left_1y", "left_1z", "left_1w", "left_2x","left_2y", "left_2z", "left_2w", "left_3x","left_3y", "left_3z", "left_3w"]
-                let rowNames = csvModel.convertDataToCSV(list: dataRows)
-                csvModel.write(fileName: fileName, rowsName: rowNames, dataList: data)
-                    recordState = false
-        }
-    }
-    
-    //MARK: -ARKitデータの取得
-    override func updateViewWithUpdateAnchor() {
-        if(recordState){
-            self.operationType = mapView.operationType
-            self.operationPosition = mapView.operationPosition
-            let now = NSDate()
-            let time = timeToString(date: now as Date, mode: 1)
-            self.frameId += 1
-            let face_t = eyeTrack.face.transform.columns
-            let right_t = eyeTrack.face.rightEye.node.simdTransform.columns
-            let left_t = eyeTrack.face.leftEye.node.simdTransform.columns
-            let data = [operationPosition.x, operationPosition.y, face_t.0.x, face_t.0.y, face_t.0.z, face_t.0.w,face_t.1.x, face_t.1.y, face_t.1.z, face_t.1.w, face_t.2.x, face_t.2.y, face_t.2.z, face_t.2.w, face_t.3.x, face_t.3.y, face_t.3.z, face_t.3.w, right_t.0.x, right_t.0.y, right_t.0.z, right_t.0.w,right_t.1.x, right_t.1.y, right_t.1.z, right_t.1.w, right_t.2.x, right_t.2.y, right_t.2.z, right_t.2.w, right_t.3.x, right_t.3.y, right_t.3.z, right_t.3.w, left_t.0.x, left_t.0.y, left_t.0.z, left_t.0.w,left_t.1.x, left_t.1.y, left_t.1.z, left_t.1.w, left_t.2.x, left_t.2.y, left_t.2.z, left_t.2.w, left_t.3.x, left_t.3.y, left_t.3.z, left_t.3.w] as [Any]
-            var dataString: [String] = [String(frameId), time, operationType]
-            for i in 0..<data.count {
-                dataString.append(String(format: "%.8f", data[i] as! CVarArg))
-            }
-            //print(dataString)
-            dataLists.append(dataString)
-        }
-    }
-    
-    override func updateViewWithScene(withFaceAnchor: ARFaceAnchor){
-        if(withFaceAnchor.isTracked){
-            errorLabel.isHidden = true
-        }else{
-            errorLabel.isHidden = false
+            self.dataController.stop()
+            //                eyeTrackController.stop(finished: {_ in}, isExport: true) // export video to Photo Library
+            self.eyeTrackController.stopRecord(finished: { path in print("Video File Path: \(path)") }, isExport: false) // export video to Documents folder
+            self.dataController.export(name: fileName, myapp: self.myapp)
+            self.dataController.reset()
+                recordState = false
         }
     }
     
@@ -194,7 +209,36 @@ class SampleMapView:EyeTrackViewController_y, CLLocationManagerDelegate{
         }
         return format.string(from: date)
     }
-    //MARK: -視線の処理(鈴木さん）
+    
+    //MARK: - ARKitデータの取得
+//    override func updateViewWithUpdateAnchor() {
+//        if(recordState){
+//            self.operationType = mapView.operationType
+//            self.operationPosition = mapView.operationPosition
+//            let now = NSDate()
+//            let time = timeToString(date: now as Date, mode: 1)
+//            self.frameId += 1
+//            let face_t = eyeTrack.face.transform.columns
+//            let right_t = eyeTrack.face.rightEye.node.simdTransform.columns
+//            let left_t = eyeTrack.face.leftEye.node.simdTransform.columns
+//            let data = [operationPosition.x, operationPosition.y, face_t.0.x, face_t.0.y, face_t.0.z, face_t.0.w,face_t.1.x, face_t.1.y, face_t.1.z, face_t.1.w, face_t.2.x, face_t.2.y, face_t.2.z, face_t.2.w, face_t.3.x, face_t.3.y, face_t.3.z, face_t.3.w, right_t.0.x, right_t.0.y, right_t.0.z, right_t.0.w,right_t.1.x, right_t.1.y, right_t.1.z, right_t.1.w, right_t.2.x, right_t.2.y, right_t.2.z, right_t.2.w, right_t.3.x, right_t.3.y, right_t.3.z, right_t.3.w, left_t.0.x, left_t.0.y, left_t.0.z, left_t.0.w,left_t.1.x, left_t.1.y, left_t.1.z, left_t.1.w, left_t.2.x, left_t.2.y, left_t.2.z, left_t.2.w, left_t.3.x, left_t.3.y, left_t.3.z, left_t.3.w] as [Any]
+//            var dataString: [String] = [String(frameId), time, operationType]
+//            for i in 0..<data.count {
+//                dataString.append(String(format: "%.8f", data[i] as! CVarArg))
+//            }
+//            //print(dataString)
+//            dataLists.append(dataString)
+//        }
+//    }
+    
+//    override func updateViewWithScene(withFaceAnchor: ARFaceAnchor){
+//        if(withFaceAnchor.isTracked){
+//            errorLabel.isHidden = true
+//        }else{
+//            errorLabel.isHidden = false
+//        }
+//    }
+    //MARK: - 視線の処理(鈴木さん）
     //    override func viewDidAppear(_ animated: Bool) {
     //        super.viewDidAppear(animated)
     //        resetTracking()

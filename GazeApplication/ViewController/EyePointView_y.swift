@@ -84,7 +84,7 @@ class EyePointView_y: EyeTrackViewController {
             self.errorLabel.isHidden = true
             let targetPoint = self.eyePointTarget.layer.presentation()?.position
             self.dataController.add(info: info!, targetPoint: targetPoint!)
-            print(info!.leftEyeBlink)
+//            print(info!.leftEyeBlink)
             self.gazePointer.center = CGPoint(x:info!.centerEyeLookAtPoint.x+self.view.bounds.width/2, y:info!.centerEyeLookAtPoint.y+self.view.bounds.height/2)
         }
         self.initialize(eyeTrack: eyeTrackController.eyeTrack)
