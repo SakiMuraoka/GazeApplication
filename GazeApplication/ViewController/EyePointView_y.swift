@@ -15,6 +15,7 @@ class EyePointView_y: EyeTrackViewController {
     
     var eyeTrackController: EyeTrackController!
     var dataController: DataController!
+    var lastUpdate: Date = Date()
     
     var gridView: GridView!
     
@@ -81,6 +82,7 @@ class EyePointView_y: EyeTrackViewController {
         eyeTrackController = EyeTrackController(device: EyeTrackKit.Device(screenSize: CGSize(width: 0.0757, height: 0.1509), screenPointSize: CGSize(width: 414, height: 896), compensation: CGPoint(x: 0, y: 414)), smoothingRange: 10, blinkThreshold: .infinity, isHidden: false)
         dataController = DataController()
         self.eyeTrackController.onUpdate = { info in
+            self.lastUpdate = info!.timestamp
             self.errorLabel.isHidden = true
             let targetPoint = self.eyePointTarget.layer.presentation()?.position
             self.dataController.add(info: info!, targetPoint: targetPoint!)
@@ -89,6 +91,14 @@ class EyePointView_y: EyeTrackViewController {
         }
         self.initialize(eyeTrack: eyeTrackController.eyeTrack)
 //        self.show()
+        Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.updateChecker), userInfo: nil, repeats: true)
+    }
+    
+    @objc func updateChecker(){
+        let now = Date()
+        if(now > Calendar.current.date(byAdding: .nanosecond, value: 100000000, to:self.lastUpdate)!){
+            self.errorLabel.isHidden = false
+        }
     }
     
     
