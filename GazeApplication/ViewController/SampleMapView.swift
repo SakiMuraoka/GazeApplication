@@ -168,12 +168,6 @@ class SampleMapView:EyeTrackViewController, CLLocationManagerDelegate, MKMapView
     }
  //MARK: - タイマー
     @objc func screenTimer(){
-//        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 5) {
-//            let timeLimit = 180.0 + 5.0
-//            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + timeLimit) {
-//                self.navigationController?.popViewController(animated: true)
-//            }
-//        }
         self.navigationController?.popViewController(animated: true)
     }
     
