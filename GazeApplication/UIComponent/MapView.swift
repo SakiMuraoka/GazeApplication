@@ -102,14 +102,16 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
         let longTapGetsture = UILongPressGestureRecognizer(target: self, action: #selector(longTapAction))
         longTapGetsture.delegate = self
         self.addGestureRecognizer(longTapGetsture)
+        //ドラッグ
+        let panGetsture = UIPanGestureRecognizer(target: self, action: #selector(panAction))
+        panGetsture.delegate = self
+        self.addGestureRecognizer(panGetsture)
         
         mapView.delegate = self
         searchField.delegate = self
         tapGesture.delegate = self
         doubleTapGesture.delegate = self
         
-//        //キーボードが現れるときに通知するメソッドを登録する。
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeShown), name: UIResponder.keyboardWillShowNotification, object: nil)
     }
 
     @objc func Compass(gesture: UITapGestureRecognizer) {
@@ -225,7 +227,7 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
     //テキストフィールドが改行された時（doneが押された時）の処理
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.operationType = "returnTextField"
-        self.operationPosition = CGPoint(x: 375, y: 755)
+        self.operationPosition = CGPoint()
         //キーボードを閉じる
         textField.resignFirstResponder()
         if let searchKey = textField.text {
@@ -241,8 +243,6 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
                         if let location = firstPlacemark.location {
                             //位置情報から緯度経度をtargetCoordinateに取り出す
                             let targetCoordinate = location.coordinate
-                            //緯度経度をデバッグエリアに表示
-//                            print(targetCoordinate)
                             //ピンを作成し，マップの中心にする
                             self.createSearchPin(coordinate: targetCoordinate, title: searchKey)
                         }
@@ -256,6 +256,7 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
     // クリアボタンが押された時の処理
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
         self.operationType = "clearTextField"
+        self.operationPosition = CGPoint()
         //FIXME: クリアボタンの座標にする
         let clearButtonrect = textField.clearButtonRect(forBounds: self.searchField.frame)
         self.operationPosition = clearButtonrect.center
@@ -285,6 +286,7 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         operationType = "editTextFild「" + string + "」"
+        operationPosition = CGPoint()
         return true
     }
 
@@ -310,11 +312,6 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
         anoPin = MKPointAnnotation()
         anoPin.coordinate = coordinate
         anoPin.title = "ピン"
-        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-//        CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
-//            guard let placemark = placemarks?.first, error == nil else { return }
-//            self.anoPin.title = placemark.administrativeArea! + placemark.subAdministrativeArea! ?? "" + placemark.locality! ?? ""
-//        }
         self.mapView.addAnnotation(anoPin)
     }
     
@@ -327,103 +324,86 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
             return nil
         }
         let markerAnnotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: nil)
-        print("viewFor")
         markerAnnotationView.markerTintColor = UIColor.orange
         markerAnnotationView.canShowCallout = true
         markerAnnotationView.isDraggable = true
-        let button = UIButton(type: UIButton.ButtonType.detailDisclosure)
-        button.setTitleColor(UIColor.black, for:.normal)
-//        let label = UILabel()
-//        label.text = annotation.title as! String
-//        markerAnnotationView.detailCalloutAccessoryView = label
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "trash"), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.contentHorizontalAlignment = .fill
+        button.contentVerticalAlignment = .fill
+        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         markerAnnotationView.rightCalloutAccessoryView = button
         return markerAnnotationView
     }
     
     public func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, didChange newState: MKAnnotationView.DragState, fromOldState oldState: MKAnnotationView.DragState) {
-        print("didChangef")
+        self.operationType = "movePin"
+        self.operationPosition = view.center
         if newState == .starting {
         }
     }
 
     var selectPin: MKAnnotationView!
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView){
-        print("didSelect")
         selectPin = view
+        self.operationType = "selectPint"
+        self.operationPosition = view.center
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        self.operationType = "deletePin"
+        self.operationPosition = view.center
         mapView.removeAnnotations([selectPin.annotation!])
     }
 
     //MARK: - ドラッグ
     //GazePointerをドラッグで移動
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let touch = touches.first, let view = touch.view else { return }
+//    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        guard let touch = touches.first, let _ = touch.view else { return }
+//        self.operationType = "drug"
+//        self.operationPosition = touch.location(in: self)
+//        print(operationType)
+//        print(operationPosition)
+//    }
+    
+    @objc func panAction(gesture: UIPanGestureRecognizer){
         self.operationType = "drug"
-        self.operationPosition = touch.location(in: self)
-        if view == self.gazePointer {
-            self.operationType = "drugPointer"
-            movePointer(to: touch.location(in: self))
-        }
-    }
-    
-    //GazePointerを移動させる
-    func movePointer(to: CGPoint){
-        self.gazePointer.center = to
-    }
-    
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
+        self.operationPosition = gesture.location(in: self)
+        print(operationType)
+        print(operationPosition)
     }
     //MARK: - タップ
     var tapCount = 0
     @objc func tapAction(gesture: UITapGestureRecognizer) {
-        self.operationType = "Tap"
+        self.operationType = "tap"
         self.operationPosition = gesture.location(in: self)
-        print(operationPosition)
         if(exsistPin) {
             self.mapView.removeAnnotation(searchPin)
         }
-//        print("tap" + tapCount.description)
-//        tapCount += 1
+        self.endEditing(true)
     }
     //ダブルタップで，gazePointerの位置でズーム
     var gazePointInit = true
     @objc func doubleTapAction(gesture: UITapGestureRecognizer) {
         self.operationType = "doubleTap"
         self.operationPosition = gesture.location(in: self)
-//        let offset: CGFloat!
-//        offset = 4.8
-
-//        let gazePointOrigin = CGPoint(x: gazePointer.frame.origin.x + (gazePointer.radius + gazePointer.locationOffset), y: gazePointer.frame.origin.y + (gazePointer.radius - gazePointer.locationOffset) + offset)
-//        let zoomCenter = mapView.convert(gazePointOrigin, toCoordinateFrom: mapView)
-//        let currentZoom = mapView.region.span
-//        if(0.001 < currentZoom.latitudeDelta / 2){
-//            initMap(latitudeDelta: currentZoom.latitudeDelta/2, longitudeDelta: currentZoom.longitudeDelta/2, showsUserLocation: true, userTrackingMode: .follow)
-//        }
-//        updateCurrentPos(zoomCenter, mapInit: true)
+        print(operationType)
+        print(operationPosition)
     }
     @objc func longTapAction(_ sender: UILongPressGestureRecognizer) {
-        print("longtap")
         // ロングタップ開始
         if sender.state == .began {
+            let generator = UINotificationFeedbackGenerator()
+            generator.notificationOccurred(.success)
         }
         // ロングタップ終了（手を離した）
         else if sender.state == .ended {
             // タップした位置（CGPoint）を指定してMkMapView上の緯度経度を取得する
             let tapPoint = sender.location(in: self)
             let center = mapView.convert(tapPoint, toCoordinateFrom: mapView)
-            let lonStr = center.longitude.description
-            let latStr = center.latitude.description
-
-//            // 現在位置とタッウプした位置の距離(m)を算出する
-//            let distance = calcDistance(mapView.userLocation.coordinate, center)
-//            print("distance : " + distance.description)
-
-//            // ロングタップを検出した位置にピンを立てる
-//            anoPin.coordinate = center
-//            mapView.addAnnotation(anoPin)
+            self.operationType = "longTap"
+            self.operationPosition = tapPoint
             createPin(coordinate: center)
         }
     }
@@ -432,9 +412,12 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
     @objc func pinchAction(gesture: UIPinchGestureRecognizer) {
         self.operationType = "pinch"
         self.operationPosition = gesture.location(in:self)
+        print(operationType)
+        print(operationPosition)
     }
 }
 
+//MARK: - extension
 extension CGRect
 {
     /** Creates a rectangle with the given center and dimensions

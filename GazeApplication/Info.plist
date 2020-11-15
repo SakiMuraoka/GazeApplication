@@ -64,5 +64,9 @@
 	<string>位置情報を取得して良いですか？</string>
 	<key>NSCameraUsageDescription</key>
 	<string>カメラを使用して良いですか？</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Export AR Media</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Audiovisual Recording</string>
 </dict>
 </plist>

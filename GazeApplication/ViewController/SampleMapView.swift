@@ -110,9 +110,7 @@ class SampleMapView:EyeTrackViewController, CLLocationManagerDelegate, MKMapView
         self.initialize(eyeTrack: eyeTrackController.eyeTrack)
 //        self.show()
         Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.updateChecker), userInfo: nil, repeats: true)
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        Timer.scheduledTimer(timeInterval: 0.9, target: self, selector: #selector(self.resetData), userInfo: nil, repeats: true)
     }
     
     @objc func updateChecker(){
@@ -121,6 +119,11 @@ class SampleMapView:EyeTrackViewController, CLLocationManagerDelegate, MKMapView
             self.errorLabel.isHidden = false
         }
     }
+    @objc func resetData(){
+        self.mapView.operationType = "none"
+        self.mapView.operationPosition = CGPoint()
+    }
+
     
  //MARK: -　マップ処理
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations:[CLLocation]) {
@@ -147,7 +150,6 @@ class SampleMapView:EyeTrackViewController, CLLocationManagerDelegate, MKMapView
         let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
             // ボタンが押された時の処理を書く（クロージャ実装）
             (action: UIAlertAction!) -> Void in
-            print("OK")
             self.recordState = true
             Timer.scheduledTimer(timeInterval: 180, target: self, selector: #selector(self.screenTimer), userInfo: nil, repeats: false)
             Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.targetTimer), userInfo: nil, repeats: false)
@@ -158,7 +160,6 @@ class SampleMapView:EyeTrackViewController, CLLocationManagerDelegate, MKMapView
         let cancelAction: UIAlertAction = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler:{
             // ボタンが押された時の処理を書く（クロージャ実装）
             (action: UIAlertAction!) -> Void in
-            print("Cancel")
             self.navigationController?.popViewController(animated: true)
         })
         alert.addAction(cancelAction)
