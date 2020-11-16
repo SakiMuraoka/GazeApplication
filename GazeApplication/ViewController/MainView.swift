@@ -13,24 +13,25 @@ class MainView: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
     let screenWidth = Int(UIScreen.main.bounds.size.width)
     let screenHeight = Int(UIScreen.main.bounds.size.height)
     let tableRowHeight = 100
-    let margin = 10
+    let margin = 80
     
     var pickerViewField: UITextField!
     var pickerView: UIPickerView = UIPickerView()
     var userNames =  ["ユーザ名", "01", "02", "03", "saki", ]
-    var addUserButton: UIButton!
-    var addUserField: UITextField!
+//    var addUserButton: UIButton!
+//    var addUserField: UITextField!
 
     var popupView: PopupView!
     
     var modeLabel: UILabel!
     var modeSegment: UISegmentedControl!
-    var modeParams = ["デモ", "テスト"]
+    var modeParams = ["練習", "テスト"]
     var mymode = 0
     
     var appLabel: UILabel!
     var appSegment: UISegmentedControl!
-    var appParams = ["視線", "ホーム", "マップ", "ギャラリ", "ブラウザ"]
+//    var appParams = ["視線", "ホーム", "マップ", "ギャラリ", "ブラウザ"]
+    var appParams = ["視線", "ホーム", "マップ"]
     var myapp = 0
     
     var startButton: UIButton!
@@ -40,25 +41,28 @@ class MainView: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
         super.viewDidLoad()
         
         // タイトルを付けておきましょう
-        self.title = "テスト"
+        self.title = "メイン"
         
-        addUserButton = UIButton(type: UIButton.ButtonType.contactAdd)
-        addUserButton.center = CGPoint(x:screenWidth * 10/100, y: screenHeight * 13/100 + margin)
-        addUserButton.addTarget(self, action: #selector(addUserButtonClick(_:)), for: UIControl.Event.touchUpInside)
-        addUserField = UITextField(frame: CGRect(x:0, y: 0, width: screenWidth * 60/100, height: 50))
-        addUserField.center = CGPoint(x:screenWidth * 50/100, y: screenHeight * 13/100 + margin)
-        addUserField.borderStyle = .bezel
-        addUserField.delegate = self
-        addUserField.isHidden = true
-        addUserField.placeholder = "ユーザ名を入力してください"
+//        addUserButton = UIButton(type: UIButton.ButtonType.contactAdd)
+//        addUserButton.center = CGPoint(x:screenWidth * 10/100, y: screenHeight * 13/100 + margin)
+//        addUserButton.addTarget(self, action: #selector(addUserButtonClick(_:)), for: UIControl.Event.touchUpInside)
+//        addUserField = UITextField(frame: CGRect(x:0, y: 0, width: screenWidth * 60/100, height: 50))
+//        addUserField.center = CGPoint(x:screenWidth * 50/100, y: screenHeight * 13/100 + margin)
+//        addUserField.borderStyle = .bezel
+//        addUserField.delegate = self
+//        addUserField.isHidden = true
+//        addUserField.placeholder = "ユーザ名を入力してください"
         
         pickerViewField = UITextField(frame: CGRect(x:0, y: 0, width: screenWidth * 60/100, height: 50))
         pickerViewField.center = CGPoint(x:screenWidth * 50/100, y: screenHeight * 13/100 + margin)
-        pickerViewField.borderStyle = .bezel
         pickerViewField.inputView = pickerView
+        pickerViewField.borderStyle = .roundedRect
+        pickerViewField.textAlignment = .center
         pickerViewField.tintColor = UIColor.clear
+        
         pickerViewField.delegate = self
         pickerViewField.text = userNames[0]
+        
         
         pickerView.frame = CGRect(x: 0, y: screenHeight * 10/100, width: screenWidth, height: Int(pickerView.bounds.size.height))
         pickerView.delegate = self
@@ -96,8 +100,8 @@ class MainView: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
         startButton.center = CGPoint(x: self.view.center.x, y: self.view.frame.height - 100)
         startButton.addTarget(self, action: #selector(startButtonClick(_:)), for: UIControl.Event.touchUpInside)
         
-        self.view.addSubview(addUserButton)
-        self.view.addSubview(addUserField)
+//        self.view.addSubview(addUserButton)
+//        self.view.addSubview(addUserField)
         self.view.addSubview(pickerViewField)
         self.view.addSubview(modeLabel)
         self.view.addSubview(modeSegment)
@@ -107,10 +111,23 @@ class MainView: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
         self.view.addSubview(popupView)
     }
     
+    //MARK:- アラート表示
+    func displayAlert(title: String, message: String){
+        let alert: UIAlertController = UIAlertController(title: title, message: message, preferredStyle:  UIAlertController.Style.alert)
+        // OKボタン
+        let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
+            // ボタンが押された時の処理を書く（クロージャ実装）
+            (action: UIAlertAction!) -> Void in
+        })
+        alert.addAction(defaultAction)
+        //Alertを表示
+        present(alert, animated: true, completion: nil)
+    }
+    
     @objc func addUserButtonClick(_ sender: UIButton){
-        addUserField.isHidden = false
-        pickerViewField.isHidden = true
-        addUserField.becomeFirstResponder()
+//        addUserField.isHidden = false
+//        pickerViewField.isHidden = true
+//        addUserField.becomeFirstResponder()
     }
     
     @objc func segmentChanged(_ segment: UISegmentedControl){
@@ -134,10 +151,7 @@ class MainView: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
     
     @objc func startButtonClick(_ sender: UIButton) {
         if pickerViewField.text == userNames[0]{
-            popupView.isHidden = false
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.0) {
-                self.popupView.isHidden = true
-            }
+            displayAlert(title: "ユーザ名", message: "ユーザ名を選択してください")
         }else {
             switch myapp {
                 case 0:
@@ -158,19 +172,19 @@ class MainView: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
                     nextView.username = pickerViewField.text!
                     self.navigationController?.pushViewController(nextView, animated: true)
                     break
-                case 3:
-                    let nextView = self.storyboard!.instantiateViewController(withIdentifier: "galleryView") as!
-                    SampleGalleryView
-                    nextView.mode = mymode
-                    nextView.username = pickerViewField.text!
-                    self.navigationController?.pushViewController(nextView, animated: true)
-                    break
-                case 4:
-                    let nextView = self.storyboard!.instantiateViewController(withIdentifier: "browserView") as! SampleBrowserView
-                    nextView.mode = mymode
-                    nextView.username = pickerViewField.text!
-                    self.navigationController?.pushViewController(nextView, animated: true)
-                    break
+//                case 3:
+//                    let nextView = self.storyboard!.instantiateViewController(withIdentifier: "galleryView") as!
+//                    SampleGalleryView
+//                    nextView.mode = mymode
+//                    nextView.username = pickerViewField.text!
+//                    self.navigationController?.pushViewController(nextView, animated: true)
+//                    break
+//                case 4:
+//                    let nextView = self.storyboard!.instantiateViewController(withIdentifier: "browserView") as! SampleBrowserView
+//                    nextView.mode = mymode
+//                    nextView.username = pickerViewField.text!
+//                    self.navigationController?.pushViewController(nextView, animated: true)
+//                    break
                 default:
                     break
             }
@@ -178,12 +192,12 @@ class MainView: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        addUserField.isHidden = true
-        addUserField.resignFirstResponder()
-        pickerViewField.isHidden = false
-        userNames.append(addUserField.text!)
-        pickerViewField.text = addUserField.text!
-        addUserField.text = ""
+//        addUserField.isHidden = true
+//        addUserField.resignFirstResponder()
+//        pickerViewField.isHidden = false
+//        userNames.append(addUserField.text!)
+//        pickerViewField.text = addUserField.text!
+//        addUserField.text = ""
         return true
     }
 

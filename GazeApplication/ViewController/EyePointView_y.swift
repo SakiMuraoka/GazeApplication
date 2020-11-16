@@ -31,7 +31,7 @@ class EyePointView_y: EyeTrackViewController {
     var participant: String? = "saki"
     
     var gazePointer: GazePointer!
-    var eyeTrajectryList: [GazeTrajectory] = []
+//    var eyeTrajectryList: [GazeTrajectory] = []
     
     var recordState:Bool = false
     
