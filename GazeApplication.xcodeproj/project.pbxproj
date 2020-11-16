@@ -22,7 +22,6 @@
 		CFA6E27C24CDAAAB00D73177 /* SampleBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA6E27B24CDAAAB00D73177 /* SampleBrowserView.swift */; };
 		CFA6E27E24CDAAF900D73177 /* WebBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA6E27D24CDAAF900D73177 /* WebBrowserView.swift */; };
 		CFAEB7A625514F3B009DA1F7 /* EyeTrackKit in Frameworks */ = {isa = PBXBuildFile; productRef = CFAEB7A525514F3B009DA1F7 /* EyeTrackKit */; };
-		CFAEB7AD2552807F009DA1F7 /* EyeTrackInfo_.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAEB7AC2552807F009DA1F7 /* EyeTrackInfo_.swift */; };
 		CFC1BA4B256253650096891D /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC1BA4A256253650096891D /* Extension.swift */; };
 		CFC39C4D24ECD752002DCF22 /* ARVideoKit in Frameworks */ = {isa = PBXBuildFile; productRef = CFC39C4C24ECD752002DCF22 /* ARVideoKit */; };
 		CFCD667B24C55D000066E1B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFCD667A24C55D000066E1B2 /* AppDelegate.swift */; };
@@ -54,7 +53,7 @@
 		CF1C6C102502F2FF00D1D621 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		CF3D94F524D586DD003D48D5 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		CF3FB39F24F23BDD00750743 /* EyePointView_y.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyePointView_y.swift; sourceTree = "<group>"; };
-		CF3FB3A224F7C6DA00750743 /* GazeTrajectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GazeTrajectory.swift; path = GazeApplication/UIComponent/GazeTrajectory.swift; sourceTree = SOURCE_ROOT; };
+		CF3FB3A224F7C6DA00750743 /* GazeTrajectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GazeTrajectory.swift; path = Unused/GazeTrajectory.swift; sourceTree = SOURCE_ROOT; };
 		CF4DE3E924E5694200EAC19D /* CsvModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CsvModel.swift; sourceTree = "<group>"; };
 		CF558D0324D67D2300396A55 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		CF558D0724D685A900396A55 /* TestEyePointTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestEyePointTarget.swift; sourceTree = "<group>"; };
@@ -62,7 +61,6 @@
 		CF9BD2E624EB603900D0BC21 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		CFA6E27B24CDAAAB00D73177 /* SampleBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleBrowserView.swift; sourceTree = "<group>"; };
 		CFA6E27D24CDAAF900D73177 /* WebBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebBrowserView.swift; sourceTree = "<group>"; };
-		CFAEB7AC2552807F009DA1F7 /* EyeTrackInfo_.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeTrackInfo_.swift; sourceTree = "<group>"; };
 		CFC1BA4A256253650096891D /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		CFCD667724C55D000066E1B2 /* GazeApplication.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GazeApplication.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFCD667A24C55D000066E1B2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -114,16 +112,12 @@
 		CF4DE3EB24E569E600EAC19D /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				CF3D94F524D586DD003D48D5 /* HomeView.swift */,
 				CFC1BA4A256253650096891D /* Extension.swift */,
+				CF3D94F524D586DD003D48D5 /* HomeView.swift */,
 				CF1C6C102502F2FF00D1D621 /* MainView.swift */,
-				CFCD667E24C55D000066E1B2 /* SampleView.swift */,
 				CFCD669B24C578FF0066E1B2 /* SampleMapView.swift */,
-				CFF8F39624CBE6B500BDD546 /* SampleGalleryView.swift */,
-				CFA6E27B24CDAAAB00D73177 /* SampleBrowserView.swift */,
 				CF3FB39F24F23BDD00750743 /* EyePointView_y.swift */,
 				CF0EEC33254F9F9900D4B075 /* DataController.swift */,
-				CFAEB7AC2552807F009DA1F7 /* EyeTrackInfo_.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -136,11 +130,36 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		CFC1BA4F25625C7B0096891D /* Unused */ = {
+			isa = PBXGroup;
+			children = (
+				CF3FB3A224F7C6DA00750743 /* GazeTrajectory.swift */,
+				CFCD669724C56F270066E1B2 /* FaceDirectionArrowView.swift */,
+				CFCD669524C56B780066E1B2 /* EyeBlinkView.swift */,
+				CFCD669324C5611F0066E1B2 /* LookAtPositionLabel.swift */,
+				CFCD669124C55FB10066E1B2 /* LookAtPosition.swift */,
+				CFA6E27B24CDAAAB00D73177 /* SampleBrowserView.swift */,
+				CFCD667E24C55D000066E1B2 /* SampleView.swift */,
+				CFF8F39624CBE6B500BDD546 /* SampleGalleryView.swift */,
+				CFF8F39824CBE7ED00BDD546 /* GridFlowLayout.swift */,
+				CFF8F39A24CBE8FB00BDD546 /* ListFlowLayout.swift */,
+				CFF8F3A024CBFA3C00BDD546 /* CollectionView.swift */,
+				CFF8F3A624CC07AE00BDD546 /* CollectionViewData.swift */,
+				CFF8F3A224CBFA9600BDD546 /* CollectionViewHeader..swift */,
+				CFF8F3A424CBFAB700BDD546 /* CollectionViewCell.swift */,
+				CFA6E27D24CDAAF900D73177 /* WebBrowserView.swift */,
+				CFF8F39E24CBEA0C00BDD546 /* ImageGalleryView.swift */,
+				CF1C6C0C24FDCFBA00D1D621 /* PopupView.swift */,
+			);
+			path = Unused;
+			sourceTree = "<group>";
+		};
 		CFCD666E24C55D000066E1B2 = {
 			isa = PBXGroup;
 			children = (
 				CF3FB3A124F3EFE900750743 /* Data */,
 				CFCD667924C55D000066E1B2 /* GazeApplication */,
+				CFC1BA4F25625C7B0096891D /* Unused */,
 				CFCD667824C55D000066E1B2 /* Products */,
 				CF9BD2E524EB603800D0BC21 /* Frameworks */,
 			);
@@ -172,26 +191,12 @@
 		CFCD668E24C55D7F0066E1B2 /* UIComponent */ = {
 			isa = PBXGroup;
 			children = (
-				CF3FB3A224F7C6DA00750743 /* GazeTrajectory.swift */,
 				CFCD668F24C55DCC0066E1B2 /* GridView.swift */,
-				CFCD669124C55FB10066E1B2 /* LookAtPosition.swift */,
-				CFCD669324C5611F0066E1B2 /* LookAtPositionLabel.swift */,
-				CFCD669524C56B780066E1B2 /* EyeBlinkView.swift */,
-				CFCD669724C56F270066E1B2 /* FaceDirectionArrowView.swift */,
 				CFCD669924C574B50066E1B2 /* MapView.swift */,
-				CF5B0CFC24C84AC2003943EF /* GazePointer.swift */,
-				CFF8F39824CBE7ED00BDD546 /* GridFlowLayout.swift */,
-				CFF8F39A24CBE8FB00BDD546 /* ListFlowLayout.swift */,
-				CFF8F3A024CBFA3C00BDD546 /* CollectionView.swift */,
-				CFF8F3A624CC07AE00BDD546 /* CollectionViewData.swift */,
-				CFF8F3A224CBFA9600BDD546 /* CollectionViewHeader..swift */,
-				CFF8F3A424CBFAB700BDD546 /* CollectionViewCell.swift */,
-				CFF8F39E24CBEA0C00BDD546 /* ImageGalleryView.swift */,
 				CF558D0724D685A900396A55 /* TestEyePointTarget.swift */,
-				CFA6E27D24CDAAF900D73177 /* WebBrowserView.swift */,
+				CF5B0CFC24C84AC2003943EF /* GazePointer.swift */,
 				CFEBA6A424D4FBD100BFF21E /* IconView.swift */,
 				CF4DE3E924E5694200EAC19D /* CsvModel.swift */,
-				CF1C6C0C24FDCFBA00D1D621 /* PopupView.swift */,
 			);
 			path = UIComponent;
 			sourceTree = "<group>";
@@ -282,7 +287,6 @@
 				CFCD669224C55FB10066E1B2 /* LookAtPosition.swift in Sources */,
 				CFF8F3A524CBFAB700BDD546 /* CollectionViewCell.swift in Sources */,
 				CF3D94F624D586DD003D48D5 /* HomeView.swift in Sources */,
-				CFAEB7AD2552807F009DA1F7 /* EyeTrackInfo_.swift in Sources */,
 				CFCD667B24C55D000066E1B2 /* AppDelegate.swift in Sources */,
 				CFC1BA4B256253650096891D /* Extension.swift in Sources */,
 				CFF8F39B24CBE8FB00BDD546 /* ListFlowLayout.swift in Sources */,
