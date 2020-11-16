@@ -72,8 +72,8 @@ class IconView: UIView {
             //ボタンを押したときの動作
                 icon.addTarget(self, action: #selector(pushed), for: .touchUpInside)
                 icon.layer.cornerRadius = 15.0
-            //見える用に赤くした
-                icon.backgroundColor = UIColor.red
+
+                icon.backgroundColor = UIColor.systemGray2
                 iconCount += 1
                 iconArray.append(icon as! IconView.iconButton)
                 //画面に追加
@@ -137,7 +137,7 @@ class IconView: UIView {
     func resetIcon(){
         for icon in iconArray {
             icon.setTitle("", for: .normal)
-            icon.backgroundColor = UIColor.red
+            icon.backgroundColor = UIColor.systemGray2
         }
     }
     @objc func iconShuffle(){
@@ -148,6 +148,7 @@ class IconView: UIView {
                 for icon in iconArray {
                 if(array[i] == icon.iconNumber){
                     icon.setTitle(String(printNumber), for: .normal)
+                    icon.titleLabel?.font = UIFont(name: "Helvetica-Bold",size: CGFloat(30))
                     printNumber += 1
                     self.rightArray.append(icon.iconNumber)
                 }
@@ -201,7 +202,7 @@ class IconView: UIView {
         if(rightArray.count > 0){
             if(mybtn.iconNumber == self.rightArray[0]){
                 rightArray.removeFirst()
-                mybtn.backgroundColor = UIColor.green
+                mybtn.backgroundColor = UIColor.systemGreen
                 if(rightArray.count == 0){
                     Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(iconShuffle), userInfo: nil, repeats: false)
                 }
