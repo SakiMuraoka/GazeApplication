@@ -17,7 +17,7 @@ class MainView: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
     
     var pickerViewField: UITextField!
     var pickerView: UIPickerView = UIPickerView()
-    var userNames =  ["ユーザ名", "saki", ]
+    var userNames =  ["ユーザ名", "01", "02", "03", "saki", ]
     var addUserButton: UIButton!
     var addUserField: UITextField!
 

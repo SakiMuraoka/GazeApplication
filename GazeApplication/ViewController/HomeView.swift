@@ -100,12 +100,13 @@ class HomeView: EyeTrackViewController {
         self.iconView.operationPosition = CGPoint()
     }
     
+    //MARK: - 画面を閉じるときの処理（ファイル作成）
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if(recordState){
             let now = NSDate()
-            let time = timeToString(date: now as Date, mode: 0)
-            let fileName = csvModel.convertConditionsToFileName(name: username, conditions: [time, myapp, mymode])
+            let time = timeToString(date: now as Date)
+            let fileName = csvModel.convertConditionsToFileName(name: username, conditions: [time, myapp])
             self.dataController.stop()
             //                eyeTrackController.stop(finished: {_ in}, isExport: true) // export video to Photo Library
             self.eyeTrackController.stopRecord(finished: { path in print("Video File Path: \(path)") }, isExport: false) // export video to Documents folder
@@ -258,19 +259,4 @@ class HomeView: EyeTrackViewController {
 //        }
 //    }
     //---------------------------------
-}
-
-extension HomeView {
-    func timeToString(date: Date, mode: Int) -> String {
-        let format = DateFormatter()
-        switch mode {
-        case 0:
-                format.dateFormat = "MM/dd/HH:mm"
-        case 1:
-                format.dateFormat = "HH:mm:ss.SSS"
-        default:
-            break
-        }
-        return format.string(from: date)
-    }
 }

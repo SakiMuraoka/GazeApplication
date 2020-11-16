@@ -185,8 +185,8 @@ class EyePointView_y: EyeTrackViewController {
         super.viewWillDisappear(animated)
         if(recordState){
             let now = NSDate()
-            let time = timeToString(date: now as Date, mode: 0)
-            let fileName = csvModel.convertConditionsToFileName(name: username, conditions: [time, myapp, mymode])
+            let time = timeToString(date: now as Date)
+            let fileName = csvModel.convertConditionsToFileName(name: username, conditions: [time, myapp])
             self.dataController.stop()
             //                eyeTrackController.stop(finished: {_ in}, isExport: true) // export video to Photo Library
             self.eyeTrackController.stopRecord(finished: { path in print("Video File Path: \(path)") }, isExport: false) // export video to Documents folder
@@ -194,22 +194,6 @@ class EyePointView_y: EyeTrackViewController {
             self.dataController.reset()
                 recordState = false
         }
-    }
-}
-
-
-extension EyePointView_y {
-    func timeToString(date: Date, mode: Int) -> String {
-        let format = DateFormatter()
-        switch mode {
-        case 0:
-                format.dateFormat = "MM/dd/HH:mm"
-        case 1:
-                format.dateFormat = "HH:mm:ss.SSS"
-        default:
-            break
-        }
-        return format.string(from: date)
     }
 }
 
