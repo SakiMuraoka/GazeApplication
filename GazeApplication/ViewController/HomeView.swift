@@ -81,6 +81,7 @@ class HomeView: EyeTrackViewController {
             self.errorLabel.isHidden = true
             self.dataController.add(info: info!, operationType: self.iconView.operationType, operationPoint: self.iconView.operationPosition)
             self.iconView.gazePointer.center = CGPoint(x:info!.centerEyeLookAtPoint.x+self.view.bounds.width/2, y:info!.centerEyeLookAtPoint.y+self.view.bounds.height/2)
+            print(self.iconView.operationPosition)
         }
     
         self.initialize(eyeTrack: eyeTrackController.eyeTrack)
@@ -96,6 +97,10 @@ class HomeView: EyeTrackViewController {
         }
     }
     @objc func resetData(){
+        if(!self.eyePointTarget.isHidden){
+            self.iconView.operationType = "gazeTarget"
+            self.iconView.operationPosition = self.eyePointTarget.center
+        }
         self.iconView.operationType = "none"
         self.iconView.operationPosition = CGPoint()
     }
@@ -145,6 +150,8 @@ class HomeView: EyeTrackViewController {
     
     //MARK: - タイマー
     func timerStart(){
+        self.iconView.operationType = "gazeTarget"
+        self.iconView.operationPosition = self.eyePointTarget.center
         Timer.scheduledTimer(timeInterval: 120, target: self, selector: #selector(self.screenTimer), userInfo: nil, repeats: false)
         Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.targetTimer), userInfo: nil, repeats: false)
     }
@@ -153,7 +160,7 @@ class HomeView: EyeTrackViewController {
     }
     
     @objc func targetTimer(){
-        eyePointTarget.isHidden = true
+        self.eyePointTarget.isHidden = true
         self.iconView.iconShuffle()
     }
     //MARK: - ボタンタップ
