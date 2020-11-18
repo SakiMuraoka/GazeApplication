@@ -86,7 +86,6 @@ class HomeView: EyeTrackViewController {
         self.initialize(eyeTrack: eyeTrackController.eyeTrack)
 //        self.show()
         Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.updateChecker), userInfo: nil, repeats: true)
-        Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.resetData), userInfo: nil, repeats: true)
     }
     
     @objc func updateChecker(){
@@ -94,9 +93,7 @@ class HomeView: EyeTrackViewController {
         if(now > Calendar.current.date(byAdding: .nanosecond, value: 100000000, to:self.lastUpdate)!){
             self.errorLabel.isHidden = false
         }
-    }
-    @objc func resetData(){
-        let now = Date()
+        
         let operationTime = Calendar.current.date(byAdding: .second, value: 2, to: self.iconView.operationTime)!
         if(!self.eyePointTarget.isHidden){
             self.iconView.operationType = "gazeTarget"
