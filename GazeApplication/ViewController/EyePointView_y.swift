@@ -137,7 +137,8 @@ class EyePointView_y: EyeTrackViewController {
         //Alertを表示
         present(alert, animated: true, completion: nil)
     }
-    
+  
+    //MARK: - ターゲットアニメーション
     func moveTarget(fig: UIView) {
         //初期位置をセット
 //        let i = 5

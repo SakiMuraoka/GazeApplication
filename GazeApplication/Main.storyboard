@@ -85,6 +85,36 @@
             </objects>
             <point key="canvasLocation" x="3012" y="751"/>
         </scene>
+        <!--Data List View-->
+        <scene sceneID="zpd-FA-J8x">
+            <objects>
+                <viewController storyboardIdentifier="dataList" useStoryboardIdentifierAsRestorationIdentifier="YES" id="XnC-GP-2R5" customClass="DataListView" customModule="GazeApplication" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Jwt-tK-kyQ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="Kl0-Sq-IDx"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="slr-NC-KIn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3721.739130434783" y="750.66964285714278"/>
+        </scene>
+        <!--Animation View-->
+        <scene sceneID="adA-WD-Tg4">
+            <objects>
+                <viewController storyboardIdentifier="animation" useStoryboardIdentifierAsRestorationIdentifier="YES" id="lWf-gH-Wxx" customClass="AnimationView" customModule="GazeApplication" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="IR3-s8-A0r">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="KqD-c4-T2W"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dOE-On-mQB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3722" y="1405"/>
+        </scene>
         <!--Eye Point View-->
         <scene sceneID="brL-jd-hTe">
             <objects>
