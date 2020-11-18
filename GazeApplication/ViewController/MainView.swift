@@ -31,10 +31,11 @@ class MainView: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
     var appLabel: UILabel!
     var appSegment: UISegmentedControl!
 //    var appParams = ["視線", "ホーム", "マップ", "ギャラリ", "ブラウザ"]
-    var appParams = ["視線", "ホーム", "マップ", "アニメーション"]
+    var appParams = ["視線", "ホーム", "マップ"]
     var myapp = 0
     
     var startButton: UIButton!
+    var dataButton: UIButton!
     
     override func viewDidLoad() {
         
@@ -96,9 +97,16 @@ class MainView: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
         
         startButton = UIButton(type: .system)
         startButton.setTitle("スタート", for: .normal)
+        startButton.titleLabel!.font  = UIFont.systemFont(ofSize: 24)
         startButton.sizeToFit()
-        startButton.center = CGPoint(x: self.view.center.x, y: self.view.frame.height - 100)
+        startButton.center = CGPoint(x: self.view.center.x, y: appSegment.center.y + 80)
         startButton.addTarget(self, action: #selector(startButtonClick(_:)), for: UIControl.Event.touchUpInside)
+        
+        dataButton = UIButton(type: .system)
+        dataButton.setTitle("データ確認", for: .normal)
+        dataButton.sizeToFit()
+        dataButton.center = CGPoint(x: self.view.center.x, y: self.view.frame.height - 100)
+        dataButton.addTarget(self, action: #selector(dataButtonClick(_:)), for: UIControl.Event.touchUpInside)
         
 //        self.view.addSubview(addUserButton)
 //        self.view.addSubview(addUserField)
@@ -108,6 +116,7 @@ class MainView: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
         self.view.addSubview(appLabel)
         self.view.addSubview(appSegment)
         self.view.addSubview(startButton)
+        self.view.addSubview(dataButton)
         self.view.addSubview(popupView)
     }
     
@@ -172,10 +181,6 @@ class MainView: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
                     nextView.username = pickerViewField.text!
                     self.navigationController?.pushViewController(nextView, animated: true)
                     break
-                case 3:
-                    let nextView = self.storyboard!.instantiateViewController(withIdentifier: "dataList") as! DataListView
-                    self.navigationController?.pushViewController(nextView, animated: true)
-                    
 //                case 3:
 //                    let nextView = self.storyboard!.instantiateViewController(withIdentifier: "galleryView") as!
 //                    SampleGalleryView
@@ -193,6 +198,11 @@ class MainView: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
                     break
             }
         }
+    }
+    
+    @objc func dataButtonClick(_ sender: UIButton){
+        let nextView = self.storyboard!.instantiateViewController(withIdentifier: "dataList") as! DataListView
+        self.navigationController?.pushViewController(nextView, animated: true)
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
