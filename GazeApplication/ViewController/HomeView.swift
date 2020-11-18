@@ -81,13 +81,12 @@ class HomeView: EyeTrackViewController {
             self.errorLabel.isHidden = true
             self.dataController.add(info: info!, operationType: self.iconView.operationType, operationPoint: self.iconView.operationPosition)
             self.iconView.gazePointer.center = CGPoint(x:info!.centerEyeLookAtPoint.x+self.view.bounds.width/2, y:info!.centerEyeLookAtPoint.y+self.view.bounds.height/2)
-            print(self.iconView.operationPosition)
         }
     
         self.initialize(eyeTrack: eyeTrackController.eyeTrack)
 //        self.show()
         Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.updateChecker), userInfo: nil, repeats: true)
-        Timer.scheduledTimer(timeInterval: 0.8, target: self, selector: #selector(self.resetData), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.resetData), userInfo: nil, repeats: true)
     }
     
     @objc func updateChecker(){
@@ -97,12 +96,15 @@ class HomeView: EyeTrackViewController {
         }
     }
     @objc func resetData(){
+        let now = Date()
+        let operationTime = Calendar.current.date(byAdding: .second, value: 2, to: self.iconView.operationTime)!
         if(!self.eyePointTarget.isHidden){
             self.iconView.operationType = "gazeTarget"
             self.iconView.operationPosition = self.eyePointTarget.center
+        }else if(now.compare(operationTime) == .orderedDescending){
+            self.iconView.operationType = "none"
+            self.iconView.operationPosition = CGPoint()
         }
-        self.iconView.operationType = "none"
-        self.iconView.operationPosition = CGPoint()
     }
     
     //MARK: - 画面を閉じるときの処理（ファイル作成）
@@ -163,28 +165,6 @@ class HomeView: EyeTrackViewController {
         self.eyePointTarget.isHidden = true
         self.iconView.iconShuffle()
     }
-    //MARK: - ボタンタップ
-    
-//    @objc func tapButton(_ sender: UIButton){
-//        if mode == 0{
-//            switch sender.accessibilityIdentifier{
-//            case "map":
-//                let nextView = self.storyboard!.instantiateViewController(withIdentifier: "mapView")
-//                self.navigationController?.pushViewController(nextView, animated: true)
-//                break
-//            case "gallery":
-//                let nextView = self.storyboard!.instantiateViewController(withIdentifier: "galleryView")
-//                self.navigationController?.pushViewController(nextView, animated: true)
-//                break
-//            case "browser":
-//                let nextView = self.storyboard!.instantiateViewController(withIdentifier: "browserView")
-//                self.navigationController?.pushViewController(nextView, animated: true)
-//                break
-//            default:
-//                break
-//            }
-//        }
-//    }
     
     //MARK: - 視線の処理
 //    override func viewDidAppear(_ animated: Bool) {
