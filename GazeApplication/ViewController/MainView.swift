@@ -31,7 +31,7 @@ class MainView: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
     var appLabel: UILabel!
     var appSegment: UISegmentedControl!
 //    var appParams = ["視線", "ホーム", "マップ", "ギャラリ", "ブラウザ"]
-    var appParams = ["視線", "ホーム", "マップ"]
+    var appParams = ["視線", "ホーム", "マップ", "アニメーション"]
     var myapp = 0
     
     var startButton: UIButton!
@@ -172,6 +172,10 @@ class MainView: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
                     nextView.username = pickerViewField.text!
                     self.navigationController?.pushViewController(nextView, animated: true)
                     break
+                case 3:
+                    let nextView = self.storyboard!.instantiateViewController(withIdentifier: "dataList") as! DataListView
+                    self.navigationController?.pushViewController(nextView, animated: true)
+                    
 //                case 3:
 //                    let nextView = self.storyboard!.instantiateViewController(withIdentifier: "galleryView") as!
 //                    SampleGalleryView
