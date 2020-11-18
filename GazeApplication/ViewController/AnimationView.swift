@@ -72,11 +72,11 @@ class AnimationView: UIViewController {
         
         let fileName_ = fileName.replacingOccurrences(of:".csv", with:"")
         let nameDetails = fileName_.components(separatedBy: "_")
-        
-        if(nameDetails[2] == "eye" || nameDetails[2] == "eyegaze"){
+        self.myapp = nameDetails[2]
+        if(myapp == "eye" || nameDetails[2] == "eyegaze"){
             target.center = CGPoint(x: Double(csvData[1][37]) ?? Double(self.view.bounds.center.x), y: Double(csvData[1][38]) ?? Double(self.view.bounds.center.y))
             self.view.addSubview(gridView)
-        }else if(nameDetails[2] == "home"){
+        }else if(myapp == "home"){
             self.iconView.gazePointer.isHidden = true
             self.view.addSubview(iconView)
             target.center = CGPoint(x: Double(csvData[1][38]) ?? Double(self.view.bounds.center.x), y: Double(csvData[1][39]) ?? Double(self.view.bounds.center.y))
