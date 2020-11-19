@@ -27,6 +27,7 @@ class AnimationView: UIViewController {
     let interval = 50
     var target: TestEyePointTarget!
     var eyePoint: TestEyePointTarget!
+    var operationLabel: UILabel!
     var offsetX: Double = 0.0
     var offsetY: Double = 0.0
     
@@ -57,6 +58,32 @@ class AnimationView: UIViewController {
         target = TestEyePointTarget(frame: self.view.bounds)
         target.Resize(radius: self.view.bounds.width/30)
         
+        let fileName_ = fileName.replacingOccurrences(of:".csv", with:"")
+        let nameDetails = fileName_.components(separatedBy: "_")
+        self.myapp = nameDetails[2]
+        
+        operationLabel = UILabel()
+        operationLabel.backgroundColor = UIColor.white
+
+        if(myapp == "eye" || myapp == "eyegaze"){
+            target.center = CGPoint(x: Double(csvData[1][37]) ?? Double(self.view.bounds.center.x), y: Double(csvData[1][38]) ?? Double(self.view.bounds.center.y))
+            self.view.addSubview(gridView)
+        }else if(myapp == "home"){
+            self.iconView.gazePointer.isHidden = true
+            self.view.addSubview(iconView)
+            target.center = CGPoint(x: Double(csvData[1][38]) ?? Double(self.view.bounds.center.x), y: Double(csvData[1][39]) ?? Double(self.view.bounds.center.y))
+            operationLabel.text = csvData[1][37]
+            operationLabel.sizeToFit()
+            operationLabel.center = CGPoint(x: target.center.x, y: target.center.y + 30)
+        }else{
+            self.mapView.gazePointer.isHidden = true
+            self.view.addSubview(mapView)
+            target.center = CGPoint(x: Double(csvData[1][38]) ?? Double(self.view.bounds.center.x), y: Double(csvData[1][39]) ?? Double(self.view.bounds.center.y))
+            operationLabel.text = csvData[1][37]
+            operationLabel.sizeToFit()
+            operationLabel.center = CGPoint(x: target.center.x, y: target.center.y + 30)
+        }
+        self.view.addSubview(target)
         var TotaleyePointX = 0.0
         var TotaleyePointY = 0.0
         for i in 1...300{
@@ -73,23 +100,8 @@ class AnimationView: UIViewController {
         eyePoint.center = CGPoint(x: eyePointX + offsetX, y: eyePointY + offsetY)
         eyePoint.center = CGPoint(x: self.view.bounds.center.x, y: self.view.bounds.center.y)
         self.view.addSubview(eyePoint)
+        self.view.addSubview(operationLabel)
         
-        let fileName_ = fileName.replacingOccurrences(of:".csv", with:"")
-        let nameDetails = fileName_.components(separatedBy: "_")
-        self.myapp = nameDetails[2]
-        if(myapp == "eye" || myapp == "eyegaze"){
-            target.center = CGPoint(x: Double(csvData[1][37]) ?? Double(self.view.bounds.center.x), y: Double(csvData[1][38]) ?? Double(self.view.bounds.center.y))
-            self.view.addSubview(gridView)
-        }else if(myapp == "home"){
-            self.iconView.gazePointer.isHidden = true
-            self.view.addSubview(iconView)
-            target.center = CGPoint(x: Double(csvData[1][38]) ?? Double(self.view.bounds.center.x), y: Double(csvData[1][39]) ?? Double(self.view.bounds.center.y))
-        }else{
-            self.mapView.gazePointer.isHidden = true
-            self.view.addSubview(mapView)
-            target.center = CGPoint(x: Double(csvData[1][38]) ?? Double(self.view.bounds.center.x), y: Double(csvData[1][39]) ?? Double(self.view.bounds.center.y))
-        }
-        self.view.addSubview(target)
         
         fileNameLabel = UILabel(frame: CGRect(x: 0, y: 100, width: 0, height: 0))
         fileNameLabel.text = fileName
@@ -132,7 +144,7 @@ class AnimationView: UIViewController {
     func testTargetAnimation(myapp: String, data: [String]){
         let duration = (Double(data[0]) ?? 0) - (Double(self.csvData[self.i-1][0]) ?? 0)
         if(myapp == "eye" || myapp == "eyegaze"){
-            UIView.animate(withDuration: duration*0.00015, delay: 0, options:[.curveLinear], animations: {
+            UIView.animate(withDuration: 0, delay: duration*0.0001, options:[.curveLinear], animations: {
                 self.target.center = CGPoint(x: Double(data[37]) ?? 0.0, y: Double(data[38]) ?? 0.0)
                 let eyePointX = (Double(data[31]) ?? 0.0) + Double(self.view.bounds.width/2)
                 let eyePointY = (Double(data[32]) ?? 0.0) + Double(self.view.bounds.height/2)
@@ -145,11 +157,14 @@ class AnimationView: UIViewController {
                 self.testTargetAnimation(myapp: myapp, data: self.csvData[self.i])
             })
         }else{
-            UIView.animate(withDuration: duration*0.00015, delay: 0, options:[.curveLinear], animations: {
+            UIView.animate(withDuration: 0, delay: duration*0.0001, options:[.curveLinear], animations: {
                 self.target.center = CGPoint(x: Double(data[38]) ?? 0.0, y: Double(data[39]) ?? 0.0)
                 let eyePointX = (Double(data[31]) ?? 0.0) + Double(self.view.bounds.width/2)
                 let eyePointY = (Double(data[32]) ?? 0.0) + Double(self.view.bounds.height/2)
                 self.eyePoint.center = CGPoint(x: eyePointX + self.offsetX, y: eyePointY + self.offsetY)
+                self.operationLabel.text = data[37]
+                self.operationLabel.sizeToFit()
+                self.operationLabel.center = CGPoint(x: self.target.center.x, y: self.target.center.y + 30)
             }, completion: { finished in
                 self.i += 1
                 if(self.i >= self.csvData.count-1){
