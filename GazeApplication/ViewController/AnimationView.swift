@@ -57,10 +57,14 @@ class AnimationView: UIViewController {
         target = TestEyePointTarget(frame: self.view.bounds)
         target.Resize(radius: self.view.bounds.width/30)
         
-        let eyePointX = (Double(csvData[1][31]) ?? 0.0) + Double(self.view.bounds.width/2)
-        let eyePointY = (Double(csvData[1][32]) ?? 0.0) + Double(self.view.bounds.height/2)
-//        offsetX = (Double(csvData[1][37]) ?? 0.0) - eyePointX
-//        offsetY = (Double(csvData[1][38]) ?? 0.0) - eyePointY
+        var TotaleyePointX = 0.0
+        var TotaleyePointY = 0.0
+        for i in 1...300{
+            TotaleyePointX += ((Double(csvData[i][31]) ?? 0.0) + Double(self.view.bounds.width/2))
+            TotaleyePointY += ((Double(csvData[i][32]) ?? 0.0) + Double(self.view.bounds.height/2))
+        }
+        let eyePointX = TotaleyePointX/300
+        let eyePointY = TotaleyePointY/300
         offsetX = Double(self.view.bounds.width/2) - eyePointX
         offsetY = Double(self.view.bounds.height/2) - eyePointY
         eyePoint = TestEyePointTarget(frame: self.view.bounds)
@@ -73,7 +77,7 @@ class AnimationView: UIViewController {
         let fileName_ = fileName.replacingOccurrences(of:".csv", with:"")
         let nameDetails = fileName_.components(separatedBy: "_")
         self.myapp = nameDetails[2]
-        if(myapp == "eye" || nameDetails[2] == "eyegaze"){
+        if(myapp == "eye" || myapp == "eyegaze"){
             target.center = CGPoint(x: Double(csvData[1][37]) ?? Double(self.view.bounds.center.x), y: Double(csvData[1][38]) ?? Double(self.view.bounds.center.y))
             self.view.addSubview(gridView)
         }else if(myapp == "home"){
@@ -117,34 +121,13 @@ class AnimationView: UIViewController {
         slider.value = Float(self.i)
         sliderLabel.text = csvData[i][0]
         sliderLabel.sizeToFit()
-//        let data = csvData[i]
-//        let eyePointX = (Double(data[31]) ?? 0.0) + Double(self.view.bounds.width/2)
-//        let eyePointY = (Double(data[32]) ?? 0.0) + Double(self.view.bounds.height/2)
-//        target.center = CGPoint(x: Double(data[37]) ?? 0.0, y: Double(data[38]) ?? 0.0)
-//        eyePoint.center = CGPoint(x: eyePointX + self.offsetX, y: eyePointY + self.offsetY)
     }
     @objc func sliderChanged(_ sender: UISlider){
         self.i = Int(sender.value)
 //        self.testTargetAnimation(fig1: target, fig2: eyePoint, data: self.csvData[self.i])
     }
     func moveTarget(myapp: String) {
-        //初期位置をセット
-//        let i = 5
-//        let j = 11
-//        let timeLimit = 120.0
         testTargetAnimation(myapp: myapp, data: csvData[i])
-//        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + timeLimit) {
-//            self.target.isHidden = true
-//            self.navigationController?.popViewController(animated: true)
-//        }
-//        let data = csvData[i]
-//        let timeLimit = (Double(data[0]) ?? 0) - (Double(self.csvData[self.i-1][0]) ?? 0)
-//        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + timeLimit) {
-//            let eyePointX = (Double(data[31]) ?? 0.0) + Double(self.view.bounds.width/2)
-//            let eyePointY = (Double(data[32]) ?? 0.0) + Double(self.view.bounds.height/2)
-//            self.target.center = CGPoint(x: Double(data[37]) ?? 0.0, y: Double(data[38]) ?? 0.0)
-//            self.eyePoint.center = CGPoint(x: eyePointX + self.offsetX, y: eyePointY + self.offsetY)
-//        }
     }
     func testTargetAnimation(myapp: String, data: [String]){
         let duration = (Double(data[0]) ?? 0) - (Double(self.csvData[self.i-1][0]) ?? 0)
