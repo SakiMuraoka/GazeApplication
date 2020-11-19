@@ -42,15 +42,12 @@ class SampleMapView:EyeTrackViewController, CLLocationManagerDelegate, MKMapView
     var username = ""
     var mymode = ""
     var myapp = "map"
-//    var operationType = "none"
-//    var operationPosition = CGPoint()
     
     var eyePointTarget: TestEyePointTarget!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "マップ"
-//        session = ARSession()
         
         //MapViewの表示（今回はマップのみ）
         mapView = MapView(frame: self.view.bounds)
@@ -110,7 +107,6 @@ class SampleMapView:EyeTrackViewController, CLLocationManagerDelegate, MKMapView
         self.initialize(eyeTrack: eyeTrackController.eyeTrack)
 //        self.show()
         Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.updateChecker), userInfo: nil, repeats: true)
-        Timer.scheduledTimer(timeInterval: 0.9, target: self, selector: #selector(self.resetData), userInfo: nil, repeats: true)
     }
     
     @objc func updateChecker(){
@@ -118,10 +114,16 @@ class SampleMapView:EyeTrackViewController, CLLocationManagerDelegate, MKMapView
         if(now > Calendar.current.date(byAdding: .nanosecond, value: 100000000, to:self.lastUpdate)!){
             self.errorLabel.isHidden = false
         }
-    }
-    @objc func resetData(){
-        self.mapView.operationType = "none"
-        self.mapView.operationPosition = CGPoint()
+        
+        let operationTime = Calendar.current.date(byAdding: .second, value: 2, to: self.mapView.operationTime)!
+        if(!self.eyePointTarget.isHidden){
+            self.mapView.operationType = "gazeTarget"
+            self.mapView.operationPosition = self.eyePointTarget.center
+        }else if(now.compare(operationTime) == .orderedDescending){
+            self.mapView.operationType = "none"
+            self.mapView.operationPosition = CGPoint()
+        }
+
     }
 
     
