@@ -87,31 +87,36 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
         //マップの表示タイプ切り替えボタンの初期化（タップ時の処理の追加）
         mapViewTypeButton.addTarget(self, action: #selector(self.mapViewTypeButtonThouchDown), for: .touchDown)
 //        compass.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(Compass(gesture:))))
+        compass.isUserInteractionEnabled = true
+        trackingButton.isUserInteractionEnabled = true
         searchField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(forcusSearch(gesture:))))
 
-        //ダブルタップジェスチャの作成と初期化
+        //ダブルタップジェスチャ
         doubleTapGesture = UITapGestureRecognizer(target: self, action:#selector(self.doubleTapAction(gesture:)))
         doubleTapGesture.numberOfTapsRequired = 2
+        doubleTapGesture.delegate = self
         self.addGestureRecognizer(doubleTapGesture)
+        
+        //タップジェスチャ
         tapGesture = UITapGestureRecognizer(target: self, action:#selector(self.tapAction(gesture:)))
+        tapGesture.delegate = self
         self.addGestureRecognizer(tapGesture)
         //ピンチイン・アウト
-        let pinchGetsture = UIPinchGestureRecognizer(target: self, action: #selector(pinchAction))
+        let pinchGetsture = UIPinchGestureRecognizer(target: self, action: #selector(pinchAction(gesture:)))
         pinchGetsture.delegate = self
         self.addGestureRecognizer(pinchGetsture)
         //ロングタップ
-        let longTapGetsture = UILongPressGestureRecognizer(target: self, action: #selector(longTapAction))
+        let longTapGetsture = UILongPressGestureRecognizer(target: self, action: #selector(longTapAction(gesture:)))
         longTapGetsture.delegate = self
         self.addGestureRecognizer(longTapGetsture)
         //ドラッグ
-        let panGetsture = UIPanGestureRecognizer(target: self, action: #selector(panAction))
+        let panGetsture = UIPanGestureRecognizer(target: self, action: #selector(panAction(gesture:)))
         panGetsture.delegate = self
         self.addGestureRecognizer(panGetsture)
         
         mapView.delegate = self
         searchField.delegate = self
-        tapGesture.delegate = self
-        doubleTapGesture.delegate = self
+        
         
     }
 
@@ -125,6 +130,7 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
     @objc func forcusSearch(gesture: UITapGestureRecognizer){
         self.operationType = "touchTextField"
         self.operationPosition = gesture.location(in: self)
+        self.operationPosition = CGPoint(x: self.operationPosition.x, y: self.operationPosition.y + 10)
         self.operationTime = Date()
         searchField.becomeFirstResponder()
     }
@@ -352,7 +358,7 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
     var selectPin: MKAnnotationView!
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView){
         selectPin = view
-        self.operationType = "selectPint"
+        self.operationType = "selectPin"
         self.operationPosition = view.center
         self.operationTime = Date()
     }
@@ -365,21 +371,27 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
     }
 
     //MARK: - ドラッグ
-    //GazePointerをドラッグで移動
-//    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        guard let touch = touches.first, let _ = touch.view else { return }
-//        self.operationType = "drug"
-//        self.operationPosition = touch.location(in: self)
-//        print(operationType)
-//        print(operationPosition)
-//    }
-    
     @objc func panAction(gesture: UIPanGestureRecognizer){
-        self.operationType = "drug"
-        self.operationPosition = gesture.location(in: self)
-        self.operationTime = Date()
-        print(operationType)
-        print(operationPosition)
+        if(gesture.numberOfTouches == 1){
+            self.operationType = "drug"
+            // タップ開始
+            if gesture.state == .began {
+                self.operationPosition = gesture.location(in: self)
+            }
+            // タップ中
+            else if gesture.state == .changed {
+                self.operationPosition = gesture.location(in: self)
+                self.operationTime = Date()
+            }
+            else {
+                self.operationPosition = gesture.location(in: self)
+            }
+        }
+    }
+    
+    //ジェスチャを同時認識させる
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
     //MARK: - タップ
     var tapCount = 0
@@ -398,19 +410,17 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
         self.operationType = "doubleTap"
         self.operationPosition = gesture.location(in: self)
         self.operationTime = Date()
-        print(operationType)
-        print(operationPosition)
     }
-    @objc func longTapAction(_ sender: UILongPressGestureRecognizer) {
+    @objc func longTapAction(gesture: UILongPressGestureRecognizer) {
         // ロングタップ開始
-        if sender.state == .began {
+        if gesture.state == .began {
             let generator = UINotificationFeedbackGenerator()
             generator.notificationOccurred(.success)
         }
         // ロングタップ終了（手を離した）
-        else if sender.state == .ended {
+        else if gesture.state == .ended {
             // タップした位置（CGPoint）を指定してMkMapView上の緯度経度を取得する
-            let tapPoint = sender.location(in: self)
+            let tapPoint = gesture.location(in: self)
             let center = mapView.convert(tapPoint, toCoordinateFrom: mapView)
             self.operationType = "longTap"
             self.operationPosition = tapPoint
@@ -422,10 +432,8 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
     //MARK:- ピンチイン・アウト
     @objc func pinchAction(gesture: UIPinchGestureRecognizer) {
         self.operationType = "pinch"
-        self.operationPosition = gesture.location(in:self)
         self.operationTime = Date()
-        print(operationType)
-        print(operationPosition)
+        self.operationPosition = gesture.location( in: self)
     }
 }
 
