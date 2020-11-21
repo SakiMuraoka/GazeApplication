@@ -120,17 +120,17 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
         
     }
 
-    @objc func Compass(gesture: UITapGestureRecognizer) {
-        self.operationType = "Compass"
-        self.operationPosition = gesture.location(in: self)
-        self.operationTime = Date()
-        compass.becomeFirstResponder()
-    }
+//    @objc func Compass(gesture: UITapGestureRecognizer) {
+//        self.operationType = "Compass"
+//        self.operationPosition = gesture.location(in: self)
+//        self.operationTime = Date()
+//        compass.becomeFirstResponder()
+//    }
     
     @objc func forcusSearch(gesture: UITapGestureRecognizer){
         self.operationType = "touchTextField"
         self.operationPosition = gesture.location(in: self)
-        self.operationPosition = CGPoint(x: self.operationPosition.x, y: self.operationPosition.y + 10)
+        self.operationPosition = CGPoint(x: self.operationPosition.x + 20, y: self.operationPosition.y + 20)
         self.operationTime = Date()
         searchField.becomeFirstResponder()
     }
@@ -206,9 +206,11 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
     //マップの表示タイプ切り替えボタンの処理
     @objc func mapViewTypeButtonThouchDown(_ sender: UIButton, event: UIEvent) {
         self.operationType = "typeButton"
-        if let location = event.touches(for: sender)?.first?.location(in: self) {
-            self.operationPosition = location
-        }
+        self.operationPosition = sender.center
+        self.operationPosition = CGPoint(x: self.operationPosition.x + 20, y: self.operationPosition.y + 20)
+//        if let location = event.touches(for: sender)?.first?.location(in: self) {
+//            self.operationPosition = location
+//        }
         self.operationTime = Date()
         switch mapView.mapType {
         case .standard:         // 標準の地図
@@ -238,6 +240,7 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.operationType = "returnTextField"
         self.operationPosition = CGPoint()
+        self.operationPosition = CGPoint(x: self.operationPosition.x + 20, y: self.operationPosition.y + 20)
         self.operationTime = Date()
         //キーボードを閉じる
         textField.resignFirstResponder()
@@ -267,11 +270,11 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
     // クリアボタンが押された時の処理
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
         self.operationType = "clearTextField"
-        self.operationPosition = CGPoint()
         self.operationTime = Date()
         //FIXME: クリアボタンの座標にする
         let clearButtonrect = textField.clearButtonRect(forBounds: self.searchField.frame)
         self.operationPosition = clearButtonrect.center
+        self.operationPosition = CGPoint(x: self.operationPosition.x + 20, y: self.operationPosition.y + 20)
         return true
     }
 
@@ -296,6 +299,7 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         operationType = "editTextFild「" + string + "」"
         operationPosition = CGPoint()
+        self.operationPosition = CGPoint(x: self.operationPosition.x + 20, y: self.operationPosition.y + 20)
         operationTime = Date()
         return true
     }
@@ -350,6 +354,7 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
     public func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, didChange newState: MKAnnotationView.DragState, fromOldState oldState: MKAnnotationView.DragState) {
         self.operationType = "movePin"
         self.operationPosition = view.center
+        self.operationPosition = CGPoint(x: self.operationPosition.x + 20, y: self.operationPosition.y + 20)
         self.operationTime = Date()
         if newState == .starting {
         }
@@ -360,12 +365,14 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
         selectPin = view
         self.operationType = "selectPin"
         self.operationPosition = view.center
+        self.operationPosition = CGPoint(x: self.operationPosition.x + 20, y: self.operationPosition.y + 20)
         self.operationTime = Date()
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         self.operationType = "deletePin"
         self.operationPosition = view.center
+        self.operationPosition = CGPoint(x: self.operationPosition.x + 20, y: self.operationPosition.y + 20)
         self.operationTime = Date()
         mapView.removeAnnotations([selectPin.annotation!])
     }
@@ -377,14 +384,17 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
             // タップ開始
             if gesture.state == .began {
                 self.operationPosition = gesture.location(in: self)
+                self.operationPosition = CGPoint(x: self.operationPosition.x + 20, y: self.operationPosition.y + 20)
             }
             // タップ中
             else if gesture.state == .changed {
                 self.operationPosition = gesture.location(in: self)
+                self.operationPosition = CGPoint(x: self.operationPosition.x + 20, y: self.operationPosition.y + 20)
                 self.operationTime = Date()
             }
             else {
                 self.operationPosition = gesture.location(in: self)
+                self.operationPosition = CGPoint(x: self.operationPosition.x + 20, y: self.operationPosition.y + 20)
             }
         }
     }
@@ -398,6 +408,7 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
     @objc func tapAction(gesture: UITapGestureRecognizer) {
         self.operationType = "tap"
         self.operationPosition = gesture.location(in: self)
+        self.operationPosition = CGPoint(x: self.operationPosition.x + 20, y: self.operationPosition.y + 20)
         self.operationTime = Date()
         if(exsistPin) {
             self.mapView.removeAnnotation(searchPin)
@@ -409,6 +420,7 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
     @objc func doubleTapAction(gesture: UITapGestureRecognizer) {
         self.operationType = "doubleTap"
         self.operationPosition = gesture.location(in: self)
+        self.operationPosition = CGPoint(x: self.operationPosition.x + 20, y: self.operationPosition.y + 20)
         self.operationTime = Date()
     }
     @objc func longTapAction(gesture: UILongPressGestureRecognizer) {
@@ -424,6 +436,7 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
             let center = mapView.convert(tapPoint, toCoordinateFrom: mapView)
             self.operationType = "longTap"
             self.operationPosition = tapPoint
+            self.operationPosition = CGPoint(x: self.operationPosition.x + 20, y: self.operationPosition.y + 20)
             self.operationTime = Date()
             createPin(coordinate: center)
         }
@@ -434,6 +447,7 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
         self.operationType = "pinch"
         self.operationTime = Date()
         self.operationPosition = gesture.location( in: self)
+        self.operationPosition = CGPoint(x: self.operationPosition.x + 20, y: self.operationPosition.y + 20)
     }
 }
 
