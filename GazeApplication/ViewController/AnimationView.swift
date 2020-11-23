@@ -31,6 +31,11 @@ class AnimationView: UIViewController {
     var offsetX: Double = 0.0
     var offsetY: Double = 0.0
     
+    var operationTrajectryList: [TestEyePointTarget] = []
+    var eyeTrajectryList: [TestEyePointTarget] = []
+    
+    var animationStop = false
+    
     var i  = 2
     
     override func viewDidLoad() {
@@ -154,7 +159,9 @@ class AnimationView: UIViewController {
                 if(self.i >= self.csvData.count-1){
                     self.i = 2
                 }
-                self.testTargetAnimation(myapp: myapp, data: self.csvData[self.i])
+                if(!self.animationStop){
+                    self.testTargetAnimation(myapp: myapp, data: self.csvData[self.i])
+                }
             })
         }else{
             UIView.animate(withDuration: 0, delay: duration*0.0001, options:[.curveLinear], animations: {
@@ -170,8 +177,41 @@ class AnimationView: UIViewController {
                 if(self.i >= self.csvData.count-1){
                     self.i = 2
                 }
-                self.testTargetAnimation(myapp: myapp, data: self.csvData[self.i])
+                if(!self.animationStop){
+                    self.testTargetAnimation(myapp: myapp, data: self.csvData[self.i])
+                }
             })
         }
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.animationStop = true
+    }
+    func addTrajectryList(){
+        let Copy_target = TestEyePointTarget(frame: self.view.bounds)
+        Copy_target.Resize(radius: self.view.bounds.width/30)
+        Copy_target.center = self.target.center
+        let Copy_eyePoint = TestEyePointTarget(frame: self.view.bounds)
+        Copy_eyePoint.Resize(radius: self.view.bounds.width/30)
+        Copy_eyePoint.circleColor = UIColor.gray
+        Copy_eyePoint.center = self.eyePoint.center
+        self.operationTrajectryList.append(Copy_target)
+//        self.view.addSubview(Copy_target)
+//        if(self.operationTrajectryList.count > 50){
+//            self.operationTrajectryList[0].removeFromSuperview()
+//            self.operationTrajectryList.remove(at: 0)
+//            self.operationTrajectryList.append(Copy_target)
+//        }else{
+//            self.operationTrajectryList.append(Copy_target)
+//        }
+//        if(self.eyeTrajectryList.count > 50){
+//            self.eyeTrajectryList[0].removeFromSuperview()
+//            self.eyeTrajectryList.remove(at: 0)
+//            self.eyeTrajectryList.append(Copy_eyePoint)
+//        }else{
+//            self.eyeTrajectryList.append(Copy_eyePoint)
+//        }
+//        self.view.addSubview(eyeTrajectryList[eyeTrajectryList.count - 1])
+    }
+
 }

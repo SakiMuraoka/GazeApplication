@@ -55,7 +55,7 @@
 		CF1C6C102502F2FF00D1D621 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		CF3D94F524D586DD003D48D5 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		CF3FB39F24F23BDD00750743 /* EyePointView_y.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyePointView_y.swift; sourceTree = "<group>"; };
-		CF3FB3A224F7C6DA00750743 /* GazeTrajectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GazeTrajectory.swift; path = Unused/GazeTrajectory.swift; sourceTree = SOURCE_ROOT; };
+		CF3FB3A224F7C6DA00750743 /* GazeTrajectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GazeTrajectory.swift; path = GazeApplication/UIComponent/GazeTrajectory.swift; sourceTree = SOURCE_ROOT; };
 		CF4DE3E924E5694200EAC19D /* CsvModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CsvModel.swift; sourceTree = "<group>"; };
 		CF558D0324D67D2300396A55 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		CF558D0724D685A900396A55 /* TestEyePointTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestEyePointTarget.swift; sourceTree = "<group>"; };
@@ -139,7 +139,6 @@
 		CFC1BA4F25625C7B0096891D /* Unused */ = {
 			isa = PBXGroup;
 			children = (
-				CF3FB3A224F7C6DA00750743 /* GazeTrajectory.swift */,
 				CFCD669724C56F270066E1B2 /* FaceDirectionArrowView.swift */,
 				CFCD669524C56B780066E1B2 /* EyeBlinkView.swift */,
 				CFCD669324C5611F0066E1B2 /* LookAtPositionLabel.swift */,
@@ -203,6 +202,7 @@
 				CF5B0CFC24C84AC2003943EF /* GazePointer.swift */,
 				CFEBA6A424D4FBD100BFF21E /* IconView.swift */,
 				CF4DE3E924E5694200EAC19D /* CsvModel.swift */,
+				CF3FB3A224F7C6DA00750743 /* GazeTrajectory.swift */,
 			);
 			path = UIComponent;
 			sourceTree = "<group>";
