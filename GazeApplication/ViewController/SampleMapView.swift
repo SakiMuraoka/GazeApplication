@@ -101,7 +101,7 @@ class SampleMapView:EyeTrackViewController, CLLocationManagerDelegate, MKMapView
             self.lastUpdate = info!.timestamp
             self.errorLabel.isHidden = true
             self.dataController.add(info: info!, operationType: self.mapView.operationType, operationPoint: self.mapView.operationPosition)
-            print(self.mapView.operationType)
+            print(self.mapView.operationType.description + ":" + self.mapView.operationPosition.debugDescription)
             self.mapView.gazePointer.center = CGPoint(x:info!.centerEyeLookAtPoint.x+self.view.bounds.width/2, y:info!.centerEyeLookAtPoint.y+self.view.bounds.height/2)
         }
         self.initialize(eyeTrack: eyeTrackController.eyeTrack)
