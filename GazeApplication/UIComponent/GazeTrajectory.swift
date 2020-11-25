@@ -26,7 +26,7 @@ class GazeTrajectory: UIView {
         self.x = frame.width/2
         self.y = frame.height/2
         self.locationOffset = 1
-        self.radius = frame.width/15
+        self.radius = frame.width/30
         self.length = frame.width/8
         self.circleColor = UIColor.gray
         self.backgroundColor = UIColor.clear
@@ -43,7 +43,7 @@ class GazeTrajectory: UIView {
         circle = UIBezierPath(arcCenter: CGPoint(x: self.radius + self.locationOffset, y: self.radius + self.locationOffset), radius: self.radius, startAngle: 0, endAngle: CGFloat(Double.pi)*2, clockwise: true)
 
         // 内側の色
-        circleColor.withAlphaComponent(0.1).setFill()
+//        circleColor.withAlphaComponent(0.1).setFill()
         // 内側を塗りつぶす
         circle.fill()
         // 線の色

@@ -27,6 +27,8 @@ class AnimationView: UIViewController {
     let interval = 50
     var target: TestEyePointTarget!
     var eyePoint: TestEyePointTarget!
+    let TrajectryNum: Int = 100
+    var trajectrys: [TestEyePointTarget] = []
     var operationLabel: UILabel!
     var offsetX: Double = 0.0
     var offsetY: Double = 0.0
@@ -103,10 +105,19 @@ class AnimationView: UIViewController {
         eyePoint.Resize(radius: self.view.bounds.width/30)
         eyePoint.circleColor = UIColor.gray
         eyePoint.center = CGPoint(x: eyePointX + offsetX, y: eyePointY + offsetY)
-        eyePoint.center = CGPoint(x: self.view.bounds.center.x, y: self.view.bounds.center.y)
+//        eyePoint.center = CGPoint(x: self.view.bounds.center.x, y: self.view.bounds.center.y)
         self.view.addSubview(eyePoint)
         self.view.addSubview(operationLabel)
-        
+        let sizeOffset: CGFloat = (self.view.bounds.width/30)/CGFloat(TrajectryNum)
+        for num in 0...TrajectryNum {
+            let trajectry = TestEyePointTarget(frame: self.view.bounds)
+            trajectry.Resize(radius: self.view.bounds.width/30-sizeOffset*CGFloat(num))
+            trajectry.center = CGPoint(x: eyePointX + offsetX, y: eyePointY + offsetY)
+            trajectry.circleColor = UIColor.gray
+            trajectry.isHidden = true
+            trajectrys.append(trajectry)
+            self.view.addSubview(trajectry)
+        }
         
         fileNameLabel = UILabel(frame: CGRect(x: 0, y: 100, width: 0, height: 0))
         fileNameLabel.text = fileName
@@ -172,6 +183,7 @@ class AnimationView: UIViewController {
                 self.operationLabel.text = data[37]
                 self.operationLabel.sizeToFit()
                 self.operationLabel.center = CGPoint(x: self.target.center.x, y: self.target.center.y + 30)
+                self.addTrajectry()
             }, completion: { finished in
                 self.i += 1
                 if(self.i >= self.csvData.count-1){
@@ -187,15 +199,24 @@ class AnimationView: UIViewController {
         super.viewWillDisappear(animated)
         self.animationStop = true
     }
-    func addTrajectryList(){
-        let Copy_target = TestEyePointTarget(frame: self.view.bounds)
-        Copy_target.Resize(radius: self.view.bounds.width/30)
-        Copy_target.center = self.target.center
-        let Copy_eyePoint = TestEyePointTarget(frame: self.view.bounds)
-        Copy_eyePoint.Resize(radius: self.view.bounds.width/30)
-        Copy_eyePoint.circleColor = UIColor.gray
-        Copy_eyePoint.center = self.eyePoint.center
-        self.operationTrajectryList.append(Copy_target)
+    func addTrajectry(){
+        for j in 0...TrajectryNum{
+            if(i-j < 0){
+                return
+            }
+            let eyePointX = (Double(csvData[i-j][31]) ?? 0.0) + Double(self.view.bounds.width/2)
+            let eyePointY = (Double(csvData[i-j][32]) ?? 0.0) + Double(self.view.bounds.height/2)
+            trajectrys[j].isHidden = false
+            trajectrys[j].center = CGPoint(x: eyePointX + self.offsetX, y: eyePointY + self.offsetY)
+        }
+//        let Copy_target = TestEyePointTarget(frame: self.view.bounds)
+//        Copy_target.Resize(radius: self.view.bounds.width/30)
+//        Copy_target.center = self.target.center
+//        let Copy_eyePoint = TestEyePointTarget(frame: self.view.bounds)
+//        Copy_eyePoint.Resize(radius: self.view.bounds.width/30)
+//        Copy_eyePoint.circleColor = UIColor.gray
+//        Copy_eyePoint.center = self.eyePoint.center
+//        self.operationTrajectryList.append(Copy_target)
 //        self.view.addSubview(Copy_target)
 //        if(self.operationTrajectryList.count > 50){
 //            self.operationTrajectryList[0].removeFromSuperview()
