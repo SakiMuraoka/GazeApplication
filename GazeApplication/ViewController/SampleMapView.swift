@@ -84,11 +84,13 @@ class SampleMapView:EyeTrackViewController, CLLocationManagerDelegate, MKMapView
         
         if mode == 0 {
             mymode = "demo"
-            
+            self.mapView.topY = 100
+            self.navigationController?.setNavigationBarHidden(false, animated: true)
         }else {
             mymode = "test"
             self.mapView.gazePointer.isHidden = true
             self.eyePointTarget.isHidden = false
+            self.navigationController?.setNavigationBarHidden(true, animated: true)
         }
     
         if(mode == 1){
@@ -115,7 +117,7 @@ class SampleMapView:EyeTrackViewController, CLLocationManagerDelegate, MKMapView
             self.errorLabel.isHidden = false
         }
         
-        let operationTime = Calendar.current.date(byAdding: .second, value: 2, to: self.mapView.operationTime)!
+        let operationTime = Calendar.current.date(byAdding: .nanosecond, value: 500000000, to: self.mapView.operationTime)!
         if(!self.eyePointTarget.isHidden){
             self.mapView.operationType = "gazeTarget"
             self.mapView.operationPosition = self.eyePointTarget.center

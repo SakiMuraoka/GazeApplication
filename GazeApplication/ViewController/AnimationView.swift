@@ -101,8 +101,8 @@ class AnimationView: UIViewController {
             TotaleyePointX += ((Double(csvData[i][31]) ?? 0.0) + Double(self.view.bounds.width/2))
             TotaleyePointY += ((Double(csvData[i][32]) ?? 0.0) + Double(self.view.bounds.height/2))
         }
-        let eyePointX = TotaleyePointX/totalNum
-        let eyePointY = TotaleyePointY/totalNum
+        let eyePointX = TotaleyePointX/Double(totalNum)
+        let eyePointY = TotaleyePointY/Double(totalNum)
         offsetX = Double(self.view.bounds.width/2) - eyePointX
         offsetY = Double(self.view.bounds.height/2) - eyePointY
         eyePoint = TestEyePointTarget(frame: self.view.bounds)

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class IconView: UIView {
+class IconView: UIView, UIGestureRecognizerDelegate {
     // UIButtonを継承した独自クラス
     class iconButton: UIButton{
         let iconNumber:Int
@@ -30,13 +30,16 @@ class IconView: UIView {
     var operationPosition = CGPoint()
     var operationTime: Date! = Date()
     
+    var iconNumX = 4
+    var iconNumY = 7
+    var heightOffset: CGFloat = 0
+    
+    var tapGesture: UITapGestureRecognizer!
+    
     override init(frame: CGRect) {
         
         gazePointer = GazePointer(frame: frame)
         let iconSize: CGFloat = 60
-        let heightOffset: CGFloat = 20 + 44
-        let iconNumX = 4
-        let iconNumY = 6
         let marginX: CGFloat = (frame.width-iconSize*CGFloat(iconNumX))/CGFloat(iconNumX+1)
         let marginY: CGFloat = ((frame.height-heightOffset)-iconSize*CGFloat(iconNumY))/CGFloat(iconNumY+1)
         super.init(frame: frame)
@@ -63,6 +66,11 @@ class IconView: UIView {
         }
         
         self.addSubview(gazePointer)
+        
+        //タップジェスチャ
+        tapGesture = UITapGestureRecognizer(target: self, action:#selector(self.tapAction(gesture:)))
+        tapGesture.delegate = self
+        self.addGestureRecognizer(tapGesture)
         
     }
     func resetIcon(){
@@ -124,5 +132,15 @@ class IconView: UIView {
         if view == self.gazePointer {
             view.center = touch.location(in: self)
         }
+    }
+    
+    //MARK: - タップ
+    @objc func tapAction(gesture: UITapGestureRecognizer) {
+        self.operationType = "tap"
+        self.operationPosition = gesture.location(in: self)
+        self.operationPosition = CGPoint(x: self.operationPosition.x + 20, y: self.operationPosition.y + 20)
+        self.operationTime = Date()
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.success)
     }
 }

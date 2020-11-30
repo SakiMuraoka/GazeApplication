@@ -20,6 +20,8 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
     
     let mapViewTypeButton: UIButton!
     
+    let buttonBorder: CALayer!
+    
     let searchField: UITextField!
     var searchPin: MKPointAnnotation!
     var anoPin: MKPointAnnotation!
@@ -34,6 +36,9 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
     var operationPosition = CGPoint()
     var operationTime: Date! = Date()
     
+//    レイアウト
+    var topY: CGFloat = 50
+    
     override init(frame: CGRect) {
         //MKMapViewを作成と初期化
         self.mapView = MKMapView()
@@ -42,6 +47,8 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
         //MKUserTrackingButtonの作成と初期化
         self.trackingButton = MKUserTrackingButton(mapView: mapView)
         trackingButton.layer.backgroundColor = UIColor(white: 1, alpha: 0.7).cgColor
+        trackingButton.layer.cornerRadius = 5
+        trackingButton.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         
         //MKScaleViewの作成と初期化
         self.scale = MKScaleView(mapView: mapView)
@@ -56,6 +63,12 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
         //マップの表示タイプ切り替えボタンの作成と初期化
         self.mapViewTypeButton = UIButton(type: UIButton.ButtonType.detailDisclosure)
         mapViewTypeButton.layer.backgroundColor = UIColor(white: 1, alpha: 0.8).cgColor
+        mapViewTypeButton.layer.cornerRadius = 5
+        mapViewTypeButton.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        
+        self.buttonBorder = CALayer()
+        buttonBorder.backgroundColor = UIColor.lightGray.cgColor
+        mapViewTypeButton.layer.addSublayer(buttonBorder)
         
         
         //検索窓の作成と初期化
@@ -153,32 +166,32 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
         self.mapView.frame = CGRect(origin: mapOrigin, size: mapSize)
         
         //trackingButtonのレイアウト
-        let trackingButtonSize = CGSize(width: 40, height: 40)
-        let trackingButtonOrigin = CGPoint(x: 40, y: flameSize.height - 82)
+        let trackingButtonSize = CGSize(width: 45, height: 45)
+        let trackingButtonOrigin = CGPoint(x: flameSize.width-55, y: self.mapViewTypeButton.frame.maxY)
         self.trackingButton.frame = CGRect(origin: trackingButtonOrigin, size: trackingButtonSize)
         
         //scaleのレイアウト
         let scaleSize = scale.intrinsicContentSize
-        let scaleOrigin = CGPoint(x: 15, y: 45)
+        let scaleOrigin = CGPoint(x: 10, y: self.searchField.frame.maxY+10)
         self.scale.frame = CGRect(origin: scaleOrigin, size: scaleSize)
         
         //compassのレイアウト
-        let compassSize = CGSize(width: 40, height: 40)
-        let compassOrigin = CGPoint(x: flameSize.width - 50, y: 150)
+        let compassSize = CGSize(width: 45, height: 45)
+        let compassOrigin = CGPoint(x: flameSize.width - 55, y: self.trackingButton.frame.maxY+5)
         self.compass.frame = CGRect(origin: compassOrigin, size: compassSize)
         
         //mapViewTypeButtonのレイアウト
-        let mapViewTypeButtonSize = CGSize(width: 40, height: 40)
-        let mapViewTypeButtonOrigin = CGPoint(x:flameSize.width - 50, y: 100)
+        let mapViewTypeButtonSize = CGSize(width: 45, height: 45)
+        let mapViewTypeButtonOrigin = CGPoint(x:flameSize.width - 55, y: self.topY)
         self.mapViewTypeButton.frame = CGRect(origin: mapViewTypeButtonOrigin, size: mapViewTypeButtonSize)
-        // 枠線の幅
-        mapViewTypeButton.layer.borderWidth = 0.5
-        // 枠線の色
-        mapViewTypeButton.layer.borderColor = UIColor.blue.cgColor
+        
+        let buttonBorderSize = CGSize(width: mapViewTypeButton.frame.width, height: 0.5)
+        let buttonBorderOrigin = CGPoint(x:0, y: mapViewTypeButton.frame.height)
+        self.buttonBorder.frame = CGRect(origin: buttonBorderOrigin, size: buttonBorderSize)
         
         //searchFieldのレイアウト
-        let searchFieldSize = CGSize(width: flameSize.width - 80, height: 40)
-        let searchFieldOrigin = CGPoint(x:20, y: 100)
+        let searchFieldSize = CGSize(width: flameSize.width - 70, height: 45)
+        let searchFieldOrigin = CGPoint(x:10, y: self.topY)
         searchField.frame = CGRect(origin: searchFieldOrigin, size: searchFieldSize)
      }
     

@@ -37,7 +37,6 @@ class HomeView: EyeTrackViewController {
         super.viewDidLoad()
         
         iconView = IconView(frame: self.view.bounds)
-        self.view.addSubview(iconView)
         
 //        iconView.mapIcon.addTarget(self,action: #selector(self.tapButton(_ :)),for: .touchUpInside)
 //        iconView.galleryIcon.addTarget(self,action: #selector(self.tapButton(_ :)),for: .touchUpInside)
@@ -52,7 +51,7 @@ class HomeView: EyeTrackViewController {
         eyePointTarget.center = CGPoint(x: 5*Int(50) - 16, y:Int(50)*10-25)
         eyePointTarget.Resize(radius: self.view.bounds.width/30)
         
-        self.view.addSubview(errorLabel)
+        self.iconView.addSubview(errorLabel)
         self.view.addSubview(eyePointTarget)
         
         
@@ -63,10 +62,14 @@ class HomeView: EyeTrackViewController {
             self.iconView.gazePointer.isHidden = false
             eyePointTarget.isHidden = true
             self.iconView.iconShuffle()
+            self.navigationController?.setNavigationBarHidden(false, animated: true)
         }else {
             mymode = "test"
             self.iconView.gazePointer.isHidden = true
+            self.navigationController?.setNavigationBarHidden(true, animated: true)
         }
+        
+        self.view.addSubview(iconView)
         
         //テストモードでデータ記録の確認
         if(mode == 1){
@@ -81,6 +84,7 @@ class HomeView: EyeTrackViewController {
             self.errorLabel.isHidden = true
             self.dataController.add(info: info!, operationType: self.iconView.operationType, operationPoint: self.iconView.operationPosition)
             self.iconView.gazePointer.center = CGPoint(x:info!.centerEyeLookAtPoint.x+self.view.bounds.width/2, y:info!.centerEyeLookAtPoint.y+self.view.bounds.height/2)
+            print(self.iconView.operationType.description + ":" + self.iconView.operationPosition.debugDescription)
         }
     
         self.initialize(eyeTrack: eyeTrackController.eyeTrack)
@@ -94,7 +98,7 @@ class HomeView: EyeTrackViewController {
             self.errorLabel.isHidden = false
         }
         
-        let operationTime = Calendar.current.date(byAdding: .second, value: 2, to: self.iconView.operationTime)!
+        let operationTime = Calendar.current.date(byAdding: .nanosecond, value: 500000000, to: self.iconView.operationTime)!
         if(!self.eyePointTarget.isHidden){
             self.iconView.operationType = "gazeTarget"
             self.iconView.operationPosition = self.eyePointTarget.center
