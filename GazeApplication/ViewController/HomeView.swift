@@ -151,6 +151,22 @@ class HomeView: EyeTrackViewController {
         present(alert, animated: true, completion: nil)
     }
     
+    func endAlert(){
+        let title = "データの記録が終了しました"
+        let message = "OKを押してください"
+        let alert: UIAlertController = UIAlertController(title: title, message: message, preferredStyle:  UIAlertController.Style.alert)
+        // OKボタン
+        let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
+            // ボタンが押された時の処理を書く（クロージャ実装）
+            (action: UIAlertAction!) -> Void in
+            self.navigationController?.popViewController(animated: true)
+        })
+        
+        alert.addAction(defaultAction)
+        //Alertを表示
+        present(alert, animated: true, completion: nil)
+    }
+    
     //MARK: - タイマー
     func timerStart(){
         self.iconView.operationType = "gazeTarget"
@@ -159,7 +175,7 @@ class HomeView: EyeTrackViewController {
         Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.targetTimer), userInfo: nil, repeats: false)
     }
     @objc func screenTimer(){
-        self.navigationController?.popViewController(animated: true)
+        endAlert()
     }
     
     @objc func targetTimer(){

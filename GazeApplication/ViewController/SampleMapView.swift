@@ -37,6 +37,7 @@ class SampleMapView:EyeTrackViewController, CLLocationManagerDelegate, MKMapView
     var error: Bool = true
     var errorLabel: UILabel!
     
+    
     //モード変数
     var mode = 0
     var username = ""
@@ -76,11 +77,13 @@ class SampleMapView:EyeTrackViewController, CLLocationManagerDelegate, MKMapView
         errorLabel.text = "顔をカメラに写してください"
         self.view.addSubview(errorLabel)
         
+        
         eyePointTarget = TestEyePointTarget(frame: self.view.bounds)
         eyePointTarget.center = CGPoint(x: 5*Int(50) - 16, y:Int(50)*10-25)
         eyePointTarget.Resize(radius: self.view.bounds.width/30)
         eyePointTarget.isHidden = true
         self.view.addSubview(eyePointTarget)
+        print(self.view.bounds)
         
         if mode == 0 {
             mymode = "demo"
@@ -171,9 +174,25 @@ class SampleMapView:EyeTrackViewController, CLLocationManagerDelegate, MKMapView
         //Alertを表示
         present(alert, animated: true, completion: nil)
     }
+    
+    func endAlert(){
+        let title = "データの記録が終了しました"
+        let message = "OKを押してください"
+        let alert: UIAlertController = UIAlertController(title: title, message: message, preferredStyle:  UIAlertController.Style.alert)
+        // OKボタン
+        let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
+            // ボタンが押された時の処理を書く（クロージャ実装）
+            (action: UIAlertAction!) -> Void in
+            self.navigationController?.popViewController(animated: true)
+        })
+        
+        alert.addAction(defaultAction)
+        //Alertを表示
+        present(alert, animated: true, completion: nil)
+    }
  //MARK: - タイマー
     @objc func screenTimer(){
-        self.navigationController?.popViewController(animated: true)
+        endAlert()
     }
     
     @objc func targetTimer(){

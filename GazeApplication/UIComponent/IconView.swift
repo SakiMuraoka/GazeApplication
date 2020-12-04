@@ -23,16 +23,16 @@ class IconView: UIView, UIGestureRecognizerDelegate {
 
     
     let gazePointer: GazePointer!
+    var iconNumX = 4
+    var iconNumY = 7
+    var heightOffset: CGFloat = 0
+    
     var rightArray: [Int] = []
     var iconArray: [iconButton] = []
-    var array = [Int](1...24)
     var operationType = "none"
     var operationPosition = CGPoint()
     var operationTime: Date! = Date()
     
-    var iconNumX = 4
-    var iconNumY = 7
-    var heightOffset: CGFloat = 0
     
     var tapGesture: UITapGestureRecognizer!
     
@@ -80,11 +80,12 @@ class IconView: UIView, UIGestureRecognizerDelegate {
         }
     }
     @objc func iconShuffle(){
-        self.array.shuffle()
+        var array = [Int](1...iconNumX*iconNumY)
+        array.shuffle()
         resetIcon()
         var printNumber = 1
-            for i in 0...9 {
-                for icon in iconArray {
+        for i in 0...9 {
+            for icon in iconArray {
                 if(array[i] == icon.iconNumber){
                     icon.setTitle(String(printNumber), for: .normal)
                     icon.titleLabel?.font = UIFont(name: "Helvetica-Bold",size: CGFloat(30))

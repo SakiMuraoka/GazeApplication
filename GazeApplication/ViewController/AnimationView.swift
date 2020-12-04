@@ -90,6 +90,7 @@ class AnimationView: UIViewController {
             operationLabel.sizeToFit()
             operationLabel.center = CGPoint(x: target.center.x, y: target.center.y + 30)
         }
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.view.addSubview(target)
         var TotaleyePointX = 0.0
         var TotaleyePointY = 0.0
@@ -148,6 +149,7 @@ class AnimationView: UIViewController {
         Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateSlider), userInfo: nil, repeats: true)
         
         moveTarget(myapp: self.myapp)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
     @objc func updateSlider(){
         slider.value = Float(self.i)
