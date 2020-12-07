@@ -13,7 +13,8 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
     let mapView: MKMapView!
     var mapRegion: MKCoordinateRegion!
     
-    let trackingButton: MKUserTrackingButton!
+//    let trackingButton: MKUserTrackingButton!
+    let trackingButton: UIButton!
     
     let scale: MKScaleView!
     let compass: MKCompassButton!
@@ -45,10 +46,13 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
         mapRegion = mapView.region
         
         //MKUserTrackingButtonの作成と初期化
-        self.trackingButton = MKUserTrackingButton(mapView: mapView)
+//        self.trackingButton = MKUserTrackingButton(mapView: mapView)
+        self.trackingButton = UIButton(type: .custom)
+        trackingButton.setImage(UIImage(systemName: "location"), for: .normal)
         trackingButton.layer.backgroundColor = UIColor(white: 1, alpha: 0.7).cgColor
         trackingButton.layer.cornerRadius = 5
         trackingButton.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        
         
         //MKScaleViewの作成と初期化
         self.scale = MKScaleView(mapView: mapView)
@@ -88,6 +92,7 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
         
         //初期化が終わったら，super
         super.init(frame: frame)
+        
         //Viewを追加
         self.addSubview(mapView)
         self.addSubview(gazePointer)
@@ -97,19 +102,21 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
         self.addSubview(mapViewTypeButton)
         self.addSubview(searchField)
         
+        
         //マップの表示タイプ切り替えボタンの初期化（タップ時の処理の追加）
-        mapViewTypeButton.addTarget(self, action: #selector(self.mapViewTypeButtonThouchDown), for: .touchDown)
-//        compass.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(Compass(gesture:))))
-        compass.isUserInteractionEnabled = true
-        trackingButton.isUserInteractionEnabled = true
-        searchField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(forcusSearch(gesture:))))
+        self.mapViewTypeButton.addTarget(self, action: #selector(self.mapViewTypeButtonThouchDown), for: .touchDown)
+        self.trackingButton.addTarget(self, action: #selector(self.trackingButtonThouchDown), for: .touchDown)
+//        trackingButton.isUserInteractionEnabled = true
+//        self.trackingButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapAction(gesture:))))
+        self.searchField.isUserInteractionEnabled = true
+//        self.searchField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(forcusSearch(gesture:))))
 
         //ダブルタップジェスチャ
         doubleTapGesture = UITapGestureRecognizer(target: self, action:#selector(self.doubleTapAction(gesture:)))
         doubleTapGesture.numberOfTapsRequired = 2
         doubleTapGesture.delegate = self
         self.addGestureRecognizer(doubleTapGesture)
-        
+
         //タップジェスチャ
         tapGesture = UITapGestureRecognizer(target: self, action:#selector(self.tapAction(gesture:)))
         tapGesture.delegate = self
@@ -132,27 +139,12 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
         
         
     }
-
-//    @objc func Compass(gesture: UITapGestureRecognizer) {
-//        self.operationType = "Compass"
-//        self.operationPosition = gesture.location(in: self)
-//        self.operationTime = Date()
-//        compass.becomeFirstResponder()
-//    }
-    
-    @objc func forcusSearch(gesture: UITapGestureRecognizer){
-        self.operationType = "touchTextField"
-        self.operationPosition = gesture.location(in: self)
-        self.operationPosition = CGPoint(x: self.operationPosition.x + 20, y: self.operationPosition.y + 20)
-        self.operationTime = Date()
-        searchField.becomeFirstResponder()
-    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //追加したUIのレイアウト設定
+    //MARK: - レイアウト設定
     override func layoutSubviews() {
 
         super.layoutSubviews()
@@ -215,6 +207,11 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
         }
    }
     
+    //MARK: - ジェスチャの同時認識
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
     //MARK: - ボタン
     //マップの表示タイプ切り替えボタンの処理
     @objc func mapViewTypeButtonThouchDown(_ sender: UIButton, event: UIEvent) {
@@ -248,7 +245,30 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
             break
         }
     }
+    var tracking = false
+    @objc func trackingButtonThouchDown(_ sender: UIButton, event: UIEvent) {
+        self.operationType = "trackingButton"
+        self.operationPosition = sender.center
+        self.operationPosition = CGPoint(x: self.operationPosition.x + 20, y: self.operationPosition.y + 20)
+        self.operationTime = Date()
+//        sender.setImage(UIImage(systemName: "location.north"), for: .highlighted)
+        let latitudeDelta = 0.02
+        let longitudeDelta = 0.02
+        let showsUserLocation = true
+        let userTrackingMode: MKUserTrackingMode! = .follow
+        self.initMap(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta, showsUserLocation: showsUserLocation, userTrackingMode: userTrackingMode)
+
+    }
     //MARK: - テキストフィールド
+    //テキストフィールドにタッチした時の処理(使わない）
+//    @objc func forcusSearch(gesture: UITapGestureRecognizer){
+//        self.operationType = "touchTextField"
+//        self.operationPosition = gesture.location(in: self)
+//        self.operationPosition = CGPoint(x: self.operationPosition.x + 20, y: self.operationPosition.y + 20)
+//        self.operationTime = Date()
+//        searchField.becomeFirstResponder()
+//    }
+    
     //テキストフィールドが改行された時（doneが押された時）の処理
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.operationType = "returnTextField"
@@ -292,7 +312,12 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
     }
 
     // テキストフィールドがフォーカスされた時の処理
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {        return true
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        self.operationType = "touchTextField"
+//        self.operationPosition = gesture.location(in: self)
+//        self.operationPosition = CGPoint(x: self.operationPosition.x + 20, y: self.operationPosition.y + 20)
+        self.operationTime = Date()
+        return true
     }
 
     // テキストフィールドでの編集が終了する直前での処理
@@ -342,7 +367,7 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
         self.mapView.addAnnotation(anoPin)
     }
     
-    //MARK: - MKmapViewDelegate
+    //MARK: - アノテーション（MKmapViewDelegate）
 
     //annotationが表示される時
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -412,10 +437,6 @@ class MapView:UIView, UIGestureRecognizerDelegate, UITextFieldDelegate, MKMapVie
         }
     }
     
-    //ジェスチャを同時認識させる
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
-    }
     //MARK: - タップ
     var tapCount = 0
     @objc func tapAction(gesture: UITapGestureRecognizer) {
@@ -542,4 +563,3 @@ extension CGRect
         return CGRect(center: CGPoint(x: centerX ?? self.centerX, y: centerY ?? self.centerY), size: size)
     }
 }
-
