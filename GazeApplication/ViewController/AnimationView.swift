@@ -17,6 +17,12 @@ class AnimationView: UIViewController {
     var slider: UISlider!
     var sliderLabel: UILabel!
     
+    var toolbar: UIToolbar!
+    var toggleButton:UIBarButtonItem!
+    var isPlaying = false
+    var items = [UIBarButtonItem](repeating: UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                                             target: nil, action: nil), count: 5)
+    
     var fileName: String = ""
     var myapp: String = ""
     
@@ -131,7 +137,7 @@ class AnimationView: UIViewController {
         self.view.addSubview(fileNameLabel)
 
         
-        slider = UISlider(frame: CGRect(x: 10, y: self.view.bounds.height-100, width: self.view.bounds.width - 20, height: 20))
+        slider = UISlider(frame: CGRect(x: 10, y: self.view.bounds.height-110, width: self.view.bounds.width - 20, height: 20))
         slider.addTarget(self, action: #selector(sliderChanged), for: .valueChanged)
         
         slider.minimumValue = Float(i)
@@ -142,15 +148,24 @@ class AnimationView: UIViewController {
         sliderLabel = UILabel()
         sliderLabel.text = csvData[i][0]
         sliderLabel.sizeToFit()
-        sliderLabel.center = CGPoint(x: self.view.bounds.center.x, y: self.view.bounds.height-70)
+        sliderLabel.center = CGPoint(x: self.view.bounds.center.x, y: self.view.bounds.height-75)
         sliderLabel.backgroundColor = UIColor.white
         self.view.addSubview(sliderLabel)
         
         Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateSlider), userInfo: nil, repeats: true)
         
+        self.toolbar = UIToolbar(frame: CGRect(x: 0, y: self.view.bounds.height - 55, width: self.view.bounds.width, height: 45))
+        let backButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.rewind, target: self, action: #selector(backAction))
+        items[0] = backButton
+        let forwardButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.fastForward, target: self, action: #selector(forwardAction))
+        items[4] = forwardButton
+        self.playPauseAction()
+        self.view.addSubview(toolbar)
+        
         moveTarget(myapp: self.myapp)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
+    //MARK: - スライダー処理
     @objc func updateSlider(){
         slider.value = Float(self.i)
         sliderLabel.text = csvData[i][0]
@@ -160,6 +175,37 @@ class AnimationView: UIViewController {
         self.i = Int(sender.value)
 //        self.testTargetAnimation(fig1: target, fig2: eyePoint, data: self.csvData[self.i])
     }
+    
+    //MARK: - ツールバー処理
+    @objc func playPauseAction() {
+        let targetlayer = target.layer
+        let eyePointlayer = target.layer
+        if isPlaying {
+            // 音楽の一時停止処理など
+            toggleButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.pause, target: self, action: #selector(playPauseAction))
+            isPlaying = false
+            targetlayer.speed = 0.0
+            eyePointlayer.speed = 0.0
+        } else {
+            // 音楽の再生処理など
+            toggleButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.play, target: self, action: #selector(playPauseAction))
+            isPlaying = true
+            targetlayer.speed = 1.0
+            eyePointlayer.speed = 1.0
+            
+        }
+        items[2] = toggleButton
+        self.toolbar.setItems(items, animated: false)
+    }
+    
+    @objc func backAction() {
+        self.i -= 1
+    }
+    
+    @objc func forwardAction() {
+        self.i += 1
+    }
+    
     func moveTarget(myapp: String) {
         testTargetAnimation(myapp: myapp, data: csvData[i])
     }
