@@ -21,7 +21,7 @@ class AnimationView: UIViewController {
     var toggleButton:UIBarButtonItem!
     var isPlaying = false
     var items = [UIBarButtonItem](repeating: UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
-                                                             target: nil, action: nil), count: 5)
+                                                             target: nil, action: nil), count: 7)
     
     var fileName: String = ""
     var myapp: String = ""
@@ -157,8 +157,20 @@ class AnimationView: UIViewController {
         self.toolbar = UIToolbar(frame: CGRect(x: 0, y: self.view.bounds.height - 55, width: self.view.bounds.width, height: 45))
         let backButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.rewind, target: self, action: #selector(backAction))
         items[0] = backButton
+        let minusOneLabel = UIButton(type: .system)
+        minusOneLabel.setTitle("-1", for: .normal)
+        minusOneLabel.sizeToFit()
+        minusOneLabel.addTarget(self, action: #selector(self.minusOneAction), for: .touchDown)
+        let minusOneButton = UIBarButtonItem(customView: minusOneLabel)
+        items[1] = minusOneButton
         let forwardButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.fastForward, target: self, action: #selector(forwardAction))
-        items[4] = forwardButton
+        items[6] = forwardButton
+        let plusOneLabel = UIButton(type: .system)
+        plusOneLabel.setTitle("+1", for: .normal)
+        plusOneLabel.sizeToFit()
+        plusOneLabel.addTarget(self, action: #selector(self.plusOneAction), for: .touchDown)
+        let plusOneButton = UIBarButtonItem(customView: plusOneLabel)
+        items[5] = plusOneButton
         self.playPauseAction()
         self.view.addSubview(toolbar)
         
@@ -188,25 +200,42 @@ class AnimationView: UIViewController {
             isPlaying = true
             
         }
-        items[2] = toggleButton
+        items[3] = toggleButton
         self.toolbar.setItems(items, animated: false)
     }
     
+    //MARK: - back・forwardボタン処理
     @objc func backAction() {
-        self.i -= 1
+        if i-10 > 0 {
+            self.i -= 10
+        }
+    }
+    
+    @objc func minusOneAction() {
+        if i-1 > 0 {
+            self.i -= 1
+        }
     }
     
     @objc func forwardAction() {
-        self.i += 1
+        if i+10 < csvData.count {
+            self.i += 10
+        }
     }
-    // - アニメーション
+    
+    @objc func plusOneAction() {
+        if i+1 < csvData.count {
+            self.i += 1
+        }
+    }
+    //MARK: - アニメーション
     func moveTarget(myapp: String) {
         testTargetAnimation(myapp: myapp, data: csvData[i])
     }
     func testTargetAnimation(myapp: String, data: [String]){
         let duration = (Double(data[0]) ?? 0) - (Double(self.csvData[self.i-1][0]) ?? 0)
         if(myapp == "eye" || myapp == "eyegaze"){
-            UIView.animate(withDuration: 0, delay: duration*0.0001, options:[.curveLinear], animations: {
+            UIView.animate(withDuration: 0, delay: duration*0.00001, options:[.curveLinear], animations: {
                 self.target.center = CGPoint(x: Double(data[37]) ?? 0.0, y: Double(data[38]) ?? 0.0)
                 let eyePointX = (Double(data[31]) ?? 0.0) + Double(self.view.bounds.width/2)
                 let eyePointY = (Double(data[32]) ?? 0.0) + Double(self.view.bounds.height/2)
@@ -223,7 +252,7 @@ class AnimationView: UIViewController {
                 }
             })
         }else{
-            UIView.animate(withDuration: 0, delay: duration*0.0001, options:[.curveLinear], animations: {
+            UIView.animate(withDuration: 0, delay: duration*0.00001, options:[.curveLinear], animations: {
                 self.target.center = CGPoint(x: Double(data[38]) ?? 0.0, y: Double(data[39]) ?? 0.0)
                 let eyePointX = (Double(data[31]) ?? 0.0) + Double(self.view.bounds.width/2)
                 let eyePointY = (Double(data[32]) ?? 0.0) + Double(self.view.bounds.height/2)
