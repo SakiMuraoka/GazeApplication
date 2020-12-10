@@ -171,7 +171,7 @@ class HomeView: EyeTrackViewController {
     func timerStart(){
         self.iconView.operationType = "gazeTarget"
         self.iconView.operationPosition = self.eyePointTarget.center
-        Timer.scheduledTimer(timeInterval: 120, target: self, selector: #selector(self.screenTimer), userInfo: nil, repeats: false)
+        Timer.scheduledTimer(timeInterval: 180, target: self, selector: #selector(self.screenTimer), userInfo: nil, repeats: false)
         Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.targetTimer), userInfo: nil, repeats: false)
     }
     @objc func screenTimer(){

@@ -178,20 +178,14 @@ class AnimationView: UIViewController {
     
     //MARK: - ツールバー処理
     @objc func playPauseAction() {
-        let targetlayer = target.layer
-        let eyePointlayer = target.layer
         if isPlaying {
             // 音楽の一時停止処理など
             toggleButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.pause, target: self, action: #selector(playPauseAction))
             isPlaying = false
-            targetlayer.speed = 0.0
-            eyePointlayer.speed = 0.0
         } else {
             // 音楽の再生処理など
             toggleButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.play, target: self, action: #selector(playPauseAction))
             isPlaying = true
-            targetlayer.speed = 1.0
-            eyePointlayer.speed = 1.0
             
         }
         items[2] = toggleButton
@@ -205,7 +199,7 @@ class AnimationView: UIViewController {
     @objc func forwardAction() {
         self.i += 1
     }
-    
+    // - アニメーション
     func moveTarget(myapp: String) {
         testTargetAnimation(myapp: myapp, data: csvData[i])
     }
@@ -218,9 +212,11 @@ class AnimationView: UIViewController {
                 let eyePointY = (Double(data[32]) ?? 0.0) + Double(self.view.bounds.height/2)
                 self.eyePoint.center = CGPoint(x: eyePointX + self.offsetX, y: eyePointY + self.offsetY)
             }, completion: { finished in
-                self.i += 1
-                if(self.i >= self.csvData.count-1){
-                    self.i = 2
+                if self.isPlaying {
+                    self.i += 1
+                    if(self.i >= self.csvData.count-1){
+                        self.i = 2
+                    }
                 }
                 if(!self.animationStop){
                     self.testTargetAnimation(myapp: myapp, data: self.csvData[self.i])
@@ -237,9 +233,11 @@ class AnimationView: UIViewController {
                 self.operationLabel.center = CGPoint(x: self.target.center.x, y: self.target.center.y + 30)
                 self.addTrajectry()
             }, completion: { finished in
-                self.i += 1
-                if(self.i >= self.csvData.count-1){
-                    self.i = 2
+                if self.isPlaying {
+                    self.i += 1
+                    if(self.i >= self.csvData.count-1){
+                        self.i = 2
+                    }
                 }
                 if(!self.animationStop){
                     self.testTargetAnimation(myapp: myapp, data: self.csvData[self.i])
