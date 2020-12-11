@@ -68,5 +68,7 @@
 	<string>Export AR Media</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Audiovisual Recording</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Export AR Media</string>
 </dict>
 </plist>

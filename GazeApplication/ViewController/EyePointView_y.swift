@@ -10,6 +10,7 @@ import SceneKit
 import ARKit
 import EyeTrackKit
 import SwiftUI
+import ARVideoKit
 
 class EyePointView_y: EyeTrackViewController {
     
@@ -110,7 +111,7 @@ class EyePointView_y: EyeTrackViewController {
             print("注視なし")
             self.recordState = true
             self.moveTarget(fig: self.eyePointTarget)
-            self.eyeTrackController.startRecord()
+            self.startRecord()
             self.dataController.start()
         }
 
@@ -120,7 +121,7 @@ class EyePointView_y: EyeTrackViewController {
             self.myapp = "eyegaze"
             self.recordState = true
             self.moveTarget(fig: self.eyePointTarget)
-            self.eyeTrackController.startRecord()
+            self.startRecord()
             self.dataController.start()
         }
         // キャンセルボタン
@@ -189,7 +190,7 @@ class EyePointView_y: EyeTrackViewController {
             let fileName = csvModel.convertConditionsToFileName(name: username, conditions: [time, myapp])
             self.dataController.stop()
             //                eyeTrackController.stop(finished: {_ in}, isExport: true) // export video to Photo Library
-            self.eyeTrackController.stopRecord(finished: { path in print("Video File Path: \(path)") }, isExport: false) // export video to Documents folder
+            self.stopRecord() // export video to Documents folder
             self.dataController.export(name: fileName, myapp: self.myapp)
             self.dataController.reset()
                 recordState = false

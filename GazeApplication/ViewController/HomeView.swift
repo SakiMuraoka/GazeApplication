@@ -117,7 +117,7 @@ class HomeView: EyeTrackViewController {
             let fileName = csvModel.convertConditionsToFileName(name: username, conditions: [time, myapp])
             self.dataController.stop()
             //                eyeTrackController.stop(finished: {_ in}, isExport: true) // export video to Photo Library
-            self.eyeTrackController.stopRecord(finished: { path in print("Video File Path: \(path)") }, isExport: false) // export video to Documents folder
+            self.stopRecord() // export video to Documents folder
             self.dataController.export(name: fileName, myapp: self.myapp)
             self.dataController.reset()
                 recordState = false
@@ -134,7 +134,7 @@ class HomeView: EyeTrackViewController {
             print("OK")
             self.recordState = true
             self.timerStart()
-            self.eyeTrackController.startRecord()
+            self.startRecord()
             self.dataController.start()
         }
 

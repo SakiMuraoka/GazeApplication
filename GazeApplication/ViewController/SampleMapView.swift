@@ -12,6 +12,7 @@ import CoreLocation
 import ARKit
 import EyeTrackKit
 import Foundation
+import ARVideoKit
 
 class SampleMapView:EyeTrackViewController, CLLocationManagerDelegate, MKMapViewDelegate{
     
@@ -160,7 +161,7 @@ class SampleMapView:EyeTrackViewController, CLLocationManagerDelegate, MKMapView
             self.recordState = true
             Timer.scheduledTimer(timeInterval: 180, target: self, selector: #selector(self.screenTimer), userInfo: nil, repeats: false)
             Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.targetTimer), userInfo: nil, repeats: false)
-            self.eyeTrackController.startRecord()
+            self.startRecord()
             self.dataController.start()
         })
         // キャンセルボタン
@@ -208,7 +209,8 @@ class SampleMapView:EyeTrackViewController, CLLocationManagerDelegate, MKMapView
             let fileName = csvModel.convertConditionsToFileName(name: username, conditions: [time, myapp])
             self.dataController.stop()
             //                eyeTrackController.stop(finished: {_ in}, isExport: true) // export video to Photo Library
-            self.eyeTrackController.stopRecord(finished: { path in print("Video File Path: \(path)") }, isExport: false) // export video to Documents folder
+            self.stopRecord()
+//            self.eyeTrackController.stopRecord(finished: { path in print("Video File Path: \(path)") }, isExport: true) // export video to Documents folder
             self.dataController.export(name: fileName, myapp: self.myapp)
             self.dataController.reset()
                 recordState = false
