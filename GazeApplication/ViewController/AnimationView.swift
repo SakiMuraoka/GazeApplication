@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AnimationView: UIViewController {
+class AnimationView: UIViewController, UIGestureRecognizerDelegate {
     var iconView: IconView!
     var gridView: GridView!
     var mapView: MapView!
@@ -176,6 +176,8 @@ class AnimationView: UIViewController {
         
         moveTarget(myapp: self.myapp)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
+        
+        self.animationStop = false
     }
     //MARK: - スライダー処理
     @objc func updateSlider(){
@@ -192,11 +194,11 @@ class AnimationView: UIViewController {
     @objc func playPauseAction() {
         if isPlaying {
             // 音楽の一時停止処理など
-            toggleButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.pause, target: self, action: #selector(playPauseAction))
+            toggleButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.play, target: self, action: #selector(playPauseAction))
             isPlaying = false
         } else {
             // 音楽の再生処理など
-            toggleButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.play, target: self, action: #selector(playPauseAction))
+            toggleButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.pause, target: self, action: #selector(playPauseAction))
             isPlaying = true
             
         }
@@ -274,10 +276,6 @@ class AnimationView: UIViewController {
             })
         }
     }
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.animationStop = true
-    }
     func addTrajectry(){
         for j in 0...TrajectryNum{
             if(i-j < 0){
@@ -288,30 +286,21 @@ class AnimationView: UIViewController {
             trajectrys[j].isHidden = false
             trajectrys[j].center = CGPoint(x: eyePointX + self.offsetX, y: eyePointY + self.offsetY)
         }
-//        let Copy_target = TestEyePointTarget(frame: self.view.bounds)
-//        Copy_target.Resize(radius: self.view.bounds.width/30)
-//        Copy_target.center = self.target.center
-//        let Copy_eyePoint = TestEyePointTarget(frame: self.view.bounds)
-//        Copy_eyePoint.Resize(radius: self.view.bounds.width/30)
-//        Copy_eyePoint.circleColor = UIColor.gray
-//        Copy_eyePoint.center = self.eyePoint.center
-//        self.operationTrajectryList.append(Copy_target)
-//        self.view.addSubview(Copy_target)
-//        if(self.operationTrajectryList.count > 50){
-//            self.operationTrajectryList[0].removeFromSuperview()
-//            self.operationTrajectryList.remove(at: 0)
-//            self.operationTrajectryList.append(Copy_target)
-//        }else{
-//            self.operationTrajectryList.append(Copy_target)
-//        }
-//        if(self.eyeTrajectryList.count > 50){
-//            self.eyeTrajectryList[0].removeFromSuperview()
-//            self.eyeTrajectryList.remove(at: 0)
-//            self.eyeTrajectryList.append(Copy_eyePoint)
-//        }else{
-//            self.eyeTrajectryList.append(Copy_eyePoint)
-//        }
-//        self.view.addSubview(eyeTrajectryList[eyeTrajectryList.count - 1])
     }
-
+    
+    //MARK: - 画面が閉じる時の処理
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.animationStop = true
+        self.isPlaying = false
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
+    }
+    
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return false
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+    }
 }
