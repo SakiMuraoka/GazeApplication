@@ -11,6 +11,7 @@ import UIKit
 class AnimationView: UIViewController, UIGestureRecognizerDelegate {
     var iconView: IconView!
     var gridView: GridView!
+    var targetView: TargetView!
     var mapView: MapView!
     
     var fileNameLabel: UILabel!
@@ -66,11 +67,12 @@ class AnimationView: UIViewController, UIGestureRecognizerDelegate {
         
         iconView = IconView(frame: self.view.bounds)
         gridView = GridView(frame: self.view.bounds)
+        targetView = TargetView(frame: self.view.bounds)
         mapView = MapView(frame: self.view.bounds)
         
         target = TestEyePointTarget(frame: self.view.bounds)
         target.Resize(radius: self.view.bounds.width/30)
-        
+            
         let fileName_ = fileName.replacingOccurrences(of:".csv", with:"")
         let nameDetails = fileName_.components(separatedBy: "_")
         self.myapp = nameDetails[2]
@@ -81,6 +83,11 @@ class AnimationView: UIViewController, UIGestureRecognizerDelegate {
         if(myapp == "eye" || myapp == "eyegaze"){
             target.center = CGPoint(x: Double(csvData[1][37]) ?? Double(self.view.bounds.center.x), y: Double(csvData[1][38]) ?? Double(self.view.bounds.center.y))
             self.view.addSubview(gridView)
+            self.view.addSubview(targetView)
+            for icon in targetView.iconArray{
+                icon.isHidden = false
+                icon.isEnabled = false
+            }
         }else if(myapp == "home"){
             self.iconView.gazePointer.isHidden = true
             self.view.addSubview(iconView)
@@ -96,7 +103,7 @@ class AnimationView: UIViewController, UIGestureRecognizerDelegate {
             operationLabel.sizeToFit()
             operationLabel.center = CGPoint(x: target.center.x, y: target.center.y + 30)
         }
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
+
         self.view.addSubview(target)
         var TotaleyePointX = 0.0
         var TotaleyePointY = 0.0
@@ -155,6 +162,9 @@ class AnimationView: UIViewController, UIGestureRecognizerDelegate {
         Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateSlider), userInfo: nil, repeats: true)
         
         self.toolbar = UIToolbar(frame: CGRect(x: 0, y: self.view.bounds.height - 55, width: self.view.bounds.width, height: 45))
+        toolbar.isTranslucent = true
+        toolbar.setBackgroundImage(UIImage(), forToolbarPosition: UIBarPosition.any, barMetrics: UIBarMetrics.default)
+        toolbar.setShadowImage(UIImage(), forToolbarPosition: UIBarPosition.any)
         let backButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.rewind, target: self, action: #selector(backAction))
         items[0] = backButton
         let minusOneLabel = UIButton(type: .system)
@@ -294,6 +304,9 @@ class AnimationView: UIViewController, UIGestureRecognizerDelegate {
         self.animationStop = true
         self.isPlaying = false
         self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
+        // 透明にしたナビゲーションを元に戻す処理
+        self.navigationController!.navigationBar.setBackgroundImage(nil, for: .default)
+        self.navigationController!.navigationBar.shadowImage = nil
     }
     
     public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -302,5 +315,8 @@ class AnimationView: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        self.navigationController!.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController!.navigationBar.shadowImage = UIImage()
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
 }

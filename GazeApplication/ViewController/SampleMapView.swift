@@ -115,6 +115,7 @@ class SampleMapView:EyeTrackViewController, CLLocationManagerDelegate, MKMapView
         Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.updateChecker), userInfo: nil, repeats: true)
     }
     
+    //MARK: - 視線追跡チェッカー
     @objc func updateChecker(){
         let now = Date()
         if(now > Calendar.current.date(byAdding: .nanosecond, value: 100000000, to:self.lastUpdate)!){
@@ -127,7 +128,7 @@ class SampleMapView:EyeTrackViewController, CLLocationManagerDelegate, MKMapView
             self.mapView.operationPosition = self.eyePointTarget.center
         }else if(now.compare(operationTime) == .orderedDescending){
             self.mapView.operationType = "none"
-            self.mapView.operationPosition = CGPoint()
+            self.mapView.operationPosition = CGPoint(x: -1, y: -1)
         }
 
     }

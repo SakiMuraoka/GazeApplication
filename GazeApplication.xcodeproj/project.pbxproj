@@ -11,6 +11,7 @@
 		CF0EEC38254FA29C00D4B075 /* CSV in Frameworks */ = {isa = PBXBuildFile; productRef = CF0EEC37254FA29C00D4B075 /* CSV */; };
 		CF1C6C0D24FDCFBA00D1D621 /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1C6C0C24FDCFBA00D1D621 /* PopupView.swift */; };
 		CF1C6C112502F2FF00D1D621 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1C6C102502F2FF00D1D621 /* MainView.swift */; };
+		CF23BD7A259FD77900769A2E /* TargetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF23BD79259FD77900769A2E /* TargetView.swift */; };
 		CF3D94F624D586DD003D48D5 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3D94F524D586DD003D48D5 /* HomeView.swift */; };
 		CF3FB3A024F23BDD00750743 /* EyePointView_y.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3FB39F24F23BDD00750743 /* EyePointView_y.swift */; };
 		CF3FB3A324F7C6DA00750743 /* GazeTrajectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3FB3A224F7C6DA00750743 /* GazeTrajectory.swift */; };
@@ -53,6 +54,7 @@
 		CF0EEC33254F9F9900D4B075 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		CF1C6C0C24FDCFBA00D1D621 /* PopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupView.swift; sourceTree = "<group>"; };
 		CF1C6C102502F2FF00D1D621 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		CF23BD79259FD77900769A2E /* TargetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetView.swift; sourceTree = "<group>"; };
 		CF3D94F524D586DD003D48D5 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		CF3FB39F24F23BDD00750743 /* EyePointView_y.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyePointView_y.swift; sourceTree = "<group>"; };
 		CF3FB3A224F7C6DA00750743 /* GazeTrajectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GazeTrajectory.swift; path = GazeApplication/UIComponent/GazeTrajectory.swift; sourceTree = SOURCE_ROOT; };
@@ -196,6 +198,7 @@
 		CFCD668E24C55D7F0066E1B2 /* UIComponent */ = {
 			isa = PBXGroup;
 			children = (
+				CF23BD79259FD77900769A2E /* TargetView.swift */,
 				CFCD668F24C55DCC0066E1B2 /* GridView.swift */,
 				CFCD669924C574B50066E1B2 /* MapView.swift */,
 				CF558D0724D685A900396A55 /* TestEyePointTarget.swift */,
@@ -317,6 +320,7 @@
 				CFF8F3A724CC07AE00BDD546 /* CollectionViewData.swift in Sources */,
 				CF558D0824D685A900396A55 /* TestEyePointTarget.swift in Sources */,
 				CF0EEC34254F9F9900D4B075 /* DataController.swift in Sources */,
+				CF23BD7A259FD77900769A2E /* TargetView.swift in Sources */,
 				CFCD667D24C55D000066E1B2 /* SceneDelegate.swift in Sources */,
 				CFF2CF2C2563758A00FC8511 /* AnimationView.swift in Sources */,
 				CFCD669C24C578FF0066E1B2 /* SampleMapView.swift in Sources */,

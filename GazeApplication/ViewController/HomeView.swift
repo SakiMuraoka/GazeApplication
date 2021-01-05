@@ -104,7 +104,7 @@ class HomeView: EyeTrackViewController {
             self.iconView.operationPosition = self.eyePointTarget.center
         }else if(now.compare(operationTime) == .orderedDescending){
             self.iconView.operationType = "none"
-            self.iconView.operationPosition = CGPoint()
+            self.iconView.operationPosition = CGPoint(x: -1, y: -1)
         }
     }
     
