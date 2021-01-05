@@ -65,8 +65,12 @@ class EyePointView_y: EyeTrackViewController {
         eyePointTarget.Resize(radius: self.view.bounds.width/30)
         eyePointTarget.isHidden = true
         
+        self.targetView = TargetView(frame: self.view.bounds)
+        targetView.isHidden = true
+        
         self.view.addSubview(gridView)
         self.view.addSubview(errorLabel)
+        self.view.addSubview(self.targetView)
         self.view.addSubview(eyePointTarget)
         self.view.addSubview(gazePointer)
         
@@ -112,8 +116,7 @@ class EyePointView_y: EyeTrackViewController {
             self.recordState = true
             self.startRecord()
             self.dataController.start()
-            self.targetView = TargetView(frame: self.view.bounds)
-            self.view.addSubview(self.targetView)
+            self.targetView.isHidden = false
             Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(self.screenTimer), userInfo: nil, repeats: false)
         }
         // キャンセルボタン
@@ -143,8 +146,7 @@ class EyePointView_y: EyeTrackViewController {
         let actionChoise2 = UIAlertAction(title: "予備実験デモ", style: .default){
             action in
             self.myapp = "eyegaze"
-            self.targetView = TargetView(frame: self.view.bounds)
-            self.view.addSubview(self.targetView)
+            self.targetView.isHidden = false
         }
         // キャンセルボタン
         let cancelAction: UIAlertAction = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler:{
